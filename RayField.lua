@@ -1703,7 +1703,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Dropdown.List.Visible = false
             if typeof(DropdownSettings.CurrentOption) == "table" then
-                if DropdownSettings.CurrentOption[1] = nil then 
+                if DropdownSettings.CurrentOption[1] == nil then 
                     DropdownSettings.CurrentOption[1] = ""
                 end
             end
