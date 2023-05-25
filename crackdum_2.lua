@@ -142,6 +142,7 @@ function FastAttackConnectorFunction()
             return nil
         end
         local ac = CombatFrameworkR.activeController
+        ac.hitboxMagnitude = 55
         if ac and ac.equipped then
             for indexincrement = 1, 1 do
                 local bladehit = lonmemaytofff(60)
@@ -202,6 +203,10 @@ function FastAttackConnectorFunction()
         ["CDAAT"] = 80,
         ["TimeWait"] = 10
     }
+    spawn(function()
+        local CameraShakerR = require(game.ReplicatedStorage.Util.CameraShaker)
+        CameraShakerR:Stop()
+    end)
     function ReturnFunctions:InputValue(CDAAT,TimeWait)
         FastAttackSettings["CDAAT"] = CDAAT
         FastAttackSettings["TimeWait"] = TimeWait
@@ -212,7 +217,7 @@ function FastAttackConnectorFunction()
         VirtualUser:ClickButton1(Vector2.new(851, 158), game:GetService("Workspace").Camera.CFrame)
     end
     spawn(function()
-        while wait() do 
+        while task.wait() do 
             if UFFF then 
                 pcall(function()
                     Click()
@@ -222,6 +227,24 @@ function FastAttackConnectorFunction()
                         AttackFunctgggggion()
                         wait(0.45)
                     end
+                end)
+            end
+        end
+    end)
+    spawn(function()
+        while task.wait() do 
+            if UFFF then 
+                pcall(function()
+                    local Fastflux = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2]
+                    Fastflux.activeController.hitboxMagnitude = 55
+                    Fastflux.activeController.timeToNextAttack = 0
+                    Fastflux.activeController.attacking = false
+                    Fastflux.activeController.increment = 3
+                    Fastflux.activeController.blocking = false
+                    Fastflux.activeController.timeToNextBlock = 0
+                    local VirtualUser = game:GetService("VirtualUser")
+                    VirtualUser:CaptureController()
+                    VirtualUser:ClickButton1(Vector2.new(851, 158), game:GetService("Workspace").Camera.CFrame)
                 end)
             end
         end
