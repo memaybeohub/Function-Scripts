@@ -135,9 +135,6 @@ function FastAttackConnectorFunction()
                 table.insert(Hits, Human.RootPart)
             end
         end
-        for i,v in pairs(getAllBladeHitsPlayers(Sizes)) do 
-            table.insert(Hits,v)
-        end
         return Hits
     end
     function AttackFunctgggggion()
