@@ -259,7 +259,7 @@ function FastAttackConnectorFunction()
     end)
     spawn(function()
         while wait() do 
-            if UFFF and not is_fluxus_function then  
+            if UFFF then  
                 if CountAttack >= FastAttackSettings["CDAAT"] then 
                     TickFastAttackF = tick()
                     repeat wait() until tick()-TickFastAttackF >= FastAttackSettings["TimeWait"]
