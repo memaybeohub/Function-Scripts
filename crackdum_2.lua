@@ -222,9 +222,11 @@ function FastAttackConnectorFunction()
             if UFFF then 
                 pcall(function()
                     if CountAttack < FastAttackSettings["CDAAT"] then 
+                        print("Fast")
                         ToiCanOxi = ToiCanOxi +1
                         AttackFunctgggggion()
                     else
+                        print("Slow")
                         ToiCanOxi = ToiCanOxi + 1
                         AttackFunctgggggion()
                         wait(0.45)
