@@ -213,7 +213,7 @@ function FastAttackConnectorFunction()
     end
     spawn(function()
         while wait() do 
-            if UFFF and not is_fluxus_function then 
+            if UFFF then 
                 pcall(function()
                     Click()
                     if CountAttack < FastAttackSettings["CDAAT"] then 
