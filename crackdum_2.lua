@@ -216,14 +216,16 @@ function FastAttackConnectorFunction()
         VirtualUser:CaptureController()
         VirtualUser:ClickButton1(Vector2.new(851, 158), game:GetService("Workspace").Camera.CFrame)
     end
+    ToiCanOxi = 0
     spawn(function()
         while task.wait() do 
             if UFFF then 
                 pcall(function()
-                    Click()
                     if CountAttack < FastAttackSettings["CDAAT"] then 
+                        ToiCanOxi = ToiCanOxi +1
                         AttackFunctgggggion()
                     else
+                        ToiCanOxi = ToiCanOxi + 1
                         AttackFunctgggggion()
                         wait(0.45)
                     end
@@ -235,6 +237,9 @@ function FastAttackConnectorFunction()
         while task.wait() do 
             if UFFF then 
                 pcall(function()
+                    if ToiCanOxi % 2 == 1 then 
+                        repeat task.wait() until ToiCanOxi % 2 == 0 
+                    end
                     local Fastflux = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2]
                     Fastflux.activeController.hitboxMagnitude = 55
                     Fastflux.activeController.timeToNextAttack = 0
@@ -245,6 +250,7 @@ function FastAttackConnectorFunction()
                     local VirtualUser = game:GetService("VirtualUser")
                     VirtualUser:CaptureController()
                     VirtualUser:ClickButton1(Vector2.new(851, 158), game:GetService("Workspace").Camera.CFrame)
+                    task.wait(0.2)
                 end)
             end
         end
