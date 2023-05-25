@@ -145,12 +145,7 @@ function FastAttackConnectorFunction()
         ac.hitboxMagnitude = 55
         if ac and ac.equipped then
             for indexincrement = 1, 1 do
-                local bladehit =                 local bladehit =
-                require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
-                game.Players.LocalPlayer.Character,
-                {game.Players.LocalPlayer.Character.HumanoidRootPart},
-                60
-            )
+                local bladehit =require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(game.Players.LocalPlayer.Character,{game.Players.LocalPlayer.Character.HumanoidRootPart},60)
                 if #bladehit > 0 then
                     local AcAttack8 = debug.getupvalue(ac.attack, 5)
                     local AcAttack9 = debug.getupvalue(ac.attack, 6)
