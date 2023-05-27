@@ -1,1 +1,1 @@
-return "AutoTrain"
+return "AutoTrial"
