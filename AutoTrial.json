@@ -50,5 +50,6 @@
   "Auto Stats": false,
   "Attack No CD Aura": false,
   "AutoGhoulQuest": false,
-  "Double Quest": true
+  "Double Quest": true,
+  "Auto Choose Gear": true
 }
