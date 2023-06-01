@@ -221,7 +221,11 @@ function FastAttackConnectorFunction()
         while task.wait() do 
             if UFFF then 
                 pcall(function()
-                    if CountAttack < FastAttackSettings["CDAAT"] then 
+                    if Settings and Settings["Mastery Farm"] then 
+                        ToiCanOxi = 2 
+                        AttackFunctgggggion()
+                        wait(0.2)
+                    elseif CountAttack < FastAttackSettings["CDAAT"] then 
                         print("Fast")
                         ToiCanOxi = ToiCanOxi +1
                         AttackFunctgggggion()
