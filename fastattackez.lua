@@ -187,8 +187,8 @@ function FastAttackConnectorFunction()
     end
     bo1 = 1
     CountAttack = 0 
-    loadstring([[
-        local MT = getrawmetatable(game)
+    spawn(function()
+                    local MT = getrawmetatable(game)
         local OldNameCall = MT.__namecall
         setreadonly(MT, false)
         MT.__namecall = newcclosure(function(self, ...)
@@ -201,7 +201,7 @@ function FastAttackConnectorFunction()
             end)
             return OldNameCall(self, unpack(Args))
         end)
-    ]])()
+            end)
     function ReturnFunctions:GetCount()
         return CountAttack
     end
