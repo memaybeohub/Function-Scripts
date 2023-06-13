@@ -283,3 +283,4 @@ function FastAttackConnectorFunction()
     end)
     return ReturnFunctions
 end
+return FastAttackConnectorFunction()
