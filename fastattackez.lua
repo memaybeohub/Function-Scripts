@@ -330,3 +330,4 @@ function FastAttackConnectorFunction()
     )
     return ReturnFunctions
 end
+return FastAttackConnectorFunction()
