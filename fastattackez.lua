@@ -270,17 +270,17 @@ function FastAttackConnectorFunction()
                     pcall(
                         function()
                             if CountAttack < FastAttackSettings["CDAAT"] then
-                                MethodFastAttack = "Fast"
                                 ToiCanOxi = ToiCanOxi + 1
                                 AttackFunctgggggion()
                                 if Settings and Settings["Mastery Farm"] then
                                     wait(Settings["DelayAttack"])
                                 end
                             else
-                                MethodFastAttack = "Slow"
                                 ToiCanOxi = ToiCanOxi + 1
                                 AttackFunctgggggion()
-                                wait(Settings["DelayAttack"] * 2)
+                                if Settings and Settings["Mastery Farm"] then 
+                                    wait(Settings["DelayAttack"] * 2)
+                                end
                             end
                         end
                     )
