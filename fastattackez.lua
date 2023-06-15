@@ -272,13 +272,13 @@ function FastAttackConnectorFunction()
                             if CountAttack < FastAttackSettings["CDAAT"] then
                                 ToiCanOxi = ToiCanOxi + 1
                                 AttackFunctgggggion()
-                                if Settings and Settings["Mastery Farm"] then
+                                if Settings and Settings["Mastery Farm"] and Settings["DelayAttack"] then
                                     wait(Settings["DelayAttack"])
                                 end
                             else
                                 ToiCanOxi = ToiCanOxi + 1
                                 AttackFunctgggggion()
-                                if Settings and Settings["Mastery Farm"] then 
+                                if Settings and Settings["DelayAttack"] then 
                                     wait(Settings["DelayAttack"] * 2)
                                 end
                             end
@@ -296,7 +296,7 @@ function FastAttackConnectorFunction()
                     pcall(
                         function()
                             if memaydonand % 2 == 1 then
-                                task.wait(0.2)
+                                wait(1)
                             end
                             local Fastflux =
                                 getupvalues(
@@ -330,4 +330,3 @@ function FastAttackConnectorFunction()
     )
     return ReturnFunctions
 end
-return FastAttackConnectorFunction()
