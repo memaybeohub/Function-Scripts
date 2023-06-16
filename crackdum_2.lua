@@ -226,11 +226,9 @@ function FastAttackConnectorFunction()
                         AttackFunctgggggion()
                         wait(0.2)
                     elseif CountAttack < FastAttackSettings["CDAAT"] then 
-                        print("Fast")
                         ToiCanOxi = ToiCanOxi +1
                         AttackFunctgggggion()
                     else
-                        print("Slow")
                         ToiCanOxi = ToiCanOxi + 1
                         AttackFunctgggggion()
                         wait(0.45)
