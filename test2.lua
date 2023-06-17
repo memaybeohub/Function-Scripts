@@ -232,7 +232,7 @@ function FastAttackConnectorFunction()
                         end
                     elseif CountAttack < FastAttackSettings["CDAAT"] then 
                         ToiCanOxi = ToiCanOxi +1
-                        AttackFunctgggggion()\
+                        AttackFunctgggggion()
                     elseif CountAttack >= FastAttackSettings["CDAAT"] then 
                         if Settings["DelayAttack"] and type(Settings["DelayAttack"]) == "number" and Settings["DelayAttack"] >= 0.1 then 
                             wait(Settings["DelayAttack"]*2)
