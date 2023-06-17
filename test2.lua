@@ -242,6 +242,7 @@ function FastAttackConnectorFunction()
                     elseif CountAttack >= FastAttackSettings["CDAAT"] then 
                         print('m3')
                         AttackFunctgggggion()
+                        ToiCanOxi = ToiCanOxi +1
                         if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
                             wait(conchosetting["DelayAttack"]*2)
                         else
