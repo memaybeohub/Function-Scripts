@@ -216,29 +216,36 @@ function FastAttackConnectorFunction()
         VirtualUser:CaptureController()
         VirtualUser:ClickButton1(Vector2.new(851, 158), game:GetService("Workspace").Camera.CFrame)
     end
+    function ReturnFunctions:InputSetting(tbbb)
+        conchosetting = tbbb
+    end
     ToiCanOxi = 0
+    conchosetting = {}
     spawn(function()
         while task.wait() do 
             if UFFF then 
-                if Settings and type(Settings) == "table" then 
-                    if Settings and Settings["Mastery Farm"] then 
+                if conchosetting and type(conchosetting) == "table" then 
+                    if conchosetting and conchosetting["Mastery Farm"] then 
+                        print('m1')
                         ToiCanOxi = 2 
                         AttackFunctgggggion()
-                        if Settings["DelayAttack"] and type(Settings["DelayAttack"]) == "number" and Settings["DelayAttack"] >= 0.1 then 
-                            wait(Settings["DelayAttack"])
+                        if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
+                            wait(conchosetting["DelayAttack"])
                         else
-                            Settings["DelayAttack"] = 0.2 
-                            wait(Settings["DelayAttack"])
+                            conchosetting["DelayAttack"] = 0.2 
+                            wait(conchosetting["DelayAttack"])
                         end
                     elseif CountAttack < FastAttackSettings["CDAAT"] then 
+                        print('m2')
                         ToiCanOxi = ToiCanOxi +1
                         AttackFunctgggggion()
                     elseif CountAttack >= FastAttackSettings["CDAAT"] then 
-                        if Settings["DelayAttack"] and type(Settings["DelayAttack"]) == "number" and Settings["DelayAttack"] >= 0.1 then 
-                            wait(Settings["DelayAttack"]*2)
+                        print('m3')
+                        if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
+                            wait(conchosetting["DelayAttack"]*2)
                         else
-                            Settings["DelayAttack"] = 0.2 
-                            wait(Settings["DelayAttack"]*2)
+                            conchosetting["DelayAttack"] = 0.2 
+                            wait(conchosetting["DelayAttack"]*2)
                         end
                     end
                 end
