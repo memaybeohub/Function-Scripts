@@ -258,9 +258,6 @@ function FastAttackConnectorFunction()
         while task.wait() do 
             if UFFF then 
                 pcall(function()
-                    if ToiCanOxi % 2 == 1 then 
-                        repeat task.wait() until ToiCanOxi % 2 == 0 
-                    end
                     local Fastflux = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2]
                     Fastflux.activeController.hitboxMagnitude = 55
                     Fastflux.activeController.timeToNextAttack = 0
