@@ -219,6 +219,11 @@ function FastAttackConnectorFunction()
     function ReturnFunctions:InputSetting(tbbb)
         conchosetting = tbbb
     end
+    function atack()
+        pcall(function()
+            AttackFunctgggggion()
+        end)
+    end
     ToiCanOxi = 0
     conchosetting = {}
     spawn(function()
@@ -226,8 +231,9 @@ function FastAttackConnectorFunction()
             if UFFF then 
                 if conchosetting and type(conchosetting) == "table" then 
                     if conchosetting and conchosetting["Mastery Farm"] then 
+                        print('m1')
                         ToiCanOxi = 2 
-                        AttackFunctgggggion()
+                        atack()
                         if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
                             wait(conchosetting["DelayAttack"])
                         else
@@ -236,10 +242,10 @@ function FastAttackConnectorFunction()
                         end
                     elseif CountAttack < FastAttackSettings["CDAAT"] then 
                         ToiCanOxi = ToiCanOxi +1
-                        AttackFunctgggggion()
+                        atack()
                     elseif CountAttack >= FastAttackSettings["CDAAT"] then 
                         ToiCanOxi = ToiCanOxi +1
-                        AttackFunctgggggion()
+                        atack()
                         if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
                             wait(conchosetting["DelayAttack"]*2)
                         else
