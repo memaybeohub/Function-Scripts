@@ -226,7 +226,6 @@ function FastAttackConnectorFunction()
             if UFFF then 
                 if conchosetting and type(conchosetting) == "table" then 
                     if conchosetting and conchosetting["Mastery Farm"] then 
-                        print('m1')
                         ToiCanOxi = 2 
                         AttackFunctgggggion()
                         if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
@@ -236,11 +235,9 @@ function FastAttackConnectorFunction()
                             wait(conchosetting["DelayAttack"])
                         end
                     elseif CountAttack < FastAttackSettings["CDAAT"] then 
-                        print('m2')
                         ToiCanOxi = ToiCanOxi +1
                         AttackFunctgggggion()
                     elseif CountAttack >= FastAttackSettings["CDAAT"] then 
-                        print('m3')
                         ToiCanOxi = ToiCanOxi +1
                         AttackFunctgggggion()
                         if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
