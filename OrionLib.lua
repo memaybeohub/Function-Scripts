@@ -545,10 +545,10 @@ function OrionLib:MakeWindow(WindowConfig)
 				Size = UDim2.new(0, 32, 0, 32),
 				Position = UDim2.new(0, 10, 0.5, 0)
 			}), {
-				SetProps(MakeElement("Image", "rbxassetid://13779309461"), {
+				SetProps(MakeElement("Image", "https://media.discordapp.net/attachments/879997074710626374/1119513226355408916/Adel_Hub.png"), {
 					Size = UDim2.new(1, 0, 1, 0)
 				}),
-				AddThemeObject(SetProps(MakeElement("Image", "rbxassetid://4031889928"), {
+				AddThemeObject(SetProps(MakeElement("Image", "https://media.discordapp.net/attachments/879997074710626374/1119513226355408916/Adel_Hub.png"), {
 					Size = UDim2.new(1, 0, 1, 0),
 				}), "Second"),
 				MakeElement("Corner", 1)
