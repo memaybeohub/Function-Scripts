@@ -261,8 +261,14 @@ function FastAttackConnectorFunction()
         while task.wait() do 
             if UFFF then 
                 pcall(function()
-                    local Fastflux = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
-                    Fastflux:attack()
+                    local Fastflux = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2]
+                    Fastflux.activeController.hitboxMagnitude = 55
+                    Fastflux.activeController.timeToNextAttack = 0
+                    Fastflux.activeController.attacking = false
+                    Fastflux.activeController.increment = 3
+                    Fastflux.activeController.blocking = false
+                    Fastflux.activeController.timeToNextBlock = 0
+                    Fastflux.activeController:attack()
                     task.wait(0.2)
                 end)
             end
@@ -281,5 +287,4 @@ function FastAttackConnectorFunction()
     end)
     return ReturnFunctions
 end
-bbbb = FastAttackConnectorFunction()
-return bbbb
+return FastAttackConnectorFunction()
