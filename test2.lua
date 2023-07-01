@@ -88,7 +88,6 @@ function FastAttackConnectorFunction()
             end
             return OldNameCall(self, unpack(Args))
         end)
-        setreadonly(MT, true)
     end)
     function ReturnFunctions:GetCount()
         return CountAttack
@@ -124,7 +123,6 @@ function FastAttackConnectorFunction()
                 pcall(function()
                     if conchosetting and type(conchosetting) == "table" then 
                         if conchosetting and conchosetting["Mastery Farm"] then 
-                            print('m1')
                             ToiCanOxi = 2 
                             atack()
                             if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
@@ -183,5 +181,4 @@ function FastAttackConnectorFunction()
     end)
     return ReturnFunctions
 end
-a = FastAttackConnectorFunction()
-return a
+return FastAttackConnectorFunction()
