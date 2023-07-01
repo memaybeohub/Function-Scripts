@@ -12,77 +12,8 @@ function FastAttackConnectorFunction()
     local realbhit = require(game.ReplicatedStorage.CombatFramework.RigLib)
     local cooldownfastattack = tick()
 
-    -- [Camera Shaker Function]
-    function CameraShaker()
-        task.spawn(
-            function()
-                local Camera = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.CameraShaker)
-                while wait() do
-                    pcall(
-                        function()
-                            Camera.CameraShakeInstance.CameraShakeState.Inactive = 0
-                        end
-                    )
-                end
-            end
-        )
-    end
 
     --[Function RmFzdCBBdHRhY2s=]
-
-    function CurrentWeapon()
-        local ac = CombatFrameworkR.activeController
-        local ret = ac.blades[1]
-        if not ret then
-            return game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name
-        end
-        pcall(
-            function()
-                while ret.Parent ~= game.Players.LocalPlayer.Character do
-                    ret = ret.Parent
-                end
-            end
-        )
-        if not ret then
-            return game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name
-        end
-        return ret
-    end
-
-    function getAllBladeHitsPlayers(Sizes)
-        Hits = {}
-        local Client = game.Players.LocalPlayer
-        local Characters = game:GetService("Workspace").Characters:GetChildren()
-        for i = 1, #Characters do
-            local v = Characters[i]
-            Human = v:FindFirstChildOfClass("Humanoid")
-            if
-                v.Name ~= game.Players.LocalPlayer.Name and Human and Human.RootPart and Human.Health > 0 and
-                    Client:DistanceFromCharacter(Human.RootPart.Position) < Sizes + 5
-            then
-                table.insert(Hits, Human.RootPart)
-            end
-        end
-        return Hits
-    end
-
-    function getAllBladeHits(Sizes)
-        Hits = {}
-        local Client = game.Players.LocalPlayer
-        local Enemies = game:GetService("Workspace").Enemies:GetChildren()
-        for i = 1, #Enemies do
-            local v = Enemies[i]
-            Human = v:FindFirstChildOfClass("Humanoid")
-            if
-                Human and Human.RootPart and Human.Health > 0 and
-                    Client:DistanceFromCharacter(Human.RootPart.Position) < Sizes + 5
-            then
-                table.insert(Hits, Human.RootPart)
-            end
-        end
-        return Hits
-    end
-
     
     ReturnFunctions = {}
     function CurrentWeapon()
@@ -103,40 +34,6 @@ function FastAttackConnectorFunction()
         end
         return ret
     end
-
-    function getAllBladeHitsPlayers(Sizes)
-        Hits = {}
-        local Client = game.Players.LocalPlayer
-        local Characters = game:GetService("Workspace").Characters:GetChildren()
-        for i = 1, #Characters do
-            local v = Characters[i]
-            Human = v:FindFirstChildOfClass("Humanoid")
-            if
-                v.Name ~= game.Players.LocalPlayer.Name and Human and Human.RootPart and Human.Health > 0 and
-                    Client:DistanceFromCharacter(Human.RootPart.Position) < Sizes + 5
-            then
-                table.insert(Hits, Human.RootPart)
-            end
-        end
-        return Hits
-    end
-
-    function lonmemaytofff(Sizes)
-        Hits = {}
-        local Client = game.Players.LocalPlayer
-        local Enemies = game:GetService("Workspace").Enemies:GetChildren()
-        for i = 1, #Enemies do
-            local v = Enemies[i]
-            Human = v:FindFirstChildOfClass("Humanoid")
-            if
-                Human and Human.RootPart and Human.Health > 0 and Human.Health ~= Human.MaxHealth and
-                    Client:DistanceFromCharacter(Human.RootPart.Position) < Sizes + 5
-            then
-                table.insert(Hits, Human.RootPart)
-            end
-        end
-        return Hits
-    end 
     function AttackFunctgggggion()
         if game.Players.LocalPlayer.Character.Stun.Value ~= 0 then
             return nil
@@ -211,11 +108,6 @@ function FastAttackConnectorFunction()
         FastAttackSettings["CDAAT"] = CDAAT
         FastAttackSettings["TimeWait"] = TimeWait
     end
-    function Click()
-        local VirtualUser = game:GetService("VirtualUser")
-        VirtualUser:CaptureController()
-        VirtualUser:ClickButton1(Vector2.new(851, 158), game:GetService("Workspace").Camera.CFrame)
-    end
     function ReturnFunctions:InputSetting(tbbb)
         conchosetting = tbbb
     end
@@ -229,31 +121,33 @@ function FastAttackConnectorFunction()
     spawn(function()
         while task.wait() do 
             if UFFF then 
-                if conchosetting and type(conchosetting) == "table" then 
-                    if conchosetting and conchosetting["Mastery Farm"] then 
-                        print('m1')
-                        ToiCanOxi = 2 
-                        atack()
-                        if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
-                            wait(conchosetting["DelayAttack"])
-                        else
-                            conchosetting["DelayAttack"] = 0.2 
-                            wait(conchosetting["DelayAttack"])
-                        end
-                    elseif CountAttack < FastAttackSettings["CDAAT"] then 
-                        ToiCanOxi = ToiCanOxi +1
-                        atack()
-                    elseif CountAttack >= FastAttackSettings["CDAAT"] then 
-                        ToiCanOxi = ToiCanOxi +1
-                        atack()
-                        if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
-                            wait(conchosetting["DelayAttack"]*2)
-                        else
-                            conchosetting["DelayAttack"] = 0.2 
-                            wait(conchosetting["DelayAttack"]*2)
+                pcall(function()
+                    if conchosetting and type(conchosetting) == "table" then 
+                        if conchosetting and conchosetting["Mastery Farm"] then 
+                            print('m1')
+                            ToiCanOxi = 2 
+                            atack()
+                            if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
+                                wait(conchosetting["DelayAttack"])
+                            else
+                                conchosetting["DelayAttack"] = 0.2 
+                                wait(conchosetting["DelayAttack"])
+                            end
+                        elseif CountAttack < FastAttackSettings["CDAAT"] then 
+                            ToiCanOxi = ToiCanOxi +1
+                            atack()
+                        elseif CountAttack >= FastAttackSettings["CDAAT"] then 
+                            ToiCanOxi = ToiCanOxi +1
+                            atack()
+                            if conchosetting["DelayAttack"] and type(conchosetting["DelayAttack"]) == "number" and conchosetting["DelayAttack"] >= 0.1 then 
+                                wait(conchosetting["DelayAttack"]*2)
+                            else
+                                conchosetting["DelayAttack"] = 0.2 
+                                wait(conchosetting["DelayAttack"]*2)
+                            end
                         end
                     end
-                end
+                end)
             end
         end
     end)
@@ -276,15 +170,18 @@ function FastAttackConnectorFunction()
     end)
     spawn(function()
         while wait() do 
-            if UFFF then  
-                if CountAttack >= FastAttackSettings["CDAAT"] then 
-                    TickFastAttackF = tick()
-                    repeat wait() until tick()-TickFastAttackF >= FastAttackSettings["TimeWait"]
-                    CountAttack = 0
-                end
+            if UFFF then
+                pcall(function() 
+                    if CountAttack >= FastAttackSettings["CDAAT"] then 
+                        TickFastAttackF = tick()
+                        repeat wait() until tick()-TickFastAttackF >= FastAttackSettings["TimeWait"]
+                        CountAttack = 0
+                    end    
+                end)  
             end
         end
     end)
     return ReturnFunctions
 end
-return FastAttackConnectorFunction()
+a = FastAttackConnectorFunction()
+return a
