@@ -74,7 +74,6 @@ function FastAttackConnectorFunction()
             end
         end
     end
-    bo1 = 1
     CountAttack = 0 
     spawn(function()
         local MT = getrawmetatable(game)
@@ -161,6 +160,27 @@ function FastAttackConnectorFunction()
                     Fastflux.activeController.blocking = false
                     Fastflux.activeController.timeToNextBlock = 0
                     Fastflux.activeController:attack()
+                    task.wait(0.2)
+                end)
+            end
+        end
+    end)
+    spawn(function()
+        while task.wait() do 
+            if UFFF then 
+                pcall(function()
+                    local Fastflux = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2]
+                    Fastflux.activeController.hitboxMagnitude = 55
+                    Fastflux.activeController.timeToNextAttack = 0
+                    Fastflux.activeController.attacking = false
+                    Fastflux.activeController.increment = 3
+                    Fastflux.activeController.blocking = false
+                    Fastflux.activeController.timeToNextBlock = 0
+                    a = math.random(1,5)
+                    if a > 1 then 
+                        game:GetService "VirtualUser":CaptureController()
+                        game:GetService "VirtualUser":Button1Down(Vector2.new(50, 50))
+                    end
                     task.wait(0.2)
                 end)
             end
