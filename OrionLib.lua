@@ -635,7 +635,7 @@ function OrionLib:MakeWindow(WindowConfig)
 	MakeDraggable(DragPoint, MainWindow)
 
 	AddConnection(CloseBtn.MouseButton1Up, function()
-		MainWindow.Visible = false
+		MainWindow.Enabled = false
 		UIHidden = true
 		OrionLib:MakeNotification({
 			Name = "Interface Hidden",
@@ -647,7 +647,7 @@ function OrionLib:MakeWindow(WindowConfig)
 
 	AddConnection(UserInputService.InputBegan, function(Input)
 		if Input.KeyCode == Enum.KeyCode.RightShift and UIHidden then
-			MainWindow.Visible = true
+			MainWindow.Enabled = true
 		end
 	end)
 
@@ -672,7 +672,7 @@ function OrionLib:MakeWindow(WindowConfig)
 	end)
 
 	local function LoadSequence()
-		MainWindow.Visible = false
+		MainWindow.Enabled = false
 		local LoadSequenceLogo = SetProps(MakeElement("Image", WindowConfig.IntroIcon), {
 			Parent = Orion,
 			AnchorPoint = Vector2.new(0.5, 0.5),
@@ -699,7 +699,7 @@ function OrionLib:MakeWindow(WindowConfig)
 		TweenService:Create(LoadSequenceText, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
 		wait(2)
 		TweenService:Create(LoadSequenceText, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextTransparency = 1}):Play()
-		MainWindow.Visible = true
+		MainWindow.Enabled = true
 		LoadSequenceLogo:Destroy()
 		LoadSequenceText:Destroy()
 	end 
