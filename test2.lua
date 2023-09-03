@@ -74,7 +74,8 @@ function FastAttackConnectorFunction()
             end
         end
     end
-    CountAttack = 0 
+    CountAttack = 0  
+    TickCountAttack = tick()
     spawn(function()
         local MT = getrawmetatable(game)
         local OldNameCall = MT.__namecall
@@ -84,6 +85,7 @@ function FastAttackConnectorFunction()
             local Args = {...}
             if Method == 'FireServer' and self.Name == "RigControllerEvent" and  Args[1] == "hit"  then
                 CountAttack = CountAttack + 1 
+                TickCountAttack = tick()
             end
             return OldNameCall(self, unpack(Args))
         end)
@@ -153,6 +155,15 @@ function FastAttackConnectorFunction()
                     end
                 end)
             end
+        end
+    end) 
+    spawn(function()
+        while task.wait() do 
+            pcall(function() 
+                if tick()-TickCountAttack >= FastAttackSettings["TimeWait"] then 
+                    CountAttack = 0 
+                end
+            end)
         end
     end)
     spawn(function()
