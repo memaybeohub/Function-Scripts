@@ -61,7 +61,7 @@ function FastAttackConnectorFunction()
                     debug.setupvalue(ac.attack, 4, AcAttack7)
                     debug.setupvalue(ac.attack, 7, AcAttack10)
                     for k, v in pairs(ac.animator.anims.basic) do
-                        v:Play()
+                        v:Play(0.01,0.01,0.01)
                     end
                     if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") and ac.blades and ac.blades[1] then
                         game:GetService("ReplicatedStorage").RigControllerEvent:FireServer(
