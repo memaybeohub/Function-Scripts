@@ -102,11 +102,11 @@ function Attack()
         end
     end
 end
-
-AttackSpeed = Config["Fast Attack Delay"] or 0.2
+if not Config then Config = {} end
+Config["Fast Attack Delay"] = Config["Fast Attack Delay"] or 0.2
 spawn(
     function()
-        while task.wait(AttackSpeed) do
+        while task.wait(Config["Fast Attack Delay"]) do
             if UseFastAttack or Config["Fast Attack Aura"] then
                 pcall(
                     function()
