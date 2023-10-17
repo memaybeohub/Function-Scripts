@@ -66,7 +66,7 @@ task.spawn(
                 if StartBringMob then 
                     for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
                         if
-                            StartBringMob and v:FindFirstChild("lockmmb") then and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and
+                            StartBringMob and v:FindFirstChild("lockmmb") and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and
                                 v.Humanoid.Health > 0 and
                                 not string.find(v.Name, "Boss") and
                                 not table.find(Elites, v.Name)
