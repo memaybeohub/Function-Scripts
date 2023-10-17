@@ -66,7 +66,7 @@ task.spawn(
                 if StartBringMob then 
                     for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
                         if
-                            StartBringMob and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and
+                            StartBringMob and v:FindFirstChild("lockmmb") then and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and
                                 v.Humanoid.Health > 0 and
                                 not string.find(v.Name, "Boss") and
                                 not table.find(Elites, v.Name)
@@ -125,6 +125,11 @@ function SizePart(v, CFRmg, namemob1)
                                     if sk:IsA("BasePart") or sk:IsA("Part") then
                                         sk.CanCollide = false
                                     end
+                                end
+                                v.Humanoid.WalkSpeed = 0
+                                v.Humanoid.JumpPower = 0
+                                if v.Humanoid:FindFirstChild("Animator") then
+                                    v.Humanoid.Animator:Destroy()
                                 end
                             end
                         end
