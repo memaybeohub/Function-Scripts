@@ -107,7 +107,6 @@ Config["Fast Attack Delay"] = Config["Fast Attack Delay"] or 0.2
 spawn(
     function()
         while task.wait(Config["Fast Attack Delay"]) do
-            print(Config["Fast Attack Delay"])
             if UseFastAttack or Config["Fast Attack Aura"] then
                 pcall(
                     function()
