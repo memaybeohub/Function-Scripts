@@ -64,7 +64,11 @@ function Attack()
     local active = Combatfram2.activeController
     ishowspeed = .1
     for i = 1, 1 do
-        bladehit = blademon(60)
+        bladehit = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
+            game.Players.LocalPlayer.Character,
+            {game.Players.LocalPlayer.Character.HumanoidRootPart},
+            60
+        )
         if #bladehit > 0 then
             local u8 = debug.getupvalue(active.attack, 5)
             local u9 = debug.getupvalue(active.attack, 6)
