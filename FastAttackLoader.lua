@@ -138,14 +138,17 @@ function Attack()
         end
     )
 end
-if not Config then
-    Config = {}
+if not _G.AttackConfig then
+    _G.AttackConfig = {
+        ["Fast Attack Aura"] = false,
+        ["Fast Attack Delay"] = 0,
+    }
 end
-Config["Fast Attack Delay"] = Config["Fast Attack Delay"] or 0.2
+_G.AttackConfig["Fast Attack Delay"] = _G.AttackConfig["Fast Attack Delay"] or 0.2
 spawn(
     function()
-        while task.wait(Config["Fast Attack Delay"]) do
-            if UseFastAttack or Config["Fast Attack Aura"] then
+        while task.wait(_G.AttackConfig["Fast Attack Delay"]) do
+            if UseFastAttack or _G.AttackConfig["Fast Attack Aura"] then
                 pcall(
                     function()
                         Attack()
