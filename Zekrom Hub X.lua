@@ -1,3 +1,13 @@
+-- Deobfed by houseofbalance, fixed by vmh@09
+--[[
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            All I ever wanted
+            All I ever needed
+            Is here in my arms
+            Words are very unnecessary
+            They can only do harm
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+]]
 pcall(
     game.HttpGet,
     game,
