@@ -43,39 +43,11 @@ function GetCurrentBlade()
     return ret
 end
 
-function blademon(Sizes)
-    local Hits = {}
-    local Client = game.Players.LocalPlayer
-    local Enemies = game:GetService("Workspace").Enemies:GetChildren()
-    for i = 1, #Enemies do
-        local v = Enemies[i]
-        local Human = v:FindFirstChildOfClass("Humanoid")
-        if
-            Human and Human.RootPart and Human.Health > 0 and
-                Client:DistanceFromCharacter(Human.RootPart.Position) < Sizes + 5
-         then
-            table.insert(Hits, Human.RootPart)
-        end
-    end
-    return Hits
-end
-
 function Attack()
     pcall(
         function()
             local a = game.Players.LocalPlayer
             local b = getupvalues(require(a.PlayerScripts.CombatFramework))[2]
-            function GetCurrentBlade()
-                local c = b.activeController
-                local d = c.blades[1]
-                if not d then
-                    return
-                end
-                while d.Parent ~= game.Players.LocalPlayer.Character do
-                    d = d.Parent
-                end
-                return d
-            end
             local e = b.activeController
             for f = 1, 1 do
                 local g =
@@ -145,16 +117,12 @@ if not _G.AttackConfig then
     }
 end
 _G.AttackConfig["Fast Attack Delay"] = _G.AttackConfig["Fast Attack Delay"] or 0.2
-spawn(
-    function()
-        while task.wait(_G.AttackConfig["Fast Attack Delay"]) do
-            if UseFastAttack or _G.AttackConfig["Fast Attack Aura"] then
-                pcall(
-                    function()
-                        Attack()
-                    end
-                )
-            end
+local LastAz = 0 
+game:GetService"RunService".Heartbeat:Connect(function()
+    if UseFastAttack or _G.AttackConfig["Fast Attack Aura"] then
+        if tick()-LastAz >= _G.AttackConfig["Fast Attack Delay"] then 
+            LastAz = tick()
+            Attack()
         end
     end
-)
+end)
