@@ -1,4 +1,5 @@
 -- we sPeak music 😈
+print('loading Ui Loader');
 local UiLoader = {}
 UiLoader.Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))() 
 local CheckMobile = function()
@@ -82,4 +83,5 @@ UiLoader.Window = UiLoader.Fluent:CreateWindow(
         MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
     }
 ) 
+print('loaded ui loader')
 return UiLoader
