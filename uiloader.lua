@@ -1,5 +1,12 @@
 -- we sPeak music 😈
 print('loading Ui Loader');
+if game.CoreGui:FindFirstChild('ClickButton555') then 
+    for i,v in pairs(game.CoreGui:GetChildren()) do 
+        if v.Name == 'ClickButton555' then 
+            v:Destroy()
+        end
+    end
+end
 local UiLoader = {}
 UiLoader.Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))() 
 local CheckMobile = function()
@@ -23,7 +30,7 @@ pcall(function()
         if game.CoreGui:FindFirstChild("ClickButton") then 
             game.CoreGui:FindFirstChild("ClickButton"):Destroy()
         end
-        ClickButton.Name = "ClickButton"
+        ClickButton.Name = "ClickButton555"
         ClickButton.Parent = game.CoreGui
         ClickButton.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
         
