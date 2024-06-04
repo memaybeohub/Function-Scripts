@@ -648,11 +648,9 @@ function KillNigga(MobInstance)
                 game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or
-                CheckIsRaiding()
+                CheckIsRaiding() or not IsPlayerAlive()
             KillingMobTick = 0
             KillingMob = false
-            OnlyVelocity(false)
-            OnlyVelocity(false)
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
         end
     end)
