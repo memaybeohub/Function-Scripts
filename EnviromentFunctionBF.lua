@@ -56,6 +56,7 @@ for i, v in pairs(getnilinstances()) do
 end
 
 function ReCreateMobFolder()
+    local l1 = 0
     for i,v in pairs(MobOutFolder) do 
         if v then
             if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
@@ -67,10 +68,12 @@ function ReCreateMobFolder()
                 local MobNew = v:Clone()
                 MobNew.Parent = game.Workspace.MobSpawns
             end
+            l1+=1 
         end
     end
-    warn('Created: '..tostring(#game.Workspace.MobSpawns:GetChildren()).." ("..tostring(#game.Workspace.MobSpawns:GetChildren()).."/"..#AllMobInGame..") Mob Spawns")
+    warn('Created: '..tostring(#game.Workspace.MobSpawns:GetChildren()).." ("..tostring(l1).."/"..#AllMobInGame..") Mob Spawns")
 end
+ReCreateMobFolder()
 local MobSpawnClone = {}
 local function getMid(vName,gg)
     local total = 0
