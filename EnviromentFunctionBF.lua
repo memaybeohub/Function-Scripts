@@ -684,7 +684,6 @@ function getMobSpawnbyList(MobList)
     local Returner = {}
     for i,v in pairs(MobList) do 
         if MobSpawnClone[v] then 
-            warn(i,'cloneing')
             table.insert(Returner,MobSpawnClone[v])
         end
     end
@@ -700,10 +699,9 @@ function KillMobList(MobList)
     else
         local MS = getMobSpawnbyList(MobList) 
         if MS then 
-            warn('yes')
             for i,v in pairs(MS) do 
                 if not CheckMob(MobList) and v then 
-                    Tweento(v)
+                    Tweento(v * CFrame.new(0,50,0))
                     wait(1)
                 end
             end
