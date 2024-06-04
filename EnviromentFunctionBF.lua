@@ -334,7 +334,7 @@ function CheckPlayerAlive()
     if a2 then return b2 end 
 end 
 local function LoadPlayer() 
-    if not IsPlayerAlive() then repeat task.wait(.1) until IsPlayerAlive()
+    if not IsPlayerAlive() then repeat task.wait(.1) until IsPlayerAlive() end
     if IsPlayerAlive() then
         if not game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack") then
             local FastAttackIn = Instance.new("BoolValue")
