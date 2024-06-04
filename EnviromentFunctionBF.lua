@@ -260,7 +260,7 @@ function AntiLowHealth(NewY)
     wait()
 end
 function GetMidPoint(MobName, b2)
-    if not Config["Smart Bring"] or Mob.Name == "Ship Officer [Lv. 1325]" then
+    if MobName == "Ship Officer [Lv. 1325]" then
         return b2.CFrame
     end
     if 1 > 1 then
@@ -336,7 +336,6 @@ end
 local function LoadPlayer() 
     if IsPlayerAlive() then
         if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then 
-            warn('adding teleport...')
             wait(2)
             if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
                 local TweenAccess = Instance.new("IntValue")
@@ -355,14 +354,12 @@ local function LoadPlayer()
             end
         end
         if not game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack") then
-            warn('Creating new fast attack toggle')
             local FastAttackIn = Instance.new("BoolValue")
             FastAttackIn.Parent = game.Players.LocalPlayer.Character
             FastAttackIn.Value = false
             FastAttackIn.Name = 'Fast Attack'
         end
         if not game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack Delay") then
-            warn('Creating new fast attack delay')
             local FastAttackDelayIn = Instance.new("NumberValue")
             FastAttackDelayIn.Name = 'Fast Attack Delay'
             FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
