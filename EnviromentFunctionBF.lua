@@ -751,9 +751,11 @@ function CheckIsRaiding()
     if getNextIsland() then
         return getNextIsland()
     end     
-    if not ALLCHECK_Func["Auto Trial Stage 1"]() and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible and not GetSeaBeastTrial() and GetDistance(CFrame.new(28282.5703125, 14896.8505859375, 105.1042709350586)) > 3000 then
+    --[[
+        if not ALLCHECK_Func["Auto Trial Stage 1"]() and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible and not GetSeaBeastTrial() and GetDistance(CFrame.new(28282.5703125, 14896.8505859375, 105.1042709350586)) > 3000 then
         return true
     end
+    ]]
 end
 local lplr = game.Players.LocalPlayer
 if not isnetworkowner then
