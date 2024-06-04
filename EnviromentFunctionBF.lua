@@ -778,7 +778,7 @@ function isnetworkowner2(p1)
         if p1.Anchored then
             return false
         end
-        if game.IsDescendantOf(p1, B) or (C.Position - p1.Position).Magnitude <= A and GetNearestPlayer(part.Position) then
+        if game.IsDescendantOf(p1, B) or (C.Position - p1.Position).Magnitude <= A and GetNearestPlayer(p1.Position) then
             return true
         end
     end
