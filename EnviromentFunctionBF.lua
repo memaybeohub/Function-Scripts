@@ -57,20 +57,22 @@ end
 
 function ReCreateMobFolder()
     local l1 = {}
+    local MobNew
     for i,v in pairs(MobOutFolder) do 
         if v then
             if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
-                local MobNew = Instance.new("Part")
+                MobNew = Instance.new("Part")
                 MobNew.CFrame = v.HumanoidRootPart.CFrame
                 MobNew.Name = v.Name
                 MobNew.Parent = game.Workspace.MobSpawns
             elseif v:IsA("Part") then
-                local MobNew = v:Clone()
+                MobNew = v:Clone()
                 MobNew.Parent = game.Workspace.MobSpawns
+                MobNew.Transparency = 1
             end
             if not table.find(l1,v.Name) then 
                 table.insert(l1,tostring(v.Name))
-            end
+            end 
         end
     end
     warn('Created: '..tostring(#game.Workspace.MobSpawns:GetChildren()).." ("..tostring(#l1).."/"..#AllMobInGame..") Mob Spawns")
@@ -744,7 +746,30 @@ function BringMob(TAR,V5)
             end
         end)
     end
-end 
+end  
+function GetNearestPlayer(pos)
+    local ner = math.huge
+    local ner2
+    for i, v in pairs(game.Players:GetChildren()) do
+        if
+            v.Character and v.Character:FindFirstChild("HumanoidRootPart") and
+                (v.Character.HumanoidRootPart.Position - pos).Magnitude < ner
+         then
+            ner = (v.Character.HumanoidRootPart.Position - pos).Magnitude
+        end
+    end
+    for i, v in pairs(game.Players:GetChildren()) do
+        if
+            v.Character and v.Character:FindFirstChild("HumanoidRootPart") and
+                (v.Character.HumanoidRootPart.Position - pos).Magnitude <= ner
+         then
+            ner2 = v.Name
+        end
+    end
+    if game.Players.LocalPlayer.Name == ner2 then
+        return true
+    end
+end
 function isnetworkowner2(p1)
     local A = gethiddenproperty(game.Players.LocalPlayer, "SimulationRadius")
     local B = game.Players.LocalPlayer.Character or Wait(game.Players.LocalPlayer.CharacterAdded)
@@ -753,7 +778,7 @@ function isnetworkowner2(p1)
         if p1.Anchored then
             return false
         end
-        if game.IsDescendantOf(p1, B) or (C.Position - p1.Position).Magnitude <= A then
+        if game.IsDescendantOf(p1, B) or (C.Position - p1.Position).Magnitude <= A and GetNearestPlayer(part.Position) then
             return true
         end
     end
