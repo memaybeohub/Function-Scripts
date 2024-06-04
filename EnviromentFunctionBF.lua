@@ -643,6 +643,7 @@ function KillNigga(MobInstance)
             repeat
                 KillingMob = true
                 KillingMobTick = tick()
+                OnlyVelocity(true)
                 EquipWeapon()
                 TweenKill(MobInstance)
                 game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
@@ -652,6 +653,7 @@ function KillNigga(MobInstance)
             KillingMobTick = 0
             KillingMob = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
+            OnlyVelocity(false)
         end
     end)
     if not LS then print('ls',LS2) end
@@ -800,10 +802,5 @@ RunService.Heartbeat:Connect(function()
         EnableBuso()
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value
-        if tick()-KillingMobTick < 3 then
-            OnlyVelocity(true)
-        elseif not KillingMob then 
-            OnlyVelocity(false)
-        end 
     end
 end)
