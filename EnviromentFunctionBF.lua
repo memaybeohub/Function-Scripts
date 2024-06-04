@@ -594,6 +594,11 @@ function OnlyVelocity(enable)
         OV.Name = "NEWQL"
     end
 end
+local Elites = {
+    "Deandre [Lv. 1750]",
+    "Urban [Lv. 1750]",
+    "Diablo [Lv. 1750]"
+}
 local KillingBoss
 local KillingMobTick = tick()-10
 function KillNigga(MobInstance) 
