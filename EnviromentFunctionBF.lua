@@ -358,13 +358,15 @@ local function LoadPlayer()
                 TweenAccess.Parent = game.Players.LocalPlayer.Character 
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function()
                     wait(.5)
-                    local bozo = require(game:GetService("ReplicatedStorage").ClientWeapons).divineart
-                    for i,v in pairs(bozo) do 
-                        if typeof(v) == 'function' then 
-                            bozo[i] = function() end 
+                    if IsPlayerAlive() then 
+                        local bozo = require(game:GetService("ReplicatedStorage").ClientWeapons).divineart
+                        for i,v in pairs(bozo) do 
+                            if typeof(v) == 'function' then 
+                                bozo[i] = function() end 
+                            end
                         end
+                        getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data = bozo
                     end
-                    getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data = bozo
                 end)
             end
         end
@@ -741,6 +743,12 @@ function BringMob(TAR,V5)
                     v.Humanoid.JumpPower = 0
                     if v.Humanoid:FindFirstChild("Animator") then
                         v.Humanoid.Animator:Destroy()
+                    end
+                    for i,__ in pairs(v:GetDescendants()) do 
+                        if __:IsA('BasePart') then 
+                            __.Anchored = true 
+                            __.CanCollide = false 
+                        end
                     end
                 end
             end
