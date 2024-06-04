@@ -848,7 +848,6 @@ end
 workspace._WorldOrigin.ChildAdded:Connect(function(v)
     if v.Name =='DamageCounter' then 
         v.Enabled  = false 
-        v:Destroy()
     end
 end)
 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
