@@ -334,9 +334,22 @@ function CheckPlayerAlive()
     if a2 then return b2 end 
 end 
 local function LoadPlayer() 
+    if not IsPlayerAlive() then repeat task.wait(.1) until IsPlayerAlive()
     if IsPlayerAlive() then
+        if not game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack") then
+            local FastAttackIn = Instance.new("BoolValue")
+            FastAttackIn.Parent = game.Players.LocalPlayer.Character
+            FastAttackIn.Value = false
+            FastAttackIn.Name = 'Fast Attack'
+        end
+        if not game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack Delay") then
+            local FastAttackDelayIn = Instance.new("NumberValue")
+            FastAttackDelayIn.Name = 'Fast Attack Delay'
+            FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
+            FastAttackDelayIn.Value = 0.3
+        end
         if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then 
-            wait(2)
+            wait(1)
             if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
                 local TweenAccess = Instance.new("IntValue")
                 TweenAccess.Name = "Tween Access"
@@ -352,18 +365,6 @@ local function LoadPlayer()
                     getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data = bozo
                 end)
             end
-        end
-        if not game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack") then
-            local FastAttackIn = Instance.new("BoolValue")
-            FastAttackIn.Parent = game.Players.LocalPlayer.Character
-            FastAttackIn.Value = false
-            FastAttackIn.Name = 'Fast Attack'
-        end
-        if not game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack Delay") then
-            local FastAttackDelayIn = Instance.new("NumberValue")
-            FastAttackDelayIn.Name = 'Fast Attack Delay'
-            FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
-            FastAttackDelayIn.Value = 0.15
         end
     end
 end
