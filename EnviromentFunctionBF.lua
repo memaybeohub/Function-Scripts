@@ -9,12 +9,7 @@ if game.Workspace:FindFirstChild("MobSpawns") then
         end
     end
 end
-local bozo = require(game:GetService("ReplicatedStorage").ClientWeapons).divineart
-for i,v in pairs(bozo) do 
-    if typeof(v) == 'function' then 
-        bozo[i] = function() end 
-    end
-end
+loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/Function-Scripts/main/FastAttackLoading.lua'))()
 function GetDistance(target1, taget2)
     if not taget2 then
         taget2 = game.Players.LocalPlayer.Character.HumanoidRootPart
@@ -609,7 +604,7 @@ function KillNigga(MobInstance)
      then
         local mmas = GetMidPoint(MobInstance.Name, MobInstance.HumanoidRootPart)
         local LockCFrame
-        if not string.find(MobInstance.Name, "Boss") and MobInstance.Humanoid.MaxHealth < 130000 then
+        if mmas and not string.find(MobInstance.Name, "Boss") and MobInstance.Humanoid.MaxHealth < 130000 then
             LockCFrame = CFrame.new(mmas)
         else
             LockCFrame = MobInstance.HumanoidRootPart.CFrame
