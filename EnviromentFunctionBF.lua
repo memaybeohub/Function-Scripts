@@ -668,7 +668,6 @@ function CheckMob(mobormoblist)
         for i,v in pairs(mobormoblist) do 
             for __,v2 in pairs(game.workspace.Enemies:GetChildren()) do 
                 if RemoveLevelTitle(v) == RemoveLevelTitle(v2.Name) and v2:FindFirstChild('Humanoid') and v2.Humanoid.Health > 0 then 
-                    warn(v2.Name)
                     return v2
                 end
             end
@@ -685,6 +684,7 @@ function getMobSpawnbyList(MobList)
     local Returner = {}
     for i,v in pairs(MobList) do 
         if MobSpawnClone[v] then 
+            warn(i,'cloneing')
             table.insert(Returner,MobSpawnClone[v])
         end
     end
@@ -700,6 +700,7 @@ function KillMobList(MobList)
     else
         local MS = getMobSpawnbyList(MobList) 
         if MS then 
+            warn('yes')
             for i,v in pairs(MS) do 
                 if not CheckMob(MobList) and v then 
                     Tweento(v)
