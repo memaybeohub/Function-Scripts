@@ -87,13 +87,14 @@ local function getMid(vName,gg)
     end
     if allplus then return allplus/total end 
 end
+local lss = 0
 for i,v in pairs(game.Workspace.MobSpawns:GetChildren()) do 
     if not MobSpawnClone[v.Name] then 
         MobSpawnClone[v.Name] = CFrame.new(getMid(v.Name))
+        lss+=1
     end 
 end
-
-
+warn(lss.." mob clone")
 function GetMobSpawnList(a)
     local a = RemoveLevelTitle(a)
     k = {}
@@ -663,6 +664,7 @@ function CheckMob(mobormoblist)
         for i,v in pairs(mobormoblist) do 
             for __,v2 in pairs(game.workspace.Enemies:GetChildren()) do 
                 if RemoveLevelTitle(v) == RemoveLevelTitle(v2.Name) and v2:FindFirstChild('Humanoid') and v2.Humanoid.Health > 0 then 
+                    warn(v2.Name)
                     return v2
                 end
             end
@@ -690,7 +692,7 @@ function KillMobList(MobList)
     end
     local NM = CheckMob(MobList)
     if NM then 
-        Killing(NM)
+        KillNigga(NM)
     else
         local MS = getMobSpawnbyList(MobList) 
         if MS then 
