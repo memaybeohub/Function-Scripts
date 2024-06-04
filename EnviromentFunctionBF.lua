@@ -56,7 +56,7 @@ for i, v in pairs(getnilinstances()) do
 end
 
 function ReCreateMobFolder()
-    local l1 = 0
+    local l1 = {}
     for i,v in pairs(MobOutFolder) do 
         if v then
             if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
@@ -68,10 +68,12 @@ function ReCreateMobFolder()
                 local MobNew = v:Clone()
                 MobNew.Parent = game.Workspace.MobSpawns
             end
-            l1+=1 
+            if not table.find(l1,v.Name) then 
+                table.insert(l1,tostring(v.Name))
+            end
         end
     end
-    warn('Created: '..tostring(#game.Workspace.MobSpawns:GetChildren()).." ("..tostring(l1).."/"..#AllMobInGame..") Mob Spawns")
+    warn('Created: '..tostring(#game.Workspace.MobSpawns:GetChildren()).." ("..tostring(#l1).."/"..#AllMobInGame..") Mob Spawns")
 end
 ReCreateMobFolder()
 local MobSpawnClone = {}
@@ -93,11 +95,10 @@ end
 local lss = 0
 for i,v in pairs(game.Workspace.MobSpawns:GetChildren()) do 
     if not MobSpawnClone[v.Name] then 
-        MobSpawnClone[v.Name] = CFrame.new(getMid(v.Name))
+        MobSpawnClone[v.Name] = CFrame.new(getMid(v.Name,game.Workspace.MobSpawns:GetChildren()))
         lss+=1
     end 
 end
-warn(lss.." mob clone")
 function GetMobSpawnList(a)
     local a = RemoveLevelTitle(a)
     k = {}
