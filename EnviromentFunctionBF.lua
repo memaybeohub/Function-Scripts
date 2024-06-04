@@ -647,14 +647,14 @@ function KillNigga(MobInstance)
             KillingMobTick = tick()
             EquipWeapon()
             TweenKill(MobInstance)
-            game.Players.LocalPlayer.Character['Fast Attack'] = true 
+            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
         until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
         MobInstance.Humanoid.Health <= 0 or
             CheckIsRaiding()
         KillingMobTick = 0
         OnlyVelocity(false)
         OnlyVelocity(false)
-        game.Players.LocalPlayer.Character['Fast Attack'] = false
+        game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
     end
 end  
 function BringMob(TAR,V5)
@@ -702,7 +702,7 @@ function isnetworkowner2(p1)
         if p1.Anchored then
             return false
         end
-        if game.IsDescendantOf(p1, B) or (C.Position - p1.Position).Magnitude <= A and GetNearestPlayer(p1.Position) then
+        if game.IsDescendantOf(p1, B) or (C.Position - p1.Position).Magnitude <= A then
             return true
         end
     end
