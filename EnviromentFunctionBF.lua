@@ -347,7 +347,7 @@ local function LoadPlayer()
             wait(1)
             if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
                 local TweenAccess = Instance.new("IntValue")
-                TweenAccess.Name = "Tween Access"
+                TweenAccess.Name = "Teleport Access"
                 TweenAccess.Parent = game.Players.LocalPlayer.Character 
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function()
                     wait(.5)
@@ -598,60 +598,65 @@ local Elites = {
 local KillingBoss
 local KillingMobTick = tick()-10
 function KillNigga(MobInstance) 
-    if IsPlayerAlive() and
-    MobInstance and MobInstance:FindFirstChild("Humanoid") and
-    MobInstance.Humanoid.Health > 0
-     then
-        local mmas = GetMidPoint(MobInstance.Name, MobInstance.HumanoidRootPart)
-        local LockCFrame
-        if mmas and not string.find(MobInstance.Name, "Boss") and MobInstance.Humanoid.MaxHealth < 130000 then
-            LockCFrame = CFrame.new(mmas)
-        else
-            LockCFrame = MobInstance.HumanoidRootPart.CFrame
-            KillingBoss = true
-        end
-        local N_Name = MobInstance.Humanoid.Name
-        if string.find(N_Name, "Boss") or table.find(Elites, N_Name) then
-            if not string.find(N_Name, "Boss") then
-                for i, v in pairs(Elites) do
-                    if RemoveLevelTitle(v) == RemoveLevelTitle(N_Name) then
-                        KillingBoss = true
-                    end
-                end
+    local LS,LS2 = pcall(function()
+        if IsPlayerAlive() and
+        MobInstance and MobInstance:FindFirstChild("Humanoid") and
+        MobInstance.Humanoid.Health > 0
+        then
+            local mmas = GetMidPoint(MobInstance.Name, MobInstance.HumanoidRootPart)
+            local LockCFrame
+            if mmas and not string.find(MobInstance.Name, "Boss") and MobInstance.Humanoid.MaxHealth < 130000 then
+                LockCFrame = CFrame.new(mmas)
             else
+                LockCFrame = MobInstance.HumanoidRootPart.CFrame
                 KillingBoss = true
             end
-        end
-        if IsBoss(MobInstance) then 
-            KillingBoss = true 
-        end
-        if not KillingBoss then
-            --CheckReqHop(Nasga.HumanoidRootPart.CFrame,Nasga)
-        end
-        for i, v in pairs({
-            "Deandre [Lv. 1750]",
-            "Urban [Lv. 1750]",
-            "Diablo [Lv. 1750]"
-        }) do
-            if RemoveLevelTitle(v) == RemoveLevelTitle(MobInstance.Name) then
-                KillingBoss = true
+            local N_Name = MobInstance.Humanoid.Name
+            if string.find(N_Name, "Boss") or table.find(Elites, N_Name) then
+                if not string.find(N_Name, "Boss") then
+                    for i, v in pairs(Elites) do
+                        if RemoveLevelTitle(v) == RemoveLevelTitle(N_Name) then
+                            KillingBoss = true
+                        end
+                    end
+                else
+                    KillingBoss = true
+                end
             end
+            if IsBoss(MobInstance) then 
+                KillingBoss = true 
+            end
+            if not KillingBoss then
+                --CheckReqHop(Nasga.HumanoidRootPart.CFrame,Nasga)
+            end
+            for i, v in pairs({
+                "Deandre [Lv. 1750]",
+                "Urban [Lv. 1750]",
+                "Diablo [Lv. 1750]"
+            }) do
+                if RemoveLevelTitle(v) == RemoveLevelTitle(MobInstance.Name) then
+                    KillingBoss = true
+                end
+            end
+            BringMob(MobInstance, LockCFrame) 
+            
+            repeat
+                KillingMob = true
+                KillingMobTick = tick()
+                EquipWeapon()
+                TweenKill(MobInstance)
+                game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
+            until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
+            MobInstance.Humanoid.Health <= 0 or
+                CheckIsRaiding()
+            KillingMobTick = 0
+            KillingMob = false
+            OnlyVelocity(false)
+            OnlyVelocity(false)
+            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
         end
-        BringMob(MobInstance, LockCFrame) 
-        
-        repeat
-            KillingMobTick = tick()
-            EquipWeapon()
-            TweenKill(MobInstance)
-            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
-        until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
-        MobInstance.Humanoid.Health <= 0 or
-            CheckIsRaiding()
-        KillingMobTick = 0
-        OnlyVelocity(false)
-        OnlyVelocity(false)
-        game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
-    end
+    end)
+    if not LS then print('ls',LS2) end
 end  
 function BringMob(TAR,V5)
     if not TAR then 
@@ -799,6 +804,8 @@ RunService.Heartbeat:Connect(function()
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value
         if tick()-KillingMobTick < 3 then
             OnlyVelocity(true)
+        elseif not KillingMob then 
+            OnlyVelocity(false)
         end 
     end
 end)
