@@ -746,10 +746,12 @@ function BringMob(TAR,V5)
                     end
                     for i,__ in pairs(v:GetDescendants()) do 
                         if __:IsA('BasePart') then 
-                            __.Anchored = true 
                             __.CanCollide = false 
                         end
                     end
+                    v.HumanoidRootPart:GetPropertyChangedSignal('Position'):Connect(function()
+                        v.HumanoidRootPart.CFrame = V6
+                    end)
                 end
             end
         end)
