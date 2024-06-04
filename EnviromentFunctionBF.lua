@@ -658,6 +658,51 @@ function KillNigga(MobInstance)
     end)
     if not LS then print('ls',LS2) end
 end  
+function CheckMob(mobormoblist)
+    if typeof(mobormoblist) == 'table' then 
+        for i,v in pairs(mobormoblist) do 
+            for __,v2 in pairs(game.workspace.Enemies:GetChildren()) do 
+                if RemoveLevelTitle(v) == RemoveLevelTitle(v2.Name) and v2:FindFirstChild('Humanoid') and v2.Humanoid.Health > 0 then 
+                    return v2
+                end
+            end
+        end
+    else
+        for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
+            if RemoveLevelTitle(v.Name) == RemoveLevelTitle(mobormoblist) and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then 
+                return v
+            end
+        end
+    end
+end
+function getMobSpawnbyList(MobList)
+    local Returner = {}
+    for i,v in pairs(MobList) do 
+        if MobSpawnClone[v] then 
+            table.insert(Returner,MobSpawnClone[v])
+        end
+    end
+    return Returner  
+end
+function KillMobList(MobList)
+    for i,v in pairs(MobList) do 
+        MobList[i] = RemoveLevelTitle(v)
+    end
+    local NM = CheckMob(MobList)
+    if NM then 
+        Killing(NM)
+    else
+        local MS = getMobSpawnbyList(MobList) 
+        if MS then 
+            for i,v in pairs(MS) do 
+                if not CheckMob(MobList) and v then 
+                    Tweento(v)
+                    wait(1)
+                end
+            end
+        end
+    end
+end
 function BringMob(TAR,V5)
     if not TAR then 
         return
@@ -801,6 +846,13 @@ RunService.Heartbeat:Connect(function()
     if IsPlayerAlive() then 
         EnableBuso()
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
-        getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value
+        getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
+        if KillingMob then 
+            for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
+                if v:IsA("BasePart") or v:IsA("Part") then 
+                    v.CanCollide = false 
+                end
+            end
+        end
     end
 end)
