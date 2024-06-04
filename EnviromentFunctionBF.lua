@@ -712,7 +712,7 @@ function BringMob(TAR,V5)
     if not TAR then 
         return
     end
-    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)
     if not TAR:FindFirstChild("Bringed") then 
         local Bringed = Instance.new("IntValue",TAR)
         Bringed.Name = "Bringed" 
@@ -845,7 +845,14 @@ function FlyBoat(e,b,h)
         bodyP.Position = Vector3.new(0,b.WaterOrigin.Value ,0)
     end
 end
-
+workspace._WorldOrigin.ChildAdded:Connect(function(v)
+    if v.Name =='DamageCounter' then 
+        v.Enabled  = false 
+        v:Destroy()
+    end
+end)
+hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
+hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
 getgenv().ServerData = {}
 RunService.Heartbeat:Connect(function()
     if IsPlayerAlive() then 
