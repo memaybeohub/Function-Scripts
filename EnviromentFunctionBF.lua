@@ -507,7 +507,7 @@ function GetCFrameADD(v2)
     if game.Players.LocalPlayer.Character.Humanoid.Sit then 
         SendKey('Space',.5) 
     end
-    return CFrame.new(0,30,0)
+    return CFrame.new(0,40,0)
 end 
 local TweenK
 local function TweenKill(v)
@@ -1089,10 +1089,72 @@ function GetQuest(QuestTables)
         task.wait(1)
     end
 end
+FruitsID = loadstring(game:HttpGet("https://raw.githubusercontent.com/memaybeohub/Function-Scripts/main/Magnetism.lua"))()
+function ReturnFruitNameWithId(v)
+    local SH = v:WaitForChild("Fruit",15):WaitForChild("Fruit",1)
+    if not SH then 
+        SH = v:WaitForChild("Fruit",15):WaitForChild("Retopo_Cube.001",1) 
+    end
+    for i,v in pairs(FruitsID) do 
+        if v == SH.MeshId then 
+            return i 
+        end
+    end   
+    return v.Name
+end
+function ReturnToShowFruit(v)
+    local OC = ReturnFruitNameWithId(v):split('-')
+    if #OC >= 3 then 
+        local OC2 = {} 
+        for i,v in pairs(OC) do 
+            table.insert(OC2,v)
+            if #OC2 >= #OC/2 then break end 
+        end
+        return unpack(OC2)
+    else
+        return OC[1]
+    end
+end
+function CheckNatural(v)
+    return not v:GetAttribute("OriginalName")
+end
+function getPriceFruit(z5)
+    for i,v in pairs(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+        "GetFruits",
+        game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop:GetAttribute("Shop2")
+    )) do 
+        if v.Name == z5 then 
+            return v.Price 
+        end
+    end
+    return 0 
+end
+function getRealFruit(v)
+    local kf = CheckNatural(v) and " (Spawned)" or ""
+    return ReturnFruitNameWithId(v) .. " ("..tostring(getPriceFruit(ReturnFruitNameWithId(v))).."$) ".. tostring(kf)
+end
 getgenv().ServerData["Inventory Items"] = {}
 getgenv().ServerData['Skill Loaded'] = {}
+getgenv().ServerData['Workspace Fruits'] = {}
+getgenv().ServerData['Server Bosses'] = {}
+workspace.Enemies.ChildAdded:Connect(function(v)
+    local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart')
+    if v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') then 
+        table.insert(getgenv().ServerData['Server Bosses'],v)
+    end
+    v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
+        if v.Humanoid.Health <= 0 and table.find(getgenv().ServerData['Server Bosses'],v) then 
+            for i2,v2 in pairs(getgenv().ServerData['Server Bosses']) do 
+                if v2.Name == v.Name or v2 == v then 
+                    table.remove(getgenv().ServerData['Server Bosses'],i2)
+                end 
+            end
+        end
+    end)
+end)
 RunService.Heartbeat:Connect(function()
     if IsPlayerAlive() then 
+        getgenv().ServerData['Workspace Fruits'] = {}
         EnableBuso()
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
@@ -1123,6 +1185,14 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end 
+        for i,v in pairs(game.workspace:GetChildren()) do 
+            if v.Name:find('Fruit') then 
+                table.insert(getgenv().ServerData['Workspace Fruits'],{
+                    Name = ReturnFruitNameWithId(v)
+                    Fruit = v 
+                })
+            end
+        end
     end
 end)
 loadstring([[
