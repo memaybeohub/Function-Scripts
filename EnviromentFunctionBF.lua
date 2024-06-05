@@ -647,6 +647,7 @@ local Elites = {
 }
 local KillingBoss
 local KillingMobTick = tick()-10
+local MobUsingSkill = false
 function KillNigga(MobInstance) 
     local LS,LS2 = pcall(function()
         if IsPlayerAlive() and
@@ -691,13 +692,25 @@ function KillNigga(MobInstance)
             task.delay(0.5  ,function()
                 BringMob(MobInstance, LockCFrame) 
             end)            
+            MobInstance.ChildAdded:Connect(function(NewChild)
+                if NewChild.ClassName = 'Vector3Value' then 
+                    MobUsingSkill = true
+                    repeat task.wait() until not NewChild or not NewChild.Parent 
+                    MobUsingSkill = false 
+                end
+            end)
             repeat
                 KillingMob = true
                 KillingMobTick = tick()
                 OnlyVelocity(true)
                 EquipWeapon()
-                TweenKill(MobInstance)
-                game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
+                if not MobUsingSkill then 
+                    TweenKill(MobInstance)
+                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
+                else
+                    game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,300,0)
+                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
+                end
                 --game.Players.LocalPlayer.Character['Aimbot'].Value = true
                 --game.Players.LocalPlayer.Character['Aimbot Position'].Value = MobInstance.PrimaryPart.Position
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
