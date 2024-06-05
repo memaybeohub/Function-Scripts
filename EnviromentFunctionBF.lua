@@ -1115,6 +1115,20 @@ function GetQuest(QuestTables)
         task.wait(1)
     end
 end
+function FarmMobByLevel(level)
+    if not level then level = game.Players.LocalPlayer.Data.Level.Value
+    local NewQuest = CheckQuestByLevel({
+        Level = level 
+        DoubleQuest = true 
+    })
+    if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
+        GetQuest(NewQuest)
+    elseif CheckMob(CheckCurrentQuestMob()) then 
+        KillNigga(CheckCurrentQuestMob())
+    elseif getgenv().MobSpawnClone and getgenv().MobSpawnClone[CheckCurrentQuestMob()] then 
+        Tweento(getgenv().MobSpawnClone[CheckCurrentQuestMob()] * CFrame.new(0,60,0))
+    end
+end
 FruitsID = loadstring(game:HttpGet("https://raw.githubusercontent.com/memaybeohub/Function-Scripts/main/Magnetism.lua"))()
 function ReturnFruitNameWithId(v)
     local SH = v:WaitForChild("Fruit",15):WaitForChild("Fruit",1)
