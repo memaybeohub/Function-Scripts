@@ -1075,6 +1075,31 @@ function CheckQuestByLevel(cq)
     Returner["QuestCFrame"] = CFrameByLevelQuest[Returner["LevelReq"]]
     return Returner
 end
+local function TweenKillInstant(POS) 
+    local tweenfunc = {}
+    local tween_s = game:service "TweenService"
+    local info =
+        TweenInfo.new(
+        GetDistance(POS) /
+            300,
+        Enum.EasingStyle.Linear
+    )
+    if GetDistance(POS) < 200 then 
+        if TweenK then 
+            TweenK:Cancel()
+            TweenK = nil 
+        end
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = POS 
+    else 
+        TweenK =
+            tween_s:Create(
+            game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"],
+            info,
+            {CFrame = POS}
+        )
+        TweenK:Play() 
+    end
+end
 function GetQuest(QuestTables) 
     if game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then
         return
