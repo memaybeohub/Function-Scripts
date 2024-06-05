@@ -647,7 +647,7 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
-            task.delay(1,function()
+            task.delay(0.5  ,function()
                 BringMob(MobInstance, LockCFrame) 
             end)            
             repeat
@@ -657,7 +657,7 @@ function KillNigga(MobInstance)
                 EquipWeapon()
                 TweenKill(MobInstance)
                 game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
-                MobInstance.PrimaryPart.Anchored = true
+                --MobInstance.PrimaryPart.Anchored = true
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or
                 CheckIsRaiding() or not IsPlayerAlive()
