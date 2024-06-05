@@ -1118,7 +1118,7 @@ end
 function FarmMobByLevel(level)
     if not level then level = game.Players.LocalPlayer.Data.Level.Value
     local NewQuest = CheckQuestByLevel({
-        Level = level 
+        Level = level,
         DoubleQuest = true 
     })
     if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
