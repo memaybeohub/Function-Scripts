@@ -695,7 +695,7 @@ function KillNigga(MobInstance)
             MobInstance.ChildAdded:Connect(function(NewChild)
                 if NewChild.ClassName == 'Vector3Value' then 
                     MobUsingSkill = true
-                    repeat task.wait() until not NewChild or not NewChild.Parent 
+                    repeat task.wait(.1) until not NewChild or not NewChild.Parent 
                     MobUsingSkill = false 
                 end
             end)
@@ -710,6 +710,7 @@ function KillNigga(MobInstance)
                 else
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,300,0)
                     game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
+                    task.wait(1)
                 end
                 --game.Players.LocalPlayer.Character['Aimbot'].Value = true
                 --game.Players.LocalPlayer.Character['Aimbot Position'].Value = MobInstance.PrimaryPart.Position
