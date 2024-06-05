@@ -698,8 +698,8 @@ function KillNigga(MobInstance)
                 EquipWeapon()
                 TweenKill(MobInstance)
                 game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
-                game.Players.LocalPlayer.Character['Aimbot'].Value = true
-                game.Players.LocalPlayer.Character['Aimbot Position'].Value = MobInstance.PrimaryPart.Position
+                --game.Players.LocalPlayer.Character['Aimbot'].Value = true
+                --game.Players.LocalPlayer.Character['Aimbot Position'].Value = MobInstance.PrimaryPart.Position
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or
                 CheckIsRaiding() or not IsPlayerAlive()
@@ -1041,7 +1041,7 @@ loadstring([[
                 if tostring(args[1]) == "RemoteEvent" then
                     if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
                         if (game.Players.LocalPlayer.Character['Aimbot'].Value) and (game.Players.LocalPlayer.Character['Aimbot Position'].Value) then
-                            if AimBotSkillPosition then 
+                            if game.Players.LocalPlayer.Character['Aimbot Position'].Value then 
                                 args[2] = game.Players.LocalPlayer.Character['Aimbot Position'].Value 
                             end
                         end
