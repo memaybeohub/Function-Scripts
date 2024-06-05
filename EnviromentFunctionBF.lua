@@ -126,6 +126,7 @@ for i,v in pairs(game.Workspace.MobSpawns:GetChildren()) do
     end 
 end
 warn('Loaded total',lss,' mobs middle spawns')
+getgenv().MobSpawnClone = MobSpawnClone
 function GetMobSpawnList(a)
     local a = RemoveLevelTitle(a)
     k = {}
@@ -1021,7 +1022,7 @@ end
 function CheckQuestByLevel(cq)
     local cq = cq or {} 
     local lvlPl = cq.Level or game.Players.LocalPlayer.Data.Level.Value 
-    local DoubleQuest = Config["Double Quest"] or cq.DoubleQuest or false 
+    local DoubleQuest = or cq.DoubleQuest or false 
     local Returner = {
         ["LevelReq"] = 0,
         ["Mob"] = "",
