@@ -690,13 +690,8 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
-            task.delay(0 ,function()
-                if GetDistance(MobInstance.PrimaryPart) < 100 then 
-                    BringMob(MobInstance, LockCFrame) 
-                else
-                    repeat task.wait() until GetDistance(MobInstance.PrimaryPart.CFrame * CFrame.new(0,40,0)) < 50
-                    BringMob(MobInstance, LockCFrame) 
-                end
+            task.delay(.3 ,function()
+                BringMob(MobInstance, LockCFrame) 
             end)            
             repeat
                 task.wait()
@@ -706,7 +701,6 @@ function KillNigga(MobInstance)
                 EquipWeapon()
                 TweenKill(MobInstance)
                 game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
-                MobInstance.Head.Anchored = true
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
                 CheckIsRaiding()
@@ -819,9 +813,6 @@ function BringMob(TAR,V5)
                             __.CanCollide = false 
                         end
                     end
-                    v.HumanoidRootPart:GetPropertyChangedSignal('Position'):Connect(function()
-                        v.HumanoidRootPart.CFrame = V6
-                    end)
                 end
             end
         end)
