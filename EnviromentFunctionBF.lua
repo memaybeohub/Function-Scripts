@@ -995,14 +995,8 @@ function EquipAllWeapon()
     end
     for i, v in pairs(u3_2) do
         if not IsWpSKillLoaded(v) then
-            z(v)
             EquipWeaponName(v)
         end
-    end
-end
-for i,v in pairs(game.ReplicatedStorage.Effect.Container:GetChildren()) do 
-    if v.ClassName == 'ModuleScript' and typeof(require(v)) == 'function' then 
-        hookfunction(require(v),function() end)
     end
 end
 getgenv().ServerData["Inventory Items"] = {}
