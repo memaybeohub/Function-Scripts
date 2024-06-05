@@ -86,7 +86,7 @@ function ReCreateMobFolder()
         if v then
             if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
                 MobNew = Instance.new("Part")
-                MobNew.CFrame = v.HumanoidRootPart.CFrame
+                MobNew.CFrame = v.PrimaryPart.CFrame
                 MobNew.Name = v.Name
                 MobNew.Parent = game.Workspace.MobSpawns
             elseif v:IsA("Part") then
@@ -698,13 +698,16 @@ function KillNigga(MobInstance)
                 EquipWeapon()
                 TweenKill(MobInstance)
                 game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
-                --MobInstance.PrimaryPart.Anchored = true
+                game.Players.LocalPlayer.Character['Aimbot'].Value = true
+                game.Players.LocalPlayer.Character['Aimbot Position'].Value = MobInstance.PrimaryPart.Position
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or
                 CheckIsRaiding() or not IsPlayerAlive()
             KillingMobTick = 0
             KillingMob = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
+            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
+            game.Players.LocalPlayer.Character['Aimbot'].Value = false
             OnlyVelocity(false)
         end
     end)
@@ -795,8 +798,9 @@ function BringMob(TAR,V5)
                         (isnetworkowner2(v.HumanoidRootPart) or isnetworkowner(v.HumanoidRootPart)) and
                         v.Humanoid.MaxHealth < 100000
                 then
-                    TweenObject(V6,v.HumanoidRootPart,1000)
+                    TweenObject(V6,v.PrimaryPart,1000)
                     v.HumanoidRootPart.CanCollide = false
+                    v.PrimaryPart.CanCollide = false
                     v.Head.CanCollide = false
                     v.Humanoid.WalkSpeed = 0
                     v.Humanoid.JumpPower = 0
@@ -1024,4 +1028,48 @@ RunService.Heartbeat:Connect(function()
         end 
     end
 end)
+loadstring([[
+    local gg = getrawmetatable(game)
+    local old = gg.__namecall
+    setreadonly(gg, false)
+    gg.__namecall =
+        newcclosure(
+        function(...)
+            local method = getnamecallmethod()
+            local args = {...}
+            if tostring(method) == "FireServer" then
+                if tostring(args[1]) == "RemoteEvent" then
+                    if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
+                        if (game.Players.LocalPlayer.Character['Aimbot'].Value) and (game.Players.LocalPlayer.Character['Aimbot Position'].Value) then
+                            if AimBotSkillPosition then 
+                                args[2] = game.Players.LocalPlayer.Character['Aimbot Position'].Value 
+                            end
+                        end
+                        return old(unpack(args))
+                    end
+                end
+            end
+            return old(...)
+        end
+    )
+
+]]) 
+loadstring([[
+    local gt = getrawmetatable(game)
+    local old = gt.__namecall
+    setreadonly(gt,false)
+    gt.__namecall = newcclosure(function(...)
+        local args = {...}
+        if getnamecallmethod() == "InvokeServer" then 
+            if tostring(args[2]) == "TAP" then
+                if (game.Players.LocalPlayer.Character['Aimbot'].Value) and (game.Players.LocalPlayer.Character['Aimbot Position'].Value) then
+                    if game.Players.LocalPlayer.Character['Aimbot Position'].Value then 
+                        args[3] = game.Players.LocalPlayer.Character['Aimbot Position'].Value 
+                    end
+                end
+            end
+        end
+        return old(unpack(args))
+    end)
+]])
 LoadPlayer()
