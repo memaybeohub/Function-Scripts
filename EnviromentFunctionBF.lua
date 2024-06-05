@@ -1189,7 +1189,7 @@ RunService.Heartbeat:Connect(function()
         for i,v in pairs(game.workspace:GetChildren()) do 
             if v.Name:find('Fruit') then 
                 table.insert(getgenv().ServerData['Workspace Fruits'],{
-                    Name = ReturnFruitNameWithId(v)
+                    Name = ReturnFruitNameWithId(v),
                     Fruit = v 
                 })
             end
