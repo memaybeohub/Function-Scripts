@@ -689,34 +689,21 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
-            task.delay(0.5  ,function()
+            task.delay(0.3  ,function()
                 BringMob(MobInstance, LockCFrame) 
             end)            
-            MobInstance.ChildAdded:Connect(function(NewChild)
-                if NewChild.ClassName == 'Vector3Value' then 
-                    MobUsingSkill = true
-                    repeat task.wait(.1) until not NewChild or not NewChild.Parent 
-                    MobUsingSkill = false 
-                end
-            end)
             repeat
                 KillingMob = true
                 KillingMobTick = tick()
                 OnlyVelocity(true)
                 EquipWeapon()
-                if not MobUsingSkill then 
-                    TweenKill(MobInstance)
-                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
-                else
-                    game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,300,0)
-                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
-                    task.wait(1)
-                end
+                TweenKill(MobInstance)
+                game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
                 --game.Players.LocalPlayer.Character['Aimbot'].Value = true
                 --game.Players.LocalPlayer.Character['Aimbot Position'].Value = MobInstance.PrimaryPart.Position
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
-            MobInstance.Humanoid.Health <= 0 or
-                CheckIsRaiding() or not IsPlayerAlive()
+            MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
+                CheckIsRaiding()
             KillingMobTick = 0
             KillingMob = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
@@ -826,9 +813,15 @@ function BringMob(TAR,V5)
                             __.CanCollide = false 
                         end
                     end
-                    v.HumanoidRootPart:GetPropertyChangedSignal('Position'):Connect(function()
+                    --[[
+                                        v.HumanoidRootPart:GetPropertyChangedSignal('Position'):Connect(function()
                         v.HumanoidRootPart.CFrame = V6
                     end)
+                    ]]
+                    local newBodyPos = Instance.new('BodyPosition',v)
+                    newBodyPos.Position = V6.Position
+                    newBodyPos.MaxForce = Vector3.new(9e9,9e9,9e9)
+                    newBodyPos.D = 10000
                 end
             end
         end)
