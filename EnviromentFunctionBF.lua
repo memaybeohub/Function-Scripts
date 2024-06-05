@@ -1022,7 +1022,7 @@ end
 function CheckQuestByLevel(cq)
     local cq = cq or {} 
     local lvlPl = cq.Level or game.Players.LocalPlayer.Data.Level.Value 
-    local DoubleQuest = or cq.DoubleQuest or false 
+    local DoubleQuest = cq.DoubleQuest or false 
     local Returner = {
         ["LevelReq"] = 0,
         ["Mob"] = "",
