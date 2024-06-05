@@ -113,7 +113,7 @@ local function getMid(vName,gg)
             else
                 allplus = allplus+v.Position 
             end
-            total+=1
+            total = total+1
         end
     end
     if allplus then return allplus/total end 
@@ -122,7 +122,7 @@ local lss = 0
 for i,v in pairs(game.Workspace.MobSpawns:GetChildren()) do 
     if not MobSpawnClone[v.Name] then 
         MobSpawnClone[v.Name] = CFrame.new(getMid(v.Name,game.Workspace.MobSpawns:GetChildren()))
-        lss+=1
+        lss = lss +1
     end 
 end
 warn('Loaded total',lss,' mobs middle spawns')
@@ -1116,7 +1116,7 @@ function GetQuest(QuestTables)
     end
 end
 function FarmMobByLevel(level)
-    if not level then level = game.Players.LocalPlayer.Data.Level.Value
+    if not level then level = game.Players.LocalPlayer.Data.Level.Value end
     local NewQuest = CheckQuestByLevel({
         Level = level,
         DoubleQuest = true 
