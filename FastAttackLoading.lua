@@ -49,11 +49,19 @@ function getHits(Size)
 end
 
 function Boost()
-    game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(CurveFuckWeapon()))
+    task.spawn(function()
+        pcall(function()
+            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(CurveFuckWeapon()))
+        end)
+    end)
 end
 
 function Unboost()
-    game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("unequipWeapon", tostring(CurveFuckWeapon()))
+    task.spawn(function()
+        pcall(function()
+            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("unequipWeapon", tostring(CurveFuckWeapon()))
+        end)
+    end)
 end
 
 local cdnormal = 0

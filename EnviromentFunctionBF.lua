@@ -125,6 +125,7 @@ for i,v in pairs(game.Workspace.MobSpawns:GetChildren()) do
         lss+=1
     end 
 end
+warn('Loaded total',lss,' mobs middle spawns')
 function GetMobSpawnList(a)
     local a = RemoveLevelTitle(a)
     k = {}
@@ -689,8 +690,12 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
-            task.delay(0.3  ,function()
-                BringMob(MobInstance, LockCFrame) 
+            task.delay(0 ,function()
+                if GetDistance(MobInstance.PrimaryPart) < 100 then 
+                    BringMob(MobInstance, LockCFrame) 
+                else
+                    repeat task.wait() until GetDistance(MobInstance.PrimaryPart * CFrame.new(0,40,0)) < 50
+                    BringMob(MobInstance, LockCFrame) 
             end)            
             repeat
                 task.wait()
@@ -700,6 +705,7 @@ function KillNigga(MobInstance)
                 EquipWeapon()
                 TweenKill(MobInstance)
                 game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
+                MobInstance.Head.Anchored = true
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
                 CheckIsRaiding()
@@ -984,6 +990,111 @@ function EquipAllWeapon()
         if not IsWpSKillLoaded(v) then
             EquipWeaponName(v)
         end
+    end
+end
+local GuideModule = require(game:GetService("ReplicatedStorage").GuideModule)
+local Quest = require(game:GetService("ReplicatedStorage").Quests) 
+local v17 = require(game.ReplicatedStorage:WaitForChild("GuideModule"))
+local CFrameByLevelQuest = {} 
+local UselessQuest = {
+    "BartiloQuest",
+    "Trainees",
+    "MarineQuest",
+    "CitizenQuest"
+}
+for i,v in pairs(GuideModule["Data"].NPCList) do
+	for i1,v1 in pairs(v["Levels"]) do
+		if not CFrameByLevelQuest[v1] then 
+            CFrameByLevelQuest[v1] = i.CFrame 
+        end
+	end
+end  
+function IsHavingQuest()
+    for i, v in next, v17.Data do
+        if i == "QuestData" then
+            return true
+        end
+    end
+    return false
+end 
+function CheckCurrentQuestMob()
+    local a
+    if IsHavingQuest() then
+        for i, v in next, v17.Data.QuestData.Task do
+            a = i
+        end
+    end
+    return a
+end
+function CheckQuestByLevel(cq)
+    local cq = cq or {} 
+    local lvlPl = cq.Level or game.Players.LocalPlayer.Data.Level.Value 
+    local DoubleQuest = Config["Double Quest"] or cq.DoubleQuest or false 
+    local Returner = {
+        ["LevelReq"] = 0,
+        ["Mob"] = "",
+        ["QuestName"] = "",
+        ["QuestId"] = 0,
+    }
+    for i, v in pairs(Quest) do
+        for i1, v1 in pairs(v) do
+            local lvlreq = v1.LevelReq
+            for i2, v2 in pairs(v1.Task) do
+                if
+                    lvlPl >= lvlreq and lvlreq >= Returner["LevelReq"] and v1.Task[i2] > 1 and
+                        not table.find(UselessQuest, tostring(i))
+                then
+                    Returner["LevelReq"] = lvlreq 
+                    Returner["Mob"] = tostring(i2) 
+                    Returner["QuestName"] = i 
+                    Returner["QuestId"] = i1
+                end
+            end
+        end
+    end
+    if DoubleQuest and IsHavingQuest() then 
+        local CurrentMob = Returner["Mob"]
+        if
+        lvlPl >= 10 and IsHavingQuest() and
+            CheckCurrentQuestMob() == Returner["Mob"]
+        then
+            for i, v in pairs(Quest) do
+                for i1, v1 in pairs(v) do
+                    for i2, v2 in pairs(v1.Task) do
+                        if tostring(i2) == tostring(CurrentMob) then
+                            for quest1, quest2 in next, v do
+                                for quest3, quest4 in next, quest2.Task do
+                                    if tostring(quest3) ~= tostring(CurrentMob) and quest4 > 1 then
+                                        if quest2.LevelReq <= lvlPl then
+                                            Returner["Mob"]  = tostring(quest3)
+                                            Returner["QuestName"]  = i
+                                            Returner["QuestId"] = quest1 
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    Returner["QuestCFrame"] = CFrameByLevelQuest[Returner["LevelReq"]]
+    return Returner
+end
+function GetQuest(QuestTables) 
+    if game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then
+        return
+    end 
+    if not QuestTables or not QuestTables["Mob"] or not QuestTables["QuestName"] or not QuestTables["LevelReq"] or not QuestTables["QuestId"] or not QuestTables["QuestCFrame"] then 
+        QuestTables = CheckQuestByLevel()
+    end
+    if GetDistance(QuestTables.QuestCFrame) <= 8 then 
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", tostring(QuestTables["QuestName"]), QuestTables["QuestId"])
+        wait(1.75)
+    else
+        TweenKillInstant(QuestTables["QuestCFrame"] * CFrame.new(0,0,-2))
+        task.wait(1)
     end
 end
 getgenv().ServerData["Inventory Items"] = {}
