@@ -1037,6 +1037,7 @@ loadstring([[
         function(...)
             local method = getnamecallmethod()
             local args = {...}
+            if not game.Players.LocalPlayer.Character['Aimbot'].Value or not game.Players.LocalPlayer.Character['Aimbot Position'].Value then return end
             if tostring(method) == "FireServer" then
                 if tostring(args[1]) == "RemoteEvent" then
                     if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
@@ -1060,6 +1061,7 @@ loadstring([[
     setreadonly(gt,false)
     gt.__namecall = newcclosure(function(...)
         local args = {...}
+        if not game.Players.LocalPlayer.Character['Aimbot'].Value or not game.Players.LocalPlayer.Character['Aimbot Position'].Value then return end
         if getnamecallmethod() == "InvokeServer" then 
             if tostring(args[2]) == "TAP" then
                 if (game.Players.LocalPlayer.Character['Aimbot'].Value) and (game.Players.LocalPlayer.Character['Aimbot Position'].Value) then
