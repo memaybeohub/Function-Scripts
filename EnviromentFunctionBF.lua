@@ -1124,7 +1124,7 @@ function FarmMobByLevel(level)
     if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
         GetQuest(NewQuest)
     elseif CheckMob(CheckCurrentQuestMob()) then 
-        KillNigga(CheckCurrentQuestMob())
+        KillNigga(CheckMob(CheckCurrentQuestMob()))
     elseif getgenv().MobSpawnClone and getgenv().MobSpawnClone[CheckCurrentQuestMob()] then 
         Tweento(getgenv().MobSpawnClone[CheckCurrentQuestMob()] * CFrame.new(0,60,0))
     end
