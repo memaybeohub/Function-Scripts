@@ -669,7 +669,7 @@ function KillNigga(MobInstance)
     end)
     if not LS then print('ls',LS2) end
 end  
-function CheckMob(mobormoblist)
+function CheckMob(mobormoblist,rep)
     if typeof(mobormoblist) == 'table' then 
         for i,v in pairs(mobormoblist) do 
             for __,v2 in pairs(game.workspace.Enemies:GetChildren()) do 
@@ -678,10 +678,26 @@ function CheckMob(mobormoblist)
                 end
             end
         end
+        if rep then 
+            for i,v in pairs(mobormoblist) do 
+                for __,v2 in pairs(game.ReplicatedStorage:GetChildren()) do 
+                    if RemoveLevelTitle(v) == RemoveLevelTitle(v2.Name) and v2:FindFirstChild('Humanoid') and v2.Humanoid.Health > 0 then 
+                        return v2
+                    end
+                end
+            end
+        end
     else
         for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
             if RemoveLevelTitle(v.Name) == RemoveLevelTitle(mobormoblist) and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then 
                 return v
+            end
+        end
+        if rep then 
+            for i,v in pairs(game.ReplicatedStorage:GetChildren()) do 
+                if RemoveLevelTitle(v.Name) == RemoveLevelTitle(mobormoblist) and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then 
+                    return v
+                end
             end
         end
     end
