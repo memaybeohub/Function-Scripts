@@ -1,3 +1,27 @@
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer
+function Join(v2) 
+    v2 = tostring(v2) or "Pirates"
+    v2 = string.find(v2,"Marine") and "Marines" or "Pirates"
+    for i, v in pairs(
+        getconnections(
+            game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container[v2].Frame.TextButton.Activated
+        )
+    ) do
+        v.Function()
+    end
+end
+if not game.Players.LocalPlayer.Team then 
+    repeat
+        pcall(
+            function()
+                task.wait()
+                if game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Main"):FindFirstChild("ChooseTeam") then 
+                    Join(getgenv().Team)
+                end
+            end
+        )
+    until game.Players.LocalPlayer.Team ~= nil 
+end
 local RunService= game:GetService("RunService")
 function RemoveLevelTitle(v)
     return tostring(tostring(v):gsub(" %pLv. %d+%p", ""):gsub(" %pRaid Boss%p", ""):gsub(" %pBoss%p", ""))
@@ -350,6 +374,18 @@ local function LoadPlayer()
             FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
             FastAttackDelayIn.Value = 0.3
         end
+        if not game.Players.LocalPlayer.Character:FindFirstChild("Aimbot") then 
+            local AimBot_Togg = Instance.new("BoolValue")
+            AimBot_Togg.Parent = game.Players.LocalPlayer.Character
+            AimBot_Togg.Value = false
+            AimBot_Togg.Name = 'Aimbot'
+        end
+        if not game.Players.LocalPlayer.Character:FindFirstChild("Aimbot Position") then
+            local vector3Value = Instance.new("Vector3Value")
+            vector3Value.Name = "Aimbot Position"
+            vector3Value.Parent = game.Players.LocalPlayer.Character
+            vector3Value.Value = Vector3.new(1, 2, 3)
+        end
         if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then 
             wait(1)
             if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
@@ -369,6 +405,11 @@ local function LoadPlayer()
                     end
                 end)
             end
+            task.spawn(function()
+                if EquipAllWeapon then 
+                    EquipAllWeapon() 
+                end
+            end)
         end
     end
 end
@@ -548,7 +589,7 @@ function EnableBuso()
     end
 end  
 function GetWeapon(wptype)
-    s = ""
+    local s = ""
     for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
         if v:IsA("Tool") and v.ToolTip == wptype then
             s = v.Name
@@ -905,7 +946,50 @@ workspace._WorldOrigin.ChildAdded:Connect(function(v)
 end)
 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
-getgenv().ServerData = {}
+getgenv().ServerData = {} 
+function EquipWeaponName(fff)
+    if not fff then
+        return
+    end
+    NoClip = true
+    local ToolSe = fff
+    if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
+        local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
+        wait(.4)
+        game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
+    end
+end
+function IsWpSKillLoaded(ki)
+    if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills:FindFirstChild(ki) then
+        return true
+    end
+end
+function EquipAllWeapon()
+    local u3 = {
+        "Melee",
+        "Blox Fruit",
+        "Sword",
+        "Gun"
+    }
+    local u3_2 = {}
+    for i, v in pairs(u3) do
+        u3_3 = GetWeapon(v)
+        table.insert(u3_2, u3_3)
+    end
+    for i, v in pairs(u3_2) do
+        if not IsWpSKillLoaded(v) then
+            z(v)
+            EquipWeaponName(v)
+        end
+    end
+end
+for i,v in pairs(game.ReplicatedStorage.Effect.Container:GetChildren()) do 
+    if v.ClassName == 'ModuleScript' and typeof(require(v)) == 'function' then 
+        hookfunction(require(v),function() end)
+    end
+end
+getgenv().ServerData["Inventory Items"] = {}
+getgenv().ServerData['Skill Loaded'] = {}
 RunService.Heartbeat:Connect(function()
     if IsPlayerAlive() then 
         EnableBuso()
@@ -918,5 +1002,26 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end
+        for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
+            if not getgenv().ServerData["Inventory Items"][v.Name] then 
+                getgenv().ServerData["Inventory Items"][v.Name] = v 
+            end 
+        end
+        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills:GetChildren()) do 
+            if not table.find({'Title','Container','Level','StarContainer','Rage'},v.Name) then 
+                if not getgenv().ServerData['Skill Loaded'][v.Name] then 
+                    getgenv().ServerData['Skill Loaded'][v.Name] = {}
+                end 
+                for i2,v2 in pairs(v:GetChildren()) do 
+                    if v2:IsA("Frame") then
+                        if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1))
+                         then
+                            getgenv().ServerData['Skill Loaded'][v2.Name] = true 
+                        end
+                    end
+                end
+            end
+        end 
     end
 end)
+LoadPlayer()
