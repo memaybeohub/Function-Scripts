@@ -693,7 +693,7 @@ function KillNigga(MobInstance)
                 BringMob(MobInstance, LockCFrame) 
             end)            
             MobInstance.ChildAdded:Connect(function(NewChild)
-                if NewChild.ClassName = 'Vector3Value' then 
+                if NewChild.ClassName == 'Vector3Value' then 
                     MobUsingSkill = true
                     repeat task.wait() until not NewChild or not NewChild.Parent 
                     MobUsingSkill = false 
