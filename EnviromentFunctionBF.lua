@@ -694,7 +694,7 @@ function KillNigga(MobInstance)
                 if GetDistance(MobInstance.PrimaryPart) < 100 then 
                     BringMob(MobInstance, LockCFrame) 
                 else
-                    repeat task.wait() until GetDistance(MobInstance.PrimaryPart * CFrame.new(0,40,0)) < 50
+                    repeat task.wait() until GetDistance(MobInstance.PrimaryPart.CFrame * CFrame.new(0,40,0)) < 50
                     BringMob(MobInstance, LockCFrame) 
                 end
             end)            
