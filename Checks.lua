@@ -8,21 +8,41 @@ task.delay(.1,function()
                 getgenv().CurrentTask = 'Saber Quest'
             elseif getgenv().ServerData['PlayerData'].Level > 150 
             and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
-            and (getgenv().ServerData['Server Bosses']['Thunder God']) or getgenv().ServerData['PlayerData'].Level > 500 then 
+            and (getgenv().ServerData['Server Bosses']['Thunder God']) then --or getgenv().ServerData['PlayerData'].Level > 500 then 
                 getgenv().CurrentTask = 'Pole Quest'
+            elseif getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
+                getgenv().CurrentTask = 'Sea 2 Quest'
             end 
         end
     end
 end)
-AutoPole = function()
-    if getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] then 
-        getgenv().CurrentTask = ''
-        return
-    end 
-    if getgenv().ServerData['Server Bosses']['Thunder God'] then 
-        KillBoss(getgenv().ServerData['Server Bosses']['Thunder God'])
-    elseif getgenv().ServerData['PlayerData'].Level > 500 then 
-        HopServer(9,true)
+
+
+AutoSea2 = function()  
+    --getgenv().ServerData["PlayerBackpack"]['Cup']
+    if game.Workspace.Map.Ice.Door.CanCollide then
+        if not getgenv().ServerData["PlayerBackpack"]['Key'] then 
+            Tweento(CFrame.new(4852.2895507813, 5.651451587677, 718.53070068359))
+            if GetDistance(CFrame.new(4852.2895507813, 5.651451587677, 718.53070068359)) < 5 then
+                game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("DressrosaQuestProgress", "Detective")
+                if getgenv().ServerData["PlayerBackpack"]['Key'] then EquipWeaponName("Key") end
+            end 
+        else
+            EquipWeaponName("Key")
+            if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Key") then
+                Tweento(game.Workspace.Map.Ice.Door.CFrame)
+            end
+        end
+    else
+        if getgenv().ServerData['Server Bosses']['Ice Admiral'] then 
+            KillBoss(getgenv().ServerData['Server Bosses']['Ice Admiral']) 
+            local args = {
+                [1] = "TravelDressrosa"
+            }
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+        elseif getgenv().ServerData['PlayerData'].Level >= 700 then 
+            HopServer(9,true)
+        end
     end
 end
 
@@ -40,6 +60,24 @@ end
 
 
 
+
+
+
+
+
+
+
+AutoPole = function()
+    if getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] then 
+        getgenv().CurrentTask = ''
+        return
+    end 
+    if getgenv().ServerData['Server Bosses']['Thunder God'] then 
+        KillBoss(getgenv().ServerData['Server Bosses']['Thunder God'])
+    elseif getgenv().ServerData['PlayerData'].Level > 500 then 
+        HopServer(9,true)
+    end
+end
 local function IsUnlockedSaberDoor()
     for i, v in next, game:GetService("Workspace").Map.Jungle.Final:GetChildren() do
         if v:IsA("Part") and not v.CanCollide then
