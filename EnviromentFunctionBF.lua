@@ -1172,7 +1172,11 @@ function GetQuest(QuestTables)
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", tostring(QuestTables["QuestName"]), QuestTables["QuestId"])
         wait(1.75)
     else
-        TweenKillInstant(QuestTables["QuestCFrame"] * CFrame.new(0,0,-2))
+        if GetDistance(QuestTables["QuestCFrame"] * CFrame.new(0,0,-2)) < 1000 then 
+            TweenKillInstant(QuestTables["QuestCFrame"] * CFrame.new(0,0,-2))
+        else 
+            Tweento(QuestTables["QuestCFrame"] * CFrame.new(0,0,-2))
+        end
         task.wait(1)
     end
 end
