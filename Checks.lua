@@ -36,9 +36,12 @@ local function CupDoor()
 end
 AutoSaber = function()
     task.wait()
+    warn('auto saber',getgenv().CurrentTask)
+    wait(3)
     local RichSonProgress = -999
     if getgenv().ServerData["Inventory Items"]["Saber"] then 
         getgenv().CurrentTask = ''
+        wait(1)
         return
     end
     warn('getgenv().CurrentTask',getgenv().CurrentTask)
