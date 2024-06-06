@@ -1221,12 +1221,15 @@ RunService.Heartbeat:Connect(function()
         EnableBuso()
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
-        if KillingMob then 
+        if KillingMob or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
+            AddBodyVelocity(true)
             for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
                 if v:IsA("BasePart") or v:IsA("Part") then 
                     v.CanCollide = false 
                 end
             end
+        else
+            AddBodyVelocity(false)
         end
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
             if not getgenv().ServerData["Inventory Items"][v.Name] then 
