@@ -12,7 +12,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Sea 2 Quest'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
             getgenv().CurrentTask = 'Bartilo Quest'
-        elseif Sea2 and getgenv().ServerData['PlayerData'].Beli >= 500000 and getgenv().ServerData["Inventory Items"]["Warrior Helmet"] and getgenv().ServerData['PlayerData'].RaceVer == 'V2' then 
+        elseif Sea2 and getgenv().ServerData['PlayerData'].Beli >= 500000 and getgenv().ServerData["Inventory Items"]["Warrior Helmet"] and getgenv().ServerData['PlayerData'].RaceVer == 'V1' then 
             getgenv().CurrentTask = 'Race V2 Quest'
         end 
     end
