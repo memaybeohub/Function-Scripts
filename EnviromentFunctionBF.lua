@@ -1170,7 +1170,7 @@ function CheckQuestByLevel(cq)
             for i2, v2 in pairs(v1.Task) do
                 if
                     lvlPl >= lvlreq and lvlreq >= Returner["LevelReq"] and v1.Task[i2] > 1 and
-                        not table.find(UselessQuest, tostring(i))
+                        not table.find(UselessQuest, tostring(i)) and MobSpawnClone[tostring(i)]
                 then
                     Returner["LevelReq"] = lvlreq 
                     Returner["Mob"] = tostring(i2) 
@@ -1242,7 +1242,7 @@ function GetQuest(QuestTables)
     if not QuestTables or not QuestTables["Mob"] or not QuestTables["QuestName"] or not QuestTables["LevelReq"] or not QuestTables["QuestId"] or not QuestTables["QuestCFrame"] then 
         QuestTables = CheckQuestByLevel()
     end
-    if GetDistance(QuestTables.QuestCFrame) <= 8 then 
+    if QuestTables.QuestCFrame and GetDistance(QuestTables.QuestCFrame) <= 8 then 
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", tostring(QuestTables["QuestName"]), QuestTables["QuestId"])
         wait(1.75)
     else
@@ -1484,4 +1484,5 @@ task.spawn(function()
     warn('Disabled',lee,"effects")
 end)
 warn('Loaded Success Full!')
+getgenv().EnLoaded = true
 LoadPlayer()

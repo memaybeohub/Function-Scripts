@@ -1,4 +1,4 @@
-repeat task.wait(1) until getgenv().ServerData 
+repeat task.wait(1) until getgenv().EnLoaded 
 getgenv().CurrentTask = ""
 task.delay(1,function()
     while task.wait() do 
