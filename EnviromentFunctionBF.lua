@@ -693,17 +693,22 @@ function KillNigga(MobInstance)
                 end
             end
             task.delay(.1 ,function()
-                repeat task.wait() until GetDistance(MobInstance.PrimaryPart)
+                repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 100
                 BringMob(MobInstance, LockCFrame) 
             end)            
             repeat
                 task.wait()
-                KillingMob = true
-                KillingMobTick = tick()
-                AddBodyVelocity(true)
-                EquipWeapon()
-                TweenKill(MobInstance)
-                game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
+                if IsPlayerAlive() then 
+                    KillingMob = true
+                    KillingMobTick = tick()
+                    AddBodyVelocity(true)
+                    EquipWeapon()
+                    TweenKill(MobInstance)
+                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
+                else 
+                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
+                    wait(1)
+                end
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
                 CheckIsRaiding()
@@ -951,18 +956,19 @@ function KillPlayer(PlayerName)
                         game.Players.LocalPlayer.Character['Fast Attack'].Value = false
                     until tick()-getNeartick > 5 and tick()-getNeartick < 100
                 elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
+                    KillingMob = true
                     EquipWeapon()
                     task.spawn(function()
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
                     end)
                     Click()
                     game.Players.LocalPlayer.Character['Fast Attack'].Value = true
+                    game.Players.LocalPlayer.Character['Aimbot Position'].Value = tRoot.Position
+                    game.Players.LocalPlayer.Character['Aimbot'].Value = true
                     SendKey('Z')
                     SendKey("Q")
                     SendKey('X')
                     SendKey("Q")
-                    game.Players.LocalPlayer.Character['Aimbot Position'].Value = tRoot.Position
-                    game.Players.LocalPlayer.Character['Aimbot'].Value = true
                 end
             else
                 Tweento(tRoot.CFrame * CFrame.new(0,0,10))
@@ -972,6 +978,7 @@ function KillPlayer(PlayerName)
         end
     until cancelKill or IsSafeZone or tick()-StartKillTick > 60 or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
     cancelKill = false 
+    KillingMob = false
     StartKillTick = tick()
     game.Players.LocalPlayer.Character['Fast Attack'].Value = false
     game.Players.LocalPlayer.Character['Aimbot Position'].Value = Vector3.new(0,0,0)
@@ -1372,7 +1379,8 @@ loadstring([[
                     if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
                         if (game.Players.LocalPlayer.Character['Aimbot'].Value) and (game.Players.LocalPlayer.Character['Aimbot Position'].Value) then
                             if game.Players.LocalPlayer.Character['Aimbot Position'].Value then 
-                                args[2] = game.Players.LocalPlayer.Character['Aimbot Position'].Value 
+                                args[2] = game.Players.LocalPlayer.Character['Aimbot Position'].Value
+                                warn('Hook Success') 
                             end
                         end
                         return old(unpack(args))
