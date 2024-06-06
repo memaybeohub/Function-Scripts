@@ -1331,6 +1331,9 @@ end
 for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
     LoadBoss(v) 
 end
+for i,v in pairs(game.ReplicatedStorage:GetChildren()) do 
+    LoadBoss(v)
+end
 workspace.Enemies.ChildAdded:Connect(LoadBoss)
 
 RunService.Heartbeat:Connect(function()
