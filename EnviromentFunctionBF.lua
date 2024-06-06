@@ -978,7 +978,7 @@ function KillPlayer(PlayerName)
                     end
                 end
             else
-                Tweento(tRoot.CFrame * CFrame.new(0,0,10))
+                Tweento(tRoot.CFrame * CFrame.new(0,30,))
             end 
         else
             getNeartick = tick()-5555
