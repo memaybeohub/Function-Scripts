@@ -1310,22 +1310,28 @@ getgenv().ServerData["Inventory Items"] = {}
 getgenv().ServerData['Skill Loaded'] = {}
 getgenv().ServerData['Workspace Fruits'] = {}
 getgenv().ServerData['Server Bosses'] = {}
-workspace.Enemies.ChildAdded:Connect(function(v)
+function LoadBoss(v) 
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart')
-    local Hum = v:WaitForChild('Humanoid',5)
-    if v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') then 
+    local Hum = v:WaitForChild('Humanoid',1)
+    if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') and not table.find(getgenv().ServerData['Server Bosses'],v) then 
         table.insert(getgenv().ServerData['Server Bosses'],v)
+        warn('Added New Boss:',v.Name)
+    else
+        return
     end
     v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
-        if v.Humanoid.Health <= 0 and table.find(getgenv().ServerData['Server Bosses'],v) then 
-            for i2,v2 in pairs(getgenv().ServerData['Server Bosses']) do 
-                if v2.Name == v.Name or v2 == v then 
-                    table.remove(getgenv().ServerData['Server Bosses'],i2)
-                end 
+        if v.Humanoid.Health <= 0 then  
+            while table.find(getgenv().ServerData['Server Bosses'],v) and task.wait(.1) do 
+                table.remove(getgenv().ServerData['Server Bosses'],table.find(getgenv().ServerData['Server Bosses'],v))
             end
+            return
         end
     end)
-end)
+end
+for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
+    LoadBoss(v) 
+end
+workspace.Enemies.ChildAdded:Connect(LoadBoss)
 
 RunService.Heartbeat:Connect(function()
     if IsPlayerAlive() then 
