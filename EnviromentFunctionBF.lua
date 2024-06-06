@@ -926,6 +926,9 @@ function KillPlayer(PlayerName)
                     if tick()-getNeartick > 1000 then 
                         getNeartick = tick()
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,15)
+                        repeat task.wait()
+                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,15)
+                        until tick()-getNeartick > 4.99
                     elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
                         EquipWeapon()
                         task.spawn(function()
