@@ -74,6 +74,7 @@ AutoPole = function()
     end 
     if getgenv().ServerData['Server Bosses']['Thunder God'] then 
         KillBoss(getgenv().ServerData['Server Bosses']['Thunder God'])
+        getgenv().CurrentTask = ''
     elseif getgenv().ServerData['PlayerData'].Level > 500 then 
         HopServer(9,true)
     end
@@ -109,6 +110,7 @@ AutoSaber = function()
         warn('Killing Shanks...')
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert']) 
+            getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level > 500 then 
             HopServer(9,true)
         end 
