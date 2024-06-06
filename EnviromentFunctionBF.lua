@@ -1418,7 +1418,21 @@ for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
             LoadBoss(v)
         end)
     end
-end
+end 
+function CheckRaceVer()
+    local v113 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1")
+    local v111 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Alchemist", "1")
+    if game.Players.LocalPlayer.Character:FindFirstChild("RaceTransformed") then
+        return "V4"
+    end
+    if v113 == -2 then
+        return "V3"
+    end
+    if v111 == -2 then
+        return "V2"
+    end
+    return "V1"
+end 
 workspace.Enemies.ChildAdded:Connect(LoadBoss)
 game.ReplicatedStorage.ChildAdded:Connect(LoadBoss)
 RunService.Heartbeat:Connect(function()
@@ -1488,6 +1502,7 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end  
+        getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer()
     end
 end)
 loadstring([[

@@ -12,6 +12,8 @@ function refreshTask()
             getgenv().CurrentTask = 'Sea 2 Quest'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
             getgenv().CurrentTask = 'Bartilo Quest'
+        elseif Sea2 and getgenv().ServerData['PlayerData'].Beli >= 500000 and getgenv().ServerData["Inventory Items"]["Warrior Helmet"] and getgenv().ServerData['PlayerData'].RaceVer == 'V2' then 
+            getgenv().CurrentTask = 'Race V2 Quest'
         end 
     end
 end
@@ -21,6 +23,33 @@ task.delay(.1,function()
         refreshTask()
     end
 end)
+
+AutoRaceV2 = function()
+    if getgenv().ServerData["PlayerBackpack"]['Flower 1'] and getgenv().ServerData["PlayerBackpack"]['Flower 2'] and getgenv().ServerData["PlayerBackpack"]['Flower 3'] then 
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist", "3")
+        wait(5)
+        getgenv().CurrentTask = ''
+        return
+    else
+        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Alchemist", "1")
+        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Alchemist", "2") 
+        if not getgenv().ServerData["PlayerBackpack"]['Flower 1'] then 
+            if workspace.Flower1.Transparency ~= 1 then
+                Tweento(workspace.Flower1.CFrame)
+            else 
+                HopServer(10,true)
+            end
+        elseif not getgenv().ServerData["PlayerBackpack"]['Flower 2'] then
+            Tweento(workspace.Flower2.CFrame)
+        else
+            KillMobList({"Swan Pirate"})
+        end
+    end
+end
+
+
+
+
 
 AutoBartiloQuest = function()
     local QuestBartiloId = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo")
@@ -90,28 +119,10 @@ AutoBartiloQuest = function()
                 task.wait(.5)
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                 CFrame.new(-1813.51843, 14.8604736, 1724.79541)
+                refreshTask()
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 AutoSea2 = function()  
     --getgenv().ServerData["PlayerBackpack"]['Cup']
     if game.Workspace.Map.Ice.Door.CanCollide then
