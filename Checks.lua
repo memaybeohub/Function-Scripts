@@ -8,7 +8,7 @@ task.delay(1,function()
             elseif getgenv().ServerData['PlayerData'].Level.Value > 150 
             and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
             and getgenv().ServerData['Server Bosses']['Thunder God'] then 
-                getgenv().CurrentTask = 'Pole Quest
+                getgenv().CurrentTask = 'Pole Quest'
             end 
         end
     end
