@@ -58,8 +58,8 @@ AutoSaber = function()
         if Template then 
             Tweento(Template.Part.CFrame)
             if GetDistance(Template.Part) < 10 then 
-                firetouchinterest(Template.Button.TouchInterest,game.Players.LocalPlayer.Character.HumanoidRootPart,1)
-                firetouchinterest(Template.Button.TouchInterest,game.Players.LocalPlayer.Character.HumanoidRootPart,0)
+                --firetouchinterest(Template.Button.TouchInterest,game.Players.LocalPlayer.Character.HumanoidRootPart,1)
+                --firetouchinterest(Template.Button.TouchInterest,game.Players.LocalPlayer.Character.HumanoidRootPart,0)
             end
         end
     elseif CupDoor() then 
@@ -69,8 +69,8 @@ AutoSaber = function()
             if not getgenv().ServerData["PlayerBackpack"]['Cup'] then 
                 Tweento(CFrame.new(1113.66992,7.5484705,4365.27832,-0.78613919,-2.19578524e-08,-0.618049502,1.02977182e-09,1,-3.68374984e-08,0.618049502,-2.95958493e-08,-0.78613919)) 
                 if GetDistance(CFrame.new(1113.66992,7.5484705,4365.27832,-0.78613919,-2.19578524e-08,-0.618049502,1.02977182e-09,1,-3.68374984e-08,0.618049502,-2.95958493e-08,-0.78613919)) < 10 then 
-                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Map.Desert.Cup,1)
-                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Map.Desert.Cup,0)
+                    --firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Map.Desert.Cup,1)
+                    --firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Map.Desert.Cup,0)
                     wait(1)
                 end 
             else
@@ -113,8 +113,8 @@ AutoSaber = function()
             EquipWeaponName("Torch") 
             Tweento(CFrame.new(1115.23499,4.92147732,4349.36963,-0.670654476,-2.18307523e-08,0.74176991,-9.06980624e-09,1,2.1230365e-08,-0.74176991,7.51052998e-09,-0.670654476))
             if GetDistance(CFrame.new(1115.23499,4.92147732,4349.36963,-0.670654476,-2.18307523e-08,0.74176991,-9.06980624e-09,1,2.1230365e-08,-0.74176991,7.51052998e-09,-0.670654476)) < 10 then 
-                firetouchinterest(game:GetService("Workspace").Map.Desert.Burn.Fire,game.Players.LocalPlayer.Character.Torch.Handle,1)
-                firetouchinterest(game:GetService("Workspace").Map.Desert.Burn.Fire,game.Players.LocalPlayer.Character.Torch.Handle,0)
+                --firetouchinterest(game:GetService("Workspace").Map.Desert.Burn.Fire,game.Players.LocalPlayer.Character.Torch.Handle,1)
+                --firetouchinterest(game:GetService("Workspace").Map.Desert.Burn.Fire,game.Players.LocalPlayer.Character.Torch.Handle,0)
             end
         end  
     end
