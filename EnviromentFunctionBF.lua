@@ -80,10 +80,10 @@ for i, v in pairs(getnilinstances()) do
         table.insert(MobOutFolder, v)
     end
 end
-
+local l1 = {}
 function ReCreateMobFolder()
-    local l1 = {}
     local MobNew
+    l1 = {}
     for i,v in pairs(MobOutFolder) do 
         if v then
             if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
@@ -128,6 +128,14 @@ for i,v in pairs(game.Workspace.MobSpawns:GetChildren()) do
     end 
 end
 warn('Loaded total',lss,' mobs middle spawns')
+if lss ~= #l1 then 
+    warn('Missing:')
+    for i,v in pairs(l1) do 
+        if not table.find(MobSpawnClone[v]) then 
+            warn(i)
+        end
+    end
+end
 getgenv().MobSpawnClone = MobSpawnClone
 function GetMobSpawnList(a)
     local a = RemoveLevelTitle(a)
