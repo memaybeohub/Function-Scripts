@@ -943,33 +943,26 @@ function KillPlayer(PlayerName)
             end
             totRoot = GetDistance(tRoot)
             game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.X,tRoot.CFrame.Y,game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z)
-            if totRoot < 290 then 
-                if totRoot < 50 then 
-                    if tick()-getNeartick > 1000 then 
-                        getNeartick = tick()
-                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,15)
-                        repeat task.wait()
-                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,15)
-                        until tick()-getNeartick > 4.99
-                    elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
-                        EquipWeapon()
-                        task.spawn(function()
-                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,3)
-                        end)
-                        Click()
-                        game.Players.LocalPlayer.Character['Fast Attack'].Value = true 
-                        if getgenv().ServerData['Skill Loaded'][GetWeapon('Melee')] then 
-                            for i,v in pairs(getgenv().ServerData['Skill Loaded'][GetWeapon('Melee')]) do 
-                                if v then 
-                                    SendKey(i,.3)
-                                end
-                            end
-                        end
-
-                    end
+            if totRoot < 50 then 
+                if tick()-getNeartick > 100 then 
+                    getNeartick = tick()
+                    repeat task.wait()
+                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,10)
+                    until tick()-getNeartick > 5 and tick()-getNeartick < 100
+                elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
+                    EquipWeapon()
+                    task.spawn(function()
+                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
+                    end)
+                    Click()
+                    game.Players.LocalPlayer.Character['Fast Attack'].Value = true
+                    SendKey('Z')
+                    SendKey("Q")
+                    SendKey('X')
+                    SendKey("Q")
                 end
             else
-                Tweento(tRoot.CFrame * CFrame.new(0,0,15))
+                Tweento(tRoot.CFrame * CFrame.new(0,0,10))
             end 
         else
             getNeartick = tick()-5555
