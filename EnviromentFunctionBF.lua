@@ -912,7 +912,6 @@ function KillPlayer(PlayerName)
     local tHumanoid = t:FindFirstChild('Humanoid')
     local getNeartick = tick()-5555
     local totRoot = GetDistance(tRoot)
-    warn('Yes skibi')
     repeat 
         task.wait()
         if IsPlayerAlive() then 
@@ -1190,9 +1189,6 @@ function FarmMobByLevel(level)
         Level = level,
         DoubleQuest = true 
     }) 
-    local chck = ''
-    for i2,v2 in pairs(NewQuest) do chck = chck.." "..tostring(v2)  end 
-    warn(chck)
     if level <= game.Players.LocalPlayer.Data.Level.Value and not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
         GetQuest(NewQuest)
     elseif CheckMob(CheckCurrentQuestMob()) then 
