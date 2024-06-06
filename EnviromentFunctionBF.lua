@@ -1,4 +1,5 @@
-repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer 
+getgenv().ServerData = {} 
 function Join(v2) 
     v2 = tostring(v2) or "Pirates"
     v2 = string.find(v2,"Marine") and "Marines" or "Pirates"
@@ -389,6 +390,17 @@ local function LoadPlayer()
             vector3Value.Parent = game.Players.LocalPlayer.Character
             vector3Value.Value = Vector3.new(1, 2, 3)
         end
+        getgenv().ServerData["PlayerBackpack"] = {}
+        for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
+            if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
+                getgenv().ServerData["PlayerBackpack"][v.Name] = v 
+            end
+        end 
+        for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+            if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
+                getgenv().ServerData["PlayerBackpack"][v.Name] = v 
+            end
+        end 
         if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then 
             wait(1)
             if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
@@ -396,8 +408,19 @@ local function LoadPlayer()
                 TweenAccess.Name = "Teleport Access"
                 TweenAccess.Parent = game.Players.LocalPlayer.Character 
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function()
+                    getgenv().ServerData["PlayerBackpack"] = {}
+                    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
+                        if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
+                            getgenv().ServerData["PlayerBackpack"][v.Name] = v 
+                        end
+                    end 
+                    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+                        if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
+                            getgenv().ServerData["PlayerBackpack"][v.Name] = v 
+                        end
+                    end 
                     wait(.5)
-                    if IsPlayerAlive() then 
+                    if IsPlayerAlive() and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') then 
                         local bozo = require(game:GetService("ReplicatedStorage").ClientWeapons).divineart
                         for i,v in pairs(bozo) do 
                             if typeof(v) == 'function' then 
@@ -414,9 +437,9 @@ local function LoadPlayer()
                 end
             end)
         end
+
     end
 end
-LoadPlayer()
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
 getgenv().Ticktp = tick()
 function Tweento(targetCFrame)
@@ -784,6 +807,14 @@ function KillMobList(MobList)
         end
     end
 end
+function KillBoss(BossInstance)
+    if not BossInstance:FindFirstChild('Humanoid') then return end 
+    warn('Killing boss:',BossInstance.Name)
+    if not game.Workspace.Enemies:FindFirstChild(BossInstance.Name) then 
+        Tweento(BossInstance.PrimaryPart.CFrame * CFrame.new(0,50,0))
+    end
+    KillNigga(BossInstance)
+end
 function BringMob(TAR,V5)
     if not TAR then 
         return
@@ -1054,7 +1085,6 @@ workspace._WorldOrigin.ChildAdded:Connect(function(v)
 end)
 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
-getgenv().ServerData = {} 
 function EquipWeaponName(fff)
     if not fff then
         return
@@ -1306,28 +1336,32 @@ function collectAllFruit_Store()
         end
     end
 end
-getgenv().ServerData["Inventory Items"] = {}
-getgenv().ServerData['Skill Loaded'] = {}
-getgenv().ServerData['Workspace Fruits'] = {}
-getgenv().ServerData['Server Bosses'] = {}
 function LoadBoss(v) 
     local Root = v:WaitForChild('HumanoidRootPart')
     local Hum = v:WaitForChild('Humanoid')
-    if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') and not table.find(getgenv().ServerData['Server Bosses'],v) then 
-        table.insert(getgenv().ServerData['Server Bosses'],v)
-        warn('Added New Boss:',v.Name)
+    if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') and not getgenv().ServerData['Server Bosses'][v.Name] then 
+        getgenv().ServerData['Server Bosses'][v.Name] = v 
     else
         return
     end
     v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
         if v.Humanoid.Health <= 0 then  
-            while table.find(getgenv().ServerData['Server Bosses'],v) and task.wait(.1) do 
-                table.remove(getgenv().ServerData['Server Bosses'],table.find(getgenv().ServerData['Server Bosses'],v))
-            end
+            warn('Deleting:',v.Name)
+            local index = getgenv().ServerData['Server Bosses'][v.Name]
+            if index then
+                getgenv().ServerData['Server Bosses'][v.Name] = nil
+                warn('Delete Success!')
+            end            
             return
         end
     end)
-end
+end 
+getgenv().ServerData["Inventory Items"] = {}
+getgenv().ServerData['Skill Loaded'] = {}
+getgenv().ServerData['Workspace Fruits'] = {}
+getgenv().ServerData['Server Bosses'] = {}
+getgenv().ServerData['PlayerData'] = {}
+getgenv().ServerData["PlayerBackpack"] = {}
 for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
     LoadBoss(v) 
 end
@@ -1339,7 +1373,6 @@ for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
     end
 end
 workspace.Enemies.ChildAdded:Connect(LoadBoss)
-
 RunService.Heartbeat:Connect(function()
     if IsPlayerAlive() then 
         getgenv().ServerData['Workspace Fruits'] = {}
@@ -1384,6 +1417,13 @@ RunService.Heartbeat:Connect(function()
                 })
             end
         end
+        for i,v in pairs(game.Players.LocalPlayer.Data:GetChildren()) do 
+            if tostring(v.ClassName):find('Value') then 
+                if not getgenv().ServerData['PlayerData'][v.Name] then 
+                    getgenv().ServerData['PlayerData'][v.Name] = v.Value 
+                end
+            end
+        end  
     end
 end)
 loadstring([[
