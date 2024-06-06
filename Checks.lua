@@ -1,8 +1,9 @@
 repeat task.wait(1) until getgenv().EnLoaded 
 getgenv().CurrentTask = ""
 task.delay(1,function()
-    while task.wait() do 
-        task.wait()
+    while task.wait(1) do 
+        task.wait(1)
+        warn('getgenv().CurrentTask',getgenv().CurrentTask)
         if getgenv().CurrentTask == '' then 
             if getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
                 getgenv().CurrentTask = 'Saber Quest'
@@ -33,7 +34,8 @@ end
 local function CupDoor()
     return workspace.Map.Desert.Burn.Part.CanCollide == false
 end
-function AutoSaber()
+AutoSaber = function()
+    task.wait()
     local RichSonProgress = -999
     if getgenv().ServerData["Inventory Items"]["Saber"] then 
         getgenv().CurrentTask = ''
