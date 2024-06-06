@@ -1371,7 +1371,38 @@ function LoadBoss(v)
             return
         end
     end)
-end 
+end  
+function TeleportWorld(world)
+    if typeof(world) == "string" then
+        world = world:gsub(" ", ""):gsub("Sea", "")
+        world = tonumber(world)
+    end
+    if not CheckWorld(world) then
+        CreateUiNotify(
+            {
+                Content = "Teleporting to Sea: " .. tostring(world)
+            }
+        )
+    else
+        return
+    end
+    if world == 1 then
+        local args = {
+            [1] = "TravelMain"
+        }
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    elseif world == 2 then
+        local args = {
+            [1] = "TravelDressrosa"
+        }
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    elseif world == 3 then
+        local args = {
+            [1] = "TravelZou"
+        }
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    end
+end
 getgenv().ServerData["Inventory Items"] = {}
 getgenv().ServerData['Skill Loaded'] = {}
 getgenv().ServerData['Workspace Fruits'] = {}
@@ -1391,6 +1422,22 @@ end
 workspace.Enemies.ChildAdded:Connect(LoadBoss)
 game.ReplicatedStorage.ChildAdded:Connect(LoadBoss)
 RunService.Heartbeat:Connect(function()
+    if game.PlaceId == 2753915549 then
+        Sea1 = true
+        Sea2 = false
+        Sea3 = false 
+        MySea = "Sea 1"
+    elseif game.PlaceId == 4442272183 then
+        Sea2 = true
+        Sea1 = false
+        Sea3 = false
+        MySea = "Sea 2"
+    elseif game.PlaceId == 7449423635 then
+        Sea3 = true
+        Sea1 = false
+        Sea2 = false
+        MySea = "Sea 3"
+    end
     if IsPlayerAlive() then 
         getgenv().ServerData['Workspace Fruits'] = {}
         EnableBuso()
@@ -1459,7 +1506,6 @@ loadstring([[
                         if (game.Players.LocalPlayer.Character['Aimbot'].Value) and (game.Players.LocalPlayer.Character['Aimbot Position'].Value) then
                             if game.Players.LocalPlayer.Character['Aimbot Position'].Value then 
                                 args[2] = game.Players.LocalPlayer.Character['Aimbot Position'].Value
-                                warn('Hook Success') 
                             end
                         end
                         return old(unpack(args))
@@ -1493,10 +1539,12 @@ loadstring([[
 task.delay(10,function()
     local lee = 0
     for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
-        if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
-            hookfunction(require(v2),function()end)
-            lee +=1
-        end
+        pcall(function()
+            if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
+                hookfunction(require(v2),function()end)
+                lee +=1
+            end
+        end)
     end
     warn('Disabled',lee,"effects")
 end)

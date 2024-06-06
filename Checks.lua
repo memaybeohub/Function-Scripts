@@ -8,8 +8,10 @@ function refreshTask()
         and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
         and (getgenv().ServerData['Server Bosses']['Thunder God']) then --or getgenv().ServerData['PlayerData'].Level > 500 then 
             getgenv().CurrentTask = 'Pole Quest'
-        elseif getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
+        elseif Sea1 and getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
             getgenv().CurrentTask = 'Sea 2 Quest'
+        elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
+            getgenv().CurrentTask = 'Bartilo Quest'
         end 
     end
 end
@@ -22,7 +24,77 @@ end)
 
 
 
-
+AutoBartiloQuest = function()
+    local QuestBartiloId = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo")
+    if QuestBartiloId == 0 then 
+        if game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("Swan Pirate") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("50") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible then 
+            KillMobList({"Swan Pirate"})
+        else
+            Tweento(CFrame.new(-456.28952, 73.0200958, 299.895966))
+            if GetDistance(CFrame.new(-456.28952, 73.0200958, 299.895966)) < 10 then 
+                local args = {
+                    [1] = "StartQuest",
+                    [2] = "BartiloQuest",
+                    [3] = 1
+                }
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            end
+        end 
+    elseif QuestBartiloId == 1 then 
+        if getgenv().ServerData['Server Bosses']['Jeremy'] then 
+            KillBoss(getgenv().ServerData['Server Bosses']['Jeremy'])
+            refreshTask()
+        elseif getgenv().ServerData['PlayerData'].Level > 500 then 
+            HopServer(9,true)
+        end
+    elseif QuestBartiloId == 2 then 
+        local StartCFrame =
+        CFrame.new(
+        -1837.46155,
+        44.2921753,
+        1656.19873,
+        0.999881566,
+        -1.03885048e-22,
+        -0.0153914848,
+        1.07805858e-22,
+        1,
+        2.53909284e-22,
+        0.0153914848,
+        -2.55538502e-22,
+        0.999881566
+    )
+        if GetDistance(StartCFrame) > 400 then 
+            Tweento(StartCFrame)
+        else
+            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1836, 11, 1714)
+                task.wait(.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1850.49329, 13.1789551, 1750.89685)
+                task.wait(.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1858.87305, 19.3777466, 1712.01807)
+            task.wait(.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1803.94324, 16.5789185, 1750.89685)
+                task.wait(.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1858.55835, 16.8604317, 1724.79541)
+                task.wait(.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1869.54224, 15.987854, 1681.00659)
+                task.wait(.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1800.0979, 16.4978027, 1684.52368)
+                task.wait(.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1819.26343, 14.795166, 1717.90625)
+                task.wait(.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1813.51843, 14.8604736, 1724.79541)
+        end
+    end
+end
 
 
 
@@ -71,6 +143,9 @@ AutoSea2 = function()
     end
 end
 AutoPole = function()
+    if not Sea1 then 
+        TeleportWorld(1)
+    end
     if getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] then 
         refreshTask()
         return
@@ -102,6 +177,9 @@ local function CupDoor()
     return workspace.Map.Desert.Burn.Part.CanCollide == false
 end
 AutoSaber = function()
+    if not Sea1 then 
+        TeleportWorld(1)
+    end
     task.wait()
     local RichSonProgress = -999
     if getgenv().ServerData["Inventory Items"]["Saber"] then 
