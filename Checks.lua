@@ -22,8 +22,6 @@ task.delay(.1,function()
     end
 end)
 
-
-
 AutoBartiloQuest = function()
     local QuestBartiloId = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo")
     if QuestBartiloId == 0 then 
