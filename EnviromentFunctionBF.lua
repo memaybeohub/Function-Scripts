@@ -1184,7 +1184,7 @@ function FarmMobByLevel(level)
         DoubleQuest = true 
     }) 
     local chck = ''
-    for i2,v2 in pairs(NewQuest) do chck = ckck.." "..v2  end 
+    for i2,v2 in pairs(NewQuest) do chck = chck.." "..tostring(v2)  end 
     warn(chck)
     if level <= game.Players.LocalPlayer.Data.Level.Value and not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
         GetQuest(NewQuest)
@@ -1375,3 +1375,9 @@ loadstring([[
     end)
 ]])
 LoadPlayer()
+for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
+    if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
+        hookfunction(require(v2),function()end)
+        warn(v2.Name)
+    end
+end
