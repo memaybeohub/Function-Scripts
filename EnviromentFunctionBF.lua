@@ -1222,7 +1222,7 @@ RunService.Heartbeat:Connect(function()
         EnableBuso()
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
-        if KillingMob or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
+        if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
             AddBodyVelocity(true)
             for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
                 if v:IsA("BasePart") or v:IsA("Part") then 
