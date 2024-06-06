@@ -80,11 +80,12 @@ end
 local Settings2 = ReadSetting2()
 getgenv().TimeTryHopLow = 0
 function HopServer(CountTarget, hoplowallow)
-    if hoplowallow and 1 >0 and getgenv().TimeTryHopLow < 3 then
+    if hoplowallow and getgenv().TimeTryHopLow < 3 then
         for i = 1, 3 - getgenv().TimeTryHopLow do
             if getgenv().TimeTryHopLow < 3 then
                 HopLow()
                 getgenv().TimeTryHopLow = getgenv().TimeTryHopLow + 1
+                warn('Hop low times: ',getgenv().TimeTryHopLow)
             end
         end
     end
