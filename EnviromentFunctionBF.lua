@@ -131,7 +131,7 @@ warn('Loaded total',lss,' mobs middle spawns')
 if lss ~= #l1 then 
     warn('Missing:')
     for i,v in pairs(l1) do 
-        if not table.find(MobSpawnClone[v]) then 
+        if not MobSpawnClone[v] then 
             warn(i)
         end
     end
