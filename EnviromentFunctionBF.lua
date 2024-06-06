@@ -34,6 +34,7 @@ if game.Workspace:FindFirstChild("MobSpawns") then
     end
 end
 loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/Function-Scripts/main/FastAttackLoading.lua'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/Function-Scripts/main/HopLoader.lua'))()
 function GetDistance(target1, taget2)
     if not taget2 then
         taget2 = game.Players.LocalPlayer.Character.HumanoidRootPart
@@ -899,6 +900,55 @@ function Click()
     local VirtualUser = game:GetService("VirtualUser")
     VirtualUser:CaptureController()
     VirtualUser:ClickButton1(Vector2.new(851, 158), game:GetService("Workspace").Camera.CFrame)
+end
+local cancelKill = false 
+function CancelKillPlayer()
+    cancelKill = true 
+end
+function KillPlayer(PlayerName)
+    local t = game:GetService("Workspace").Characters:FindFirstChild(PlayerName)
+    local tRoot = t.PrimaryPart or t:FindFirstChild('HumanoidRootPart')
+    local tHumanoid = t:FindFirstChild('Humanoid')
+    local getNeartick = tick()-5555
+    local totRoot = GetDistance(tRoot)
+    repeat 
+        task.wait()
+        if IsPlayerAlive() then 
+            if game.Players.LocalPlayer.PlayerGui.Main.PvpDisabled.Visible then 
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EnablePvp")
+            end
+            totRoot = GetDistance(tRoot)
+            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.X,tRoot.CFrame.Y,game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z)
+            if totRoot < 290 then 
+                if totRoot < 50 then 
+                    if tick()-getNeartick > 1000 then 
+                        getNeartick = tick()
+                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,15)
+                    elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
+                        EquipWeapon()
+                        task.spawn(function()
+                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,3)
+                        end)
+                        Click()
+                        game.Players.LocalPlayer.Character['Fast Attack'].Value = true 
+                        if getgenv().ServerData['Skill Loaded'][GetWeapon('Melee')] then 
+                            for i,v in pairs(getgenv().ServerData['Skill Loaded'][GetWeapon('Melee')]) do 
+                                if v then 
+                                    SendKey(i,.3)
+                                end
+                            end
+                        end
+
+                    end
+                end
+            else
+                Tweento(tRoot.CFrame * CFrame.new(0,0,15))
+            end 
+        else
+            getNeartick = tick()-5555
+        end
+    until cancelKill or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
+    cancelKill = false 
 end
 function CheckIsRaiding()
     local checkraid2 = getNextIsland()
