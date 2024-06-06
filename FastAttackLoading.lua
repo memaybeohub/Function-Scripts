@@ -168,7 +168,7 @@ task.spawn(function()
                 if i then
                     b.play = function()
                     end
-                    d:Play(0.25, 0.25, 0.25)
+                    d:Play(0.1, 0.1, 0.1)
                     h(i)
                     b.play = shared.cpc
                     wait(.5)
