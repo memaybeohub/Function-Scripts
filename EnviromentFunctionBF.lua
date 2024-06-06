@@ -1170,7 +1170,7 @@ function CheckQuestByLevel(cq)
             for i2, v2 in pairs(v1.Task) do
                 if
                     lvlPl >= lvlreq and lvlreq >= Returner["LevelReq"] and v1.Task[i2] > 1 and
-                        not table.find(UselessQuest, tostring(i)) and MobSpawnClone[tostring(i)]
+                        not table.find(UselessQuest, tostring(i))
                 then
                     Returner["LevelReq"] = lvlreq 
                     Returner["Mob"] = tostring(i2) 
@@ -1484,5 +1484,5 @@ task.spawn(function()
     warn('Disabled',lee,"effects")
 end)
 warn('Loaded Success Full!')
-getgenv().EnLoaded = true
+getgenv().EnLoaded = true   
 LoadPlayer()

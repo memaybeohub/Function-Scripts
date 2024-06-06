@@ -3,9 +3,9 @@ getgenv().CurrentTask = ""
 task.delay(1,function()
     while task.wait() do 
         if getgenv().CurrentTask == '' then 
-            if getgenv().ServerData['PlayerData'].Level.Value > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
+            if getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
                 getgenv().CurrentTask = 'Saber Quest'
-            elseif getgenv().ServerData['PlayerData'].Level.Value > 150 
+            elseif getgenv().ServerData['PlayerData'].Level > 150 
             and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
             and getgenv().ServerData['Server Bosses']['Thunder God'] then 
                 getgenv().CurrentTask = 'Pole Quest'
@@ -43,7 +43,7 @@ function AutoSaber()
         warn('Killing Shanks...')
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert']) 
-        elseif getgenv().ServerData['PlayerData'].Level.Value > 500 then 
+        elseif getgenv().ServerData['PlayerData'].Level > 500 then 
             HopServer()
         end 
     elseif game:GetService("Workspace").Map.Jungle.QuestPlates.Door.CanCollide then 
@@ -86,7 +86,7 @@ function AutoSaber()
         elseif RichSonProgress == 0 then
             if getgenv().ServerData['Server Bosses']['Mob Leader'] then 
                 KillBoss(getgenv().ServerData['Server Bosses']['Mob Leader']) 
-            elseif getgenv().ServerData['PlayerData'].Level.Value > 500 then 
+            elseif getgenv().ServerData['PlayerData'].Level > 500 then 
                 HopServer()  
             end
         elseif RichSonProgress == 1 then
