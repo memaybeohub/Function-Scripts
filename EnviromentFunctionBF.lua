@@ -1473,7 +1473,7 @@ loadstring([[
         return old(unpack(args))
     end)
 ]])
-task.spawn(function()
+task.delay(10,function()
     local lee = 0
     for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
         if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
