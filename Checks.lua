@@ -1,9 +1,8 @@
 repeat task.wait(1) until getgenv().EnLoaded 
 getgenv().CurrentTask = ""
 task.delay(1,function()
-    while task.wait(1) do 
-        task.wait(1)
-        warn('getgenv().CurrentTask',getgenv().CurrentTask)
+    while task.wait() do 
+        task.wait()
         if getgenv().CurrentTask == '' then 
             if getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
                 getgenv().CurrentTask = 'Saber Quest'
@@ -36,15 +35,12 @@ local function CupDoor()
 end
 AutoSaber = function()
     task.wait()
-    warn('auto saber',getgenv().CurrentTask)
-    wait(3)
     local RichSonProgress = -999
     if getgenv().ServerData["Inventory Items"]["Saber"] then 
         getgenv().CurrentTask = ''
         wait(1)
         return
     end
-    warn('getgenv().CurrentTask',getgenv().CurrentTask)
     if IsUnlockedSaberDoor() then 
         warn('Killing Shanks...')
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
@@ -57,10 +53,6 @@ AutoSaber = function()
         local Template = SaberTouchTemplate()
         if Template then 
             Tweento(Template.Part.CFrame)
-            if GetDistance(Template.Part) < 10 then 
-                --firetouchinterest(Template.Button.TouchInterest,game.Players.LocalPlayer.Character.HumanoidRootPart,1)
-                --firetouchinterest(Template.Button.TouchInterest,game.Players.LocalPlayer.Character.HumanoidRootPart,0)
-            end
         end
     elseif CupDoor() then 
         RichSonProgress = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ProQuestProgress", "RichSon")
@@ -68,14 +60,8 @@ AutoSaber = function()
         if RichSonProgress ~= 0 and RichSonProgress ~= 1 then
             if not getgenv().ServerData["PlayerBackpack"]['Cup'] then 
                 Tweento(CFrame.new(1113.66992,7.5484705,4365.27832,-0.78613919,-2.19578524e-08,-0.618049502,1.02977182e-09,1,-3.68374984e-08,0.618049502,-2.95958493e-08,-0.78613919)) 
-                if GetDistance(CFrame.new(1113.66992,7.5484705,4365.27832,-0.78613919,-2.19578524e-08,-0.618049502,1.02977182e-09,1,-3.68374984e-08,0.618049502,-2.95958493e-08,-0.78613919)) < 10 then 
-                    --firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Map.Desert.Cup,1)
-                    --firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,game:GetService("Workspace").Map.Desert.Cup,0)
-                    wait(1)
-                end 
             else
                 EquipWeaponName('Cup')
-                task.wait(.1)
                 if getgenv().ServerData["PlayerBackpack"]['Cup'].Handle:FindFirstChild('TouchInterest') then 
                     Tweento(CFrame.new(1395.77307,37.4733238,-1324.34631,-0.999978602,-6.53588605e-09,0.00654155109,-6.57083277e-09,1,-5.32077493e-09,-0.00654155109,-5.3636442e-09,-0.999978602))  
                 else
@@ -85,7 +71,6 @@ AutoSaber = function()
                             "ProQuestProgress",
                             "SickMan"
                         )
-                        task.wait(1)
                     end
                 end
             end
@@ -112,10 +97,6 @@ AutoSaber = function()
         else  
             EquipWeaponName("Torch") 
             Tweento(CFrame.new(1115.23499,4.92147732,4349.36963,-0.670654476,-2.18307523e-08,0.74176991,-9.06980624e-09,1,2.1230365e-08,-0.74176991,7.51052998e-09,-0.670654476))
-            if GetDistance(CFrame.new(1115.23499,4.92147732,4349.36963,-0.670654476,-2.18307523e-08,0.74176991,-9.06980624e-09,1,2.1230365e-08,-0.74176991,7.51052998e-09,-0.670654476)) < 10 then 
-                --firetouchinterest(game:GetService("Workspace").Map.Desert.Burn.Fire,game.Players.LocalPlayer.Character.Torch.Handle,1)
-                --firetouchinterest(game:GetService("Workspace").Map.Desert.Burn.Fire,game.Players.LocalPlayer.Character.Torch.Handle,0)
-            end
         end  
     end
 end
