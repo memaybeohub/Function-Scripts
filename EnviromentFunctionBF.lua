@@ -1347,6 +1347,7 @@ function LoadBoss(v)
     local Hum = v:WaitForChild('Humanoid')
     if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') and not getgenv().ServerData['Server Bosses'][v.Name] then 
         getgenv().ServerData['Server Bosses'][v.Name] = v 
+        warn('Loaded Boss:',v.Name)
     else
         return
     end
