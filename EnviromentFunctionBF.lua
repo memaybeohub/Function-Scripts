@@ -1038,7 +1038,7 @@ function EquipAllWeapon()
     local u3_2 = {}
     for i, v in pairs(u3) do
         u3_3 = GetWeapon(v)
-        table.insert(u3_2, u3_3)
+        if u3_3 and u3_3 ~= "" then table.insert(u3_2, u3_3) end
     end
     for i, v in pairs(u3_2) do
         if not IsWpSKillLoaded(v) then
@@ -1374,12 +1374,15 @@ loadstring([[
         return old(unpack(args))
     end)
 ]])
-LoadPlayer()
-local lee = 0
-for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
-    if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
-        hookfunction(require(v2),function()end)
-        lee +=1
+task.spawn(function()
+    local lee = 0
+    for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
+        if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
+            hookfunction(require(v2),function()end)
+            lee +=1
+        end
     end
-end
-warn('Disabled '..lee.." effects")
+    warn('Disabled '..lee.." effects")
+end)
+warn('Loaded Success Full!')
+LoadPlayer()
