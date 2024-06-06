@@ -2,6 +2,7 @@ repeat task.wait(1) until getgenv().EnLoaded
 getgenv().CurrentTask = ""
 task.delay(1,function()
     while task.wait() do 
+        task.wait()
         if getgenv().CurrentTask == '' then 
             if getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
                 getgenv().CurrentTask = 'Saber Quest'

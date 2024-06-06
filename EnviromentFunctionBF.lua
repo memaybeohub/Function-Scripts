@@ -1157,6 +1157,7 @@ end
 function CheckQuestByLevel(cq)
     local cq = cq or {} 
     local lvlPl = cq.Level or game.Players.LocalPlayer.Data.Level.Value 
+    local LevelMaxReq = 99999
     local DoubleQuest = cq.DoubleQuest or false 
     local Returner = {
         ["LevelReq"] = 0,
@@ -1164,12 +1165,17 @@ function CheckQuestByLevel(cq)
         ["QuestName"] = "",
         ["QuestId"] = 0,
     }
+    if game.PlaceId == 2753915549 then 
+        LevelMaxReq = 699
+    elseif game.PlaceId ==4442272183 then 
+        LevelMaxReq = 1475
+    end
     for i, v in pairs(Quest) do
         for i1, v1 in pairs(v) do
             local lvlreq = v1.LevelReq
             for i2, v2 in pairs(v1.Task) do
                 if
-                    lvlPl >= lvlreq and lvlreq >= Returner["LevelReq"] and v1.Task[i2] > 1 and
+                    lvlPl >= lvlreq and lvlreq >= Returner["LevelReq"] and lvlreq <= LevelMaxReq and v1.Task[i2] > 1 and
                         not table.find(UselessQuest, tostring(i))
                 then
                     Returner["LevelReq"] = lvlreq 
