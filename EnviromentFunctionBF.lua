@@ -811,6 +811,7 @@ function BringMob(TAR,V5)
                     for i,__ in pairs(v:GetDescendants()) do 
                         if __:IsA('BasePart') then 
                             __.CanCollide = false 
+                            __.Transparency = 1
                         end
                     end
                     TweenObject(V6,v.PrimaryPart,1000)
@@ -977,14 +978,14 @@ function KillPlayer(PlayerName)
         else
             getNeartick = tick()-5555
         end
-    until cancelKill or IsSafeZone or tick()-StartKillTick > 60 or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
+    until cancelKill or IsSafeZone or tick()-StartKillTick > 80 or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
     cancelKill = false 
     KillingMob = false
     StartKillTick = tick()
     game.Players.LocalPlayer.Character['Fast Attack'].Value = false
     game.Players.LocalPlayer.Character['Aimbot Position'].Value = Vector3.new(0,0,0)
     game.Players.LocalPlayer.Character['Aimbot'].Value = false
-    if IsSafeZone then 
+    if IsSafeZone or tick()-StartKillTick > 80 then 
         return false 
     else 
         return true 
