@@ -933,7 +933,6 @@ end
 function KillPlayer(PlayerName)
     warn('KillPlayer',PlayerName)
     local t = game:GetService("Workspace").Characters:FindFirstChild(PlayerName)
-    local tHolding = t:WaitForChild('Holding',5)
     local tRoot = t.PrimaryPart or t:FindFirstChild('HumanoidRootPart')
     local tHumanoid = t:FindFirstChild('Humanoid')
     local getNeartick = tick()-5555
@@ -953,8 +952,9 @@ function KillPlayer(PlayerName)
             if totRoot < 50 then 
                 if tick()-getNeartick > 100 then 
                     getNeartick = tick()
-                    repeat task.wait()
-                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,50,10)
+                    repeat 
+                        task.wait()
+                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,100,10)
                         game.Players.LocalPlayer.Character['Fast Attack'].Value = false
                     until tick()-getNeartick > 5 and tick()-getNeartick < 100
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,10)
@@ -962,7 +962,7 @@ function KillPlayer(PlayerName)
                     KillingMob = true
                     EquipWeapon()
                     if t:FindFirstChildOfClass('Tool') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding').Value then 
-                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,50,2.5)
+                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,50,15)
                     else
                         task.spawn(function()
                             game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
@@ -978,7 +978,7 @@ function KillPlayer(PlayerName)
                     end
                 end
             else
-                Tweento(tRoot.CFrame * CFrame.new(0,30,))
+                Tweento(tRoot.CFrame * CFrame.new(0,30,0))
             end 
         else
             getNeartick = tick()-5555
@@ -991,8 +991,10 @@ function KillPlayer(PlayerName)
     game.Players.LocalPlayer.Character['Aimbot Position'].Value = Vector3.new(0,0,0)
     game.Players.LocalPlayer.Character['Aimbot'].Value = false
     if IsSafeZone or tick()-StartKillTick > 80 then 
+        warn('Kill Failed:',PlayerName)
         return false 
     else 
+        warn('Kill Success:',PlayerName)
         return true 
     end
 end
