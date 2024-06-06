@@ -1,19 +1,46 @@
 repeat task.wait(1) until getgenv().EnLoaded 
 getgenv().CurrentTask = ""
-task.delay(1,function()
+task.delay(.1,function()
     while task.wait() do 
         task.wait()
+        warn('Current task:',getgenv().CurrentTask)
         if getgenv().CurrentTask == '' then 
             if getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
                 getgenv().CurrentTask = 'Saber Quest'
             elseif getgenv().ServerData['PlayerData'].Level > 150 
             and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
-            and getgenv().ServerData['Server Bosses']['Thunder God'] then 
+            and (getgenv().ServerData['Server Bosses']['Thunder God']) or getgenv().ServerData['PlayerData'].Level > 500 then 
                 getgenv().CurrentTask = 'Pole Quest'
             end 
         end
     end
 end)
+AutoPole = function()
+    if getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] then 
+        getgenv().CurrentTask = ''
+        return
+    end 
+    if getgenv().ServerData['Server Bosses']['Thunder God'] then 
+        KillBoss(getgenv().ServerData['Server Bosses']['Thunder God'])
+    elseif getgenv().ServerData['PlayerData'].Level > 500 then 
+        HopServer(9,true)
+    end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 local function IsUnlockedSaberDoor()
     for i, v in next, game:GetService("Workspace").Map.Jungle.Final:GetChildren() do
         if v:IsA("Part") and not v.CanCollide then
@@ -46,7 +73,7 @@ AutoSaber = function()
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert']) 
         elseif getgenv().ServerData['PlayerData'].Level > 500 then 
-            HopServer()
+            HopServer(9,true)
         end 
     elseif game:GetService("Workspace").Map.Jungle.QuestPlates.Door.CanCollide then 
         warn('Touching Templatess...')
