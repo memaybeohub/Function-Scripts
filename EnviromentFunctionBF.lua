@@ -792,14 +792,19 @@ function BringMob(TAR,V5)
         V6 = V5 
     end  
     if TAR then
-        task.spawn(function()
-            for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
-                if
-                    RemoveLevelTitle(v.Name) == RemoveLevelTitle(TAR.Name) and
-                        (V6.Position - v.HumanoidRootPart.Position).Magnitude < 340 and
-                        (isnetworkowner2(v.HumanoidRootPart) or isnetworkowner(v.HumanoidRootPart)) and
-                        v.Humanoid.MaxHealth < 100000
-                then
+        for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+            if
+                RemoveLevelTitle(v.Name) == RemoveLevelTitle(TAR.Name) and
+                    (V6.Position - v.HumanoidRootPart.Position).Magnitude < 340 and
+                    (isnetworkowner2(v.HumanoidRootPart) or isnetworkowner(v.HumanoidRootPart)) and
+                    v.Humanoid.MaxHealth < 100000
+            then
+                task.spawn(function()
+                    for i,__ in pairs(v:GetDescendants()) do 
+                        if __:IsA('BasePart') then 
+                            __.CanCollide = false 
+                        end
+                    end
                     TweenObject(V6,v.PrimaryPart,1000)
                     v.HumanoidRootPart.CanCollide = false
                     v.PrimaryPart.CanCollide = false
@@ -814,9 +819,9 @@ function BringMob(TAR,V5)
                             __.CanCollide = false 
                         end
                     end
-                end
+                end)
             end
-        end)
+        end
     end
 end  
 function GetNearestPlayer(pos)
