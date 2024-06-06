@@ -906,11 +906,13 @@ function CancelKillPlayer()
     cancelKill = true 
 end
 function KillPlayer(PlayerName)
+    warn('KillPlayer',PlayerName)
     local t = game:GetService("Workspace").Characters:FindFirstChild(PlayerName)
     local tRoot = t.PrimaryPart or t:FindFirstChild('HumanoidRootPart')
     local tHumanoid = t:FindFirstChild('Humanoid')
     local getNeartick = tick()-5555
     local totRoot = GetDistance(tRoot)
+    warn('Yes skibi')
     repeat 
         task.wait()
         if IsPlayerAlive() then 
@@ -1260,7 +1262,8 @@ getgenv().ServerData['Workspace Fruits'] = {}
 getgenv().ServerData['Server Bosses'] = {}
 workspace.Enemies.ChildAdded:Connect(function(v)
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart')
-    if v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') then 
+    local Hum = v:WaitForChild('Humanoid',5)
+    if v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') then 
         table.insert(getgenv().ServerData['Server Bosses'],v)
     end
     v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
