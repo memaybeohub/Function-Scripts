@@ -1185,6 +1185,7 @@ function SendKey(key, holdtime,mmb)
             game:service("VirtualInputManager"):SendKeyEvent(false, key, false, game)
         end
     end
+end
 function collectAllFruit_Store()
     if getgenv().ServerData['Workspace Fruits'] then 
         for i,v in pairs(getgenv().ServerData['Workspace Fruits']) do 
