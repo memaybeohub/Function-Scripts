@@ -951,6 +951,8 @@ function KillPlayer(PlayerName)
         end
     until cancelKill or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
     cancelKill = false 
+    game.Players.LocalPlayer.Character['Fast Attack'].Value = false
+    return true 
 end
 function CheckIsRaiding()
     local checkraid2 = getNextIsland()
