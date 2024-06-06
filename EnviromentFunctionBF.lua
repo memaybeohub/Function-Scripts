@@ -527,19 +527,19 @@ local function TweenKill(v)
                 Enum.EasingStyle.Linear
             )
             if GetDistance(v.HumanoidRootPart) < 200 then 
-                if TweenK then 
-                    TweenK:Cancel()
+                if getgenv().tween then 
+                    getgenv().tween:Cancel()
                     TweenK = nil 
                 end
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * GetCFrameADD() 
             else 
-                TweenK =
+                getgenv().tween =
                     tween_s:Create(
                     game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"],
                     info,
                     {CFrame = v.HumanoidRootPart.CFrame * GetCFrameADD()}
                 )
-                TweenK:Play() 
+                getgenv().tween:Play() 
             end
         end
     end
@@ -691,7 +691,8 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
-            task.delay(.3 ,function()
+            task.delay(.1 ,function()
+                repeat task.wait() until GetDistance(MobInstance.PrimaryPart)
                 BringMob(MobInstance, LockCFrame) 
             end)            
             repeat
@@ -706,6 +707,7 @@ function KillNigga(MobInstance)
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
                 CheckIsRaiding()
             KillingMobTick = 0
+            game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
             KillingMob = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
@@ -1090,19 +1092,19 @@ local function TweenKillInstant(POS)
         Enum.EasingStyle.Linear
     )
     if GetDistance(POS) < 200 then 
-        if TweenK then 
-            TweenK:Cancel()
-            TweenK = nil 
+        if getgenv().tween then 
+            getgenv().tween:Cancel()
+            getgenv().tween = nil 
         end
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = POS 
     else 
-        TweenK =
+        getgenv().tween =
             tween_s:Create(
             game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"],
             info,
             {CFrame = POS}
         )
-        TweenK:Play() 
+        getgenv().tween:Play() 
     end
 end
 function GetQuest(QuestTables) 
@@ -1122,11 +1124,12 @@ function GetQuest(QuestTables)
 end
 function FarmMobByLevel(level)
     if not level then level = game.Players.LocalPlayer.Data.Level.Value end
+
     local NewQuest = CheckQuestByLevel({
         Level = level,
         DoubleQuest = true 
     })
-    if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
+    if level <= game.Players.LocalPlayer.Data.Level.Value and not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
         GetQuest(NewQuest)
     elseif CheckMob(CheckCurrentQuestMob()) then 
         KillNigga(CheckMob(CheckCurrentQuestMob()))
@@ -1227,7 +1230,7 @@ RunService.Heartbeat:Connect(function()
         EnableBuso()
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
-        if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
+        if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().tween and getgenv().tween.PlaybackState and tostring(string.gsub(tostring(getgenv().tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
             AddBodyVelocity(true)
             for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
                 if v:IsA("BasePart") or v:IsA("Part") then 
