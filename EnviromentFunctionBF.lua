@@ -1352,11 +1352,9 @@ function LoadBoss(v)
     end
     v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
         if v.Humanoid.Health <= 0 then  
-            warn('Deleting:',v.Name)
             local index = getgenv().ServerData['Server Bosses'][v.Name]
             if index then
                 getgenv().ServerData['Server Bosses'][v.Name] = nil
-                warn('Delete Success!')
             end            
             return
         end
