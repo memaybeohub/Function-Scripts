@@ -1273,6 +1273,10 @@ function FarmMobByLevel(level)
         KillNigga(CheckMob(CheckCurrentQuestMob()))
     elseif getgenv().MobSpawnClone and getgenv().MobSpawnClone[CheckCurrentQuestMob()] then 
         Tweento(getgenv().MobSpawnClone[CheckCurrentQuestMob()] * CFrame.new(0,60,0))
+        for i,v in pairs(game.workspace.MobSpawns:GetChildren()) do 
+            if GetDistance(v,getgenv().MobSpawnClone[CheckCurrentQuestMob()]) > 300 and not CheckMob(CheckCurrentQuestMob()) then 
+            end
+        end
     end
 end
 FruitsID = loadstring(game:HttpGet("https://raw.githubusercontent.com/memaybeohub/Function-Scripts/main/Magnetism.lua"))()

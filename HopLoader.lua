@@ -92,15 +92,6 @@ function HopServer(CountTarget, hoplowallow)
     if not CountTarget then
         CountTarget = 10
     end
-
-    ticklon = tick()
-    pcall(
-        function()
-            repeat
-                task.wait()
-            until tick() - ticklon >= 1
-        end
-    )
     local function Hop()
         for i = 1, 100 do
             if ChooseRegion == nil or ChooseRegion == "" then

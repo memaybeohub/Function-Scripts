@@ -1,21 +1,45 @@
 repeat task.wait() until getgenv().EnLoaded 
 getgenv().CurrentTask = ""
+function refreshTask()
+    if getgenv().CurrentTask == '' then 
+        if getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
+            getgenv().CurrentTask = 'Saber Quest'
+        elseif getgenv().ServerData['PlayerData'].Level > 150 
+        and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
+        and (getgenv().ServerData['Server Bosses']['Thunder God']) then --or getgenv().ServerData['PlayerData'].Level > 500 then 
+            getgenv().CurrentTask = 'Pole Quest'
+        elseif getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
+            getgenv().CurrentTask = 'Sea 2 Quest'
+        end 
+    end
+end
 task.delay(.1,function()
     while task.wait() do 
         task.wait()
-        if getgenv().CurrentTask == '' then 
-            if getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
-                getgenv().CurrentTask = 'Saber Quest'
-            elseif getgenv().ServerData['PlayerData'].Level > 150 
-            and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
-            and (getgenv().ServerData['Server Bosses']['Thunder God']) then --or getgenv().ServerData['PlayerData'].Level > 500 then 
-                getgenv().CurrentTask = 'Pole Quest'
-            elseif getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
-                getgenv().CurrentTask = 'Sea 2 Quest'
-            end 
-        end
+        refreshTask()
     end
 end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 AutoSea2 = function()  
@@ -36,6 +60,7 @@ AutoSea2 = function()
     else
         if getgenv().ServerData['Server Bosses']['Ice Admiral'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Ice Admiral']) 
+            refreshTask()
             local args = {
                 [1] = "TravelDressrosa"
             }
@@ -45,36 +70,14 @@ AutoSea2 = function()
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 AutoPole = function()
     if getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] then 
-        getgenv().CurrentTask = ''
+        refreshTask()
         return
     end 
     if getgenv().ServerData['Server Bosses']['Thunder God'] then 
         KillBoss(getgenv().ServerData['Server Bosses']['Thunder God'])
-        getgenv().CurrentTask = ''
+        refreshTask()
     elseif getgenv().ServerData['PlayerData'].Level > 500 then 
         HopServer(9,true)
     end
@@ -102,15 +105,14 @@ AutoSaber = function()
     task.wait()
     local RichSonProgress = -999
     if getgenv().ServerData["Inventory Items"]["Saber"] then 
-        getgenv().CurrentTask = ''
-        wait(1)
+        refreshTask()
         return
     end
     if IsUnlockedSaberDoor() then 
         warn('Killing Shanks...')
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert']) 
-            getgenv().CurrentTask = ''
+            refreshTask()
         elseif getgenv().ServerData['PlayerData'].Level > 500 then 
             HopServer(9,true)
         end 
