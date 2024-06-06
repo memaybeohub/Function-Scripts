@@ -933,6 +933,7 @@ end
 function KillPlayer(PlayerName)
     warn('KillPlayer',PlayerName)
     local t = game:GetService("Workspace").Characters:FindFirstChild(PlayerName)
+    local tHolding = t:WaitForChild('Holding',5)
     local tRoot = t.PrimaryPart or t:FindFirstChild('HumanoidRootPart')
     local tHumanoid = t:FindFirstChild('Humanoid')
     local getNeartick = tick()-5555
@@ -960,17 +961,21 @@ function KillPlayer(PlayerName)
                 elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
                     KillingMob = true
                     EquipWeapon()
-                    task.spawn(function()
-                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
-                    end)
-                    Click()
-                    game.Players.LocalPlayer.Character['Fast Attack'].Value = true
-                    game.Players.LocalPlayer.Character['Aimbot Position'].Value = tRoot.Position
-                    game.Players.LocalPlayer.Character['Aimbot'].Value = true
-                    SendKey('Z')
-                    SendKey("Q")
-                    SendKey('X')
-                    SendKey("Q")
+                    if not tHolding.Value then 
+                        task.spawn(function()
+                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
+                        end)
+                        Click()
+                        game.Players.LocalPlayer.Character['Fast Attack'].Value = true
+                        game.Players.LocalPlayer.Character['Aimbot Position'].Value = tRoot.Position
+                        game.Players.LocalPlayer.Character['Aimbot'].Value = true
+                        SendKey('Z')
+                        SendKey("Q")
+                        SendKey('X')
+                        SendKey("Q")
+                    else
+                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,50,2.5)
+                    end
                 end
             else
                 Tweento(tRoot.CFrame * CFrame.new(0,0,10))
