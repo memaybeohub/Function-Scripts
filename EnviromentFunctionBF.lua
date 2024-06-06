@@ -948,6 +948,7 @@ function KillPlayer(PlayerName)
                     getNeartick = tick()
                     repeat task.wait()
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,10)
+                        game.Players.LocalPlayer.Character['Fast Attack'].Value = false
                     until tick()-getNeartick > 5 and tick()-getNeartick < 100
                 elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
                     EquipWeapon()
@@ -960,6 +961,8 @@ function KillPlayer(PlayerName)
                     SendKey("Q")
                     SendKey('X')
                     SendKey("Q")
+                    game.Players.LocalPlayer.Character['Aimbot Position'].Value = tRoot.Position
+                    game.Players.LocalPlayer.Character['Aimbot'].Value = true
                 end
             else
                 Tweento(tRoot.CFrame * CFrame.new(0,0,10))
@@ -971,6 +974,8 @@ function KillPlayer(PlayerName)
     cancelKill = false 
     StartKillTick = tick()
     game.Players.LocalPlayer.Character['Fast Attack'].Value = false
+    game.Players.LocalPlayer.Character['Aimbot Position'].Value = Vector3.new(0,0,0)
+    game.Players.LocalPlayer.Character['Aimbot'].Value = false
     if IsSafeZone then 
         return false 
     else 
