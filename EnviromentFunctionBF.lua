@@ -961,7 +961,9 @@ function KillPlayer(PlayerName)
                 elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
                     KillingMob = true
                     EquipWeapon()
-                    if not tHolding.Value then 
+                    if t:FindFirstChildOfClass('Tool') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding').Holding then 
+                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,50,2.5)
+                    else
                         task.spawn(function()
                             game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
                         end)
@@ -973,8 +975,6 @@ function KillPlayer(PlayerName)
                         SendKey("Q")
                         SendKey('X')
                         SendKey("Q")
-                    else
-                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,50,2.5)
                     end
                 end
             else
