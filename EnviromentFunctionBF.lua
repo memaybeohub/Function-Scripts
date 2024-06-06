@@ -904,6 +904,25 @@ end
 local cancelKill = false 
 function CancelKillPlayer()
     cancelKill = true 
+end 
+function CheckSafeZone(p)
+    for i, v in pairs(game:GetService("Workspace")["_WorldOrigin"].SafeZones:GetChildren()) do
+        if v:IsA("Part") then
+            if
+                GetDistance(v,p) <= 400 and
+                    p.Humanoid.Health / p.Humanoid.MaxHealth >= 90 / 100
+             then
+                return true
+            end
+        end
+    end
+    for i,k in pairs(game.Players.LocalPlayer.PlayerGui.Notifications:GetDescendants()) do
+        if k:IsA("TextLabel") then
+            if string.find(k.Text,"attack") and not k:FindFirstChild(v.Name) then
+                return true
+            end
+        end
+    end
 end
 function KillPlayer(PlayerName)
     warn('KillPlayer',PlayerName)
@@ -912,9 +931,12 @@ function KillPlayer(PlayerName)
     local tHumanoid = t:FindFirstChild('Humanoid')
     local getNeartick = tick()-5555
     local totRoot = GetDistance(tRoot)
+    local StartKillTick = tick()
+    local IsSafeZone = false
     repeat 
         task.wait()
         if IsPlayerAlive() then 
+            IsSafeZone = CheckSafeZone(p)
             if game.Players.LocalPlayer.PlayerGui.Main.PvpDisabled.Visible then 
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EnablePvp")
             end
@@ -951,10 +973,15 @@ function KillPlayer(PlayerName)
         else
             getNeartick = tick()-5555
         end
-    until cancelKill or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
+    until cancelKill or IsSafeZone or tick()-StartKillTick > 60 or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
     cancelKill = false 
+    StartKillTick = tick()
     game.Players.LocalPlayer.Character['Fast Attack'].Value = false
-    return true 
+    if IsSafeZone then 
+        return false 
+    else 
+        return true 
+    end
 end
 function CheckIsRaiding()
     local checkraid2 = getNextIsland()
@@ -1385,7 +1412,7 @@ task.spawn(function()
             lee +=1
         end
     end
-    warn('Disabled '..lee.." effects")
+    warn('Disabled',lee,"effects")
 end)
 warn('Loaded Success Full!')
 LoadPlayer()
