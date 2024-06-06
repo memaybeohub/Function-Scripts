@@ -1311,8 +1311,8 @@ getgenv().ServerData['Skill Loaded'] = {}
 getgenv().ServerData['Workspace Fruits'] = {}
 getgenv().ServerData['Server Bosses'] = {}
 function LoadBoss(v) 
-    local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart')
-    local Hum = v:WaitForChild('Humanoid',1)
+    local Root = v:WaitForChild('HumanoidRootPart')
+    local Hum = v:WaitForChild('Humanoid')
     if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') and not table.find(getgenv().ServerData['Server Bosses'],v) then 
         table.insert(getgenv().ServerData['Server Bosses'],v)
         warn('Added New Boss:',v.Name)
@@ -1332,7 +1332,11 @@ for i,v in pairs(game.workspace.Enemies:GetChildren()) do
     LoadBoss(v) 
 end
 for i,v in pairs(game.ReplicatedStorage:GetChildren()) do 
-    LoadBoss(v)
+    if v:FindFirstChild('Humanoid') then 
+        task.spawn(function()
+            LoadBoss(v)
+        end)
+    end
 end
 workspace.Enemies.ChildAdded:Connect(LoadBoss)
 
