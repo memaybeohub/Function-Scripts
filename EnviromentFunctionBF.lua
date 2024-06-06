@@ -935,7 +935,8 @@ function KillPlayer(PlayerName)
     local IsSafeZone = false
     repeat 
         task.wait()
-        if IsPlayerAlive() then 
+        if IsPlayerAlive() then
+            EquipWeapon() 
             IsSafeZone = CheckSafeZone(t)
             if game.Players.LocalPlayer.PlayerGui.Main.PvpDisabled.Visible then 
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EnablePvp")
