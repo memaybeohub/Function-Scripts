@@ -622,13 +622,13 @@ function EquipWeapon(ToolSe)
         game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
     end
 end 
-local veliciti = false
-function OnlyVelocity(enable)
+function AddBodyVelocity(enable)
     if not enable then  
-        if veliciti then game.Players.LocalPlayer.Character.Head:FindFirstChild("NEWQL"):Destroy() end
-        veliciti = false 
+        if game.Players.LocalPlayer.Character.Head:FindFirstChildOfClass("BodyVelocity") then 
+            game.Players.LocalPlayer.Character.Head:FindFirstChildOfClass("BodyVelocity"):Destroy()
+        end
+        return
     end
-    veliciti = true 
     for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
         if v:IsA("BasePart") or v:IsA("Part") then 
             v.CanCollide = false 
@@ -698,7 +698,7 @@ function KillNigga(MobInstance)
                 task.wait()
                 KillingMob = true
                 KillingMobTick = tick()
-                OnlyVelocity(true)
+                AddBodyVelocity(true)
                 EquipWeapon()
                 TweenKill(MobInstance)
                 game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
@@ -710,7 +710,7 @@ function KillNigga(MobInstance)
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
             game.Players.LocalPlayer.Character['Aimbot'].Value = false
-            OnlyVelocity(false)
+            AddBodyVelocity(false)
         end
     end)
     if not LS then print('ls',LS2) end
@@ -1172,6 +1172,28 @@ end
 function getRealFruit(v)
     local kf = CheckNatural(v) and " (Spawned)" or ""
     return ReturnFruitNameWithId(v) .. " ("..tostring(getPriceFruit(ReturnFruitNameWithId(v))).."$) ".. tostring(kf)
+end 
+function SendKey(key, holdtime,mmb)
+    if key and (not mmb or (mmb)) then
+        if not holdtime then
+            game:service("VirtualInputManager"):SendKeyEvent(true, key, false, game)
+            task.wait()
+            game:service("VirtualInputManager"):SendKeyEvent(false, key, false, game)
+        elseif holdtime then
+            game:service("VirtualInputManager"):SendKeyEvent(true, key, false, game)
+            task.wait(holdtime)
+            game:service("VirtualInputManager"):SendKeyEvent(false, key, false, game)
+        end
+    end
+function collectAllFruit_Store()
+    if getgenv().ServerData['Workspace Fruits'] then 
+        for i,v in pairs(getgenv().ServerData['Workspace Fruits']) do 
+            Tweento(v.Handle.CFrame)
+            if GetDistance(v.Handle) < 10 then 
+                SendKey('Space',.5)
+            end
+        end
+    end
 end
 getgenv().ServerData["Inventory Items"] = {}
 getgenv().ServerData['Skill Loaded'] = {}
@@ -1192,6 +1214,7 @@ workspace.Enemies.ChildAdded:Connect(function(v)
         end
     end)
 end)
+
 RunService.Heartbeat:Connect(function()
     if IsPlayerAlive() then 
         getgenv().ServerData['Workspace Fruits'] = {}
