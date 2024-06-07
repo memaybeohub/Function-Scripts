@@ -1549,7 +1549,85 @@ function CheckRaceVer()
     return "V1"
 end 
 workspace.Enemies.ChildAdded:Connect(LoadBoss)
-game.ReplicatedStorage.ChildAdded:Connect(LoadBoss)
+game.ReplicatedStorage.ChildAdded:Connect(LoadBoss) 
+
+local Melee_and_Price = {
+    ["Black Leg"] = {Beli = 150000, Fragment = 0},
+    ["Fishman Karate"] = {Beli = 750000, Fragment = 0},
+    ["Electro"] = {Beli = 500000, Fragment = 0},
+    ["Dragon Claw"] = {Beli = 0, Fragment = 1500},
+    ["Superhuman"] = {Beli = 3000000, Fragment = 0},
+    ["Sharkman Karate"] = {Beli = 2500000, Fragment = 5000},
+    ["Death Step"] = {Beli = 2500000, Fragment = 5000},
+    ["Dragon Talon"] = {Beli = 3000000, Fragment = 5000},
+    ["Godhuman"] = {Beli = 5000000, Fragment = 5000},
+    ["Electric Claw"] = {Beli = 3000000, Fragment = 5000},
+    ["Sanguine Art"] = {Beli = 5000000, Fragment = 5000},
+}
+local Melee_and_RemoteBuy = {
+    ["Black Leg"] = "BuyBlackLeg",
+    ["Fishman Karate"] = "BuyFishmanKarate",
+    ["Electro"] = "BuyElectro",
+    ["Dragon Claw"] = function()
+        local OwnDragonClaw = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "1") == 1
+        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "2")
+        return OwnDragonClaw
+    end,
+    ["Superhuman"] = "BuySuperhuman",
+    ["Sharkman Karate"] = "BuySharkmanKarate",
+    ["Death Step"] = "BuyDeathStep",
+    ["Dragon Talon"] = "BuyDragonTalon",
+    ["Godhuman"] = "BuyGodhuman",
+    ["Electric Claw"] = "BuyElectricClaw",
+    ["Sanguine Art"] = "BuySanguineArt"
+} 
+local Melee_in_game = {}
+for i,v in pairs(Melee_and_RemoteBuy) do 
+    table.insert(Melee_in_game,i)
+end
+table.sort(Melee_in_game)
+function BuyMelee(MeleeN)
+    if IsPlayerAlive() then 
+        if getgenv().ServerData["PlayerBackpack"][MeleeN] then 
+            getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][MeleeN].Level.Value 
+            return 
+        end
+        local RemoteArg = Melee_and_RemoteBuy[MeleeN]
+        game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+        if type(RemoteArg) == "string" then
+            game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg, true)
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg)
+        else
+            pcall(
+                function()
+                    game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+                    RemoteArg = momo()
+                end
+            )
+        end 
+        SetContent(MeleeN)
+    end
+end
+function getMeleeLevelValues()
+    if not getgenv().Config then repeat task.wait() until getgenv().Config end
+    if not getgenv().Config["Melee Level Values"] then getgenv().Config["Melee Level Values"] = {} end
+    for i,v in pairs(Melee_and_RemoteBuy) do 
+        if not getgenv().Config["Melee Level Values"][i] then 
+            getgenv().Config["Melee Level Values"][i] = 0 
+        end
+        if getgenv().Config["Melee Level Values"][i] == 0 then 
+            BuyMelee(i)
+        end
+        if getgenv().ServerData["PlayerBackpack"][i] then 
+            getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][i].Level.Value 
+        end
+    end
+end
+local a,b = pcall(function()
+    getMeleeLevelValues()
+end)
+if not a then setclipboard(tostring(b)) end 
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true

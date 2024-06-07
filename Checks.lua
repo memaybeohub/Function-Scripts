@@ -37,6 +37,112 @@ task.delay(.1,function()
         end
     end
 end)
+--[[
+local Melee_and_RemoteBuy = {
+    ["Black Leg"] = "BuyBlackLeg",
+    ["Fishman Karate"] = "BuyFishmanKarate",
+    ["Electro"] = "BuyElectro",
+    ["Dragon Claw"] = function()
+        local OwnDragonClaw = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "1") == 1
+        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "2")
+        return OwnDragonClaw
+    end,
+    ["Superhuman"] = "BuySuperhuman",
+    ["Sharkman Karate"] = "BuySharkmanKarate",
+    ["Death Step"] = "BuyDeathStep",
+    ["Dragon Talon"] = "BuyDragonTalon",
+    ["Godhuman"] = "BuyGodhuman",
+    ["Electric Claw"] = "BuyElectricClaw",
+    ["Sanguine Art"] = "BuySanguineArt"
+} 
+]]
+AutoMeleeFunc = function()
+    if getgenv().MeleeTask == 'Find Ice' then  
+        if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
+            EquipWeaponName('Library Key')
+            Tweento(CFrame.new(
+                6375.9126,
+                296.634583,
+                -6843.14062,
+                -0.849467814,
+                1.5493983e-08,
+                -0.527640462,
+                3.70608895e-08,
+                1,
+                -3.0301031e-08,
+                0.527640462,
+                -4.5294577e-08,
+                -0.849467814
+            ))
+        elseif getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] then 
+            KillBoss(getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'])
+        else 
+            HopServer(10,true)
+        end
+    elseif getgenv().MeleeTask == 'Find Waterkey' then  
+        if getgenv().ServerData["PlayerBackpack"]['Water Key'] then 
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
+        elseif getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
+            KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper'])
+        else 
+            HopServer(10,true)
+        end
+    end
+end 
+AutoMeleeCheck = function()
+    task.spawn(function()
+        getgenv().MeleeTask = 'None'
+        while task.wait(.1) do 
+            local MLLV = getgenv().Config["Melee Level Values"]
+            if MLLV["Superhuman"] == 0 then
+                if MLLV["Black Leg"] < 300 then 
+                    BuyMelee('Black Leg')
+                elseif MLLV["Fishman Karate"] < 300 then 
+                    BuyMelee('Fishman Karate') 
+                elseif MLLV["Electro"] < 300 then 
+                    BuyMelee('Electro')   
+                elseif MLLV["Dragon Claw"] < 300 then 
+                    if getgenv().ServerData['PlayerData'].Fragments < 1500 then 
+                        getgenv().FragmentNeeded = true 
+                    end
+                    BuyMelee('Dragon Claw')
+                end 
+            elseif MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 then 
+                if MLLV['Fishman Karate'] < 400 then 
+                    BuyMelee('Fishman Karate')  
+                elseif MLLV['Death Step'] < 400 then 
+                    BuyMelee('Death Step') 
+                end 
+                BuyMelee('Sharkman Karate') 
+                BuyMelee('Death Step')
+                pcall(function() 
+                    local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
+                    getgenv().Config.WaterkeyPassed = v178 == 3;
+                    getgenv().Config.IceCastleDoorPassed = not game.Workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.CanCollide 
+                end) 
+                if (not getgenv().Config.IceCastleDoorPassed) and (getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
+                    getgenv().MeleeTask = 'Find Ice'
+                elseif not getgenv().Config.WaterkeyPassed and (getgenv().ServerData["PlayerBackpack"]['Water Key'] or getgenv().ServerData['Server Bosses']['Tide Keeper'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
+                    getgenv().MeleeTask = 'Find Waterkey'
+                end 
+            else  
+                getgenv().MeleeTask = ''
+            end
+        end
+    end)
+end
+AutoMeleeCheck()
+
+
+
+
+
+
+
+
+
+
+
 
 
 
