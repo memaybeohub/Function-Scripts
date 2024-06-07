@@ -432,13 +432,16 @@ function eatFruit(fruitsSnipes,includedInventory)
             else
                 OC333 = OC[1]
             end
-            if getgenv().ServerData['PlayerBackpack'][OC333.." Fruit"] then 
-                Tweento(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.X,2000,game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z))
+            if getgenv().ServerData['PlayerBackpack'][OC333.." Fruit"] then  
+                task.spawn(function()
+                    Tweento(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.X,game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y +2000,game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z))
+                end)
                 repeat 
                     task.wait()
                     EquipWeaponName(OC333.." Fruit")
                 until game.Players.LocalPlayer.Character:FindFirstChild("EatRemote", true)
                 game.Players.LocalPlayer.Character:FindFirstChild("EatRemote", true):InvokeServer()
+                getgenv().CurrentTask = ''
             end
         end 
     end
