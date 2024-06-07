@@ -433,6 +433,7 @@ function eatFruit(fruitsSnipes,includedInventory)
                 OC333 = OC[1]
             end
             if getgenv().ServerData['PlayerBackpack'][OC333.." Fruit"] then 
+                Tweento(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.X,2000,game.Players.LocalPlayer.Character.PrimaryPart.Z))
                 repeat 
                     task.wait()
                     EquipWeaponName(OC333.." Fruit")
@@ -1086,6 +1087,8 @@ function KillPlayer(PlayerName)
                     EquipWeapon()
                     if t:FindFirstChildOfClass('Tool') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding').Value then 
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,50,15)
+                        SendKey('Z')
+                        SendKey('X')
                     else
                         task.spawn(function()
                             game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
@@ -1578,9 +1581,9 @@ RunService.Heartbeat:Connect(function()
                 local nextis = #getgenv().ServerData['Workspace Fruits']+1
                 table.insert(getgenv().ServerData['Workspace Fruits'],nextis,v)
                 v:GetPropertyChangedSignal('Parent'):Connect(function()
-                    warn(v.Name,'parent changed:',v.Parent)
                     if v.Parent ~= game.workspace then 
-                        --getgenv().ServerData['Workspace Fruits'][vN] = nil 
+                        --getgenv().ServerData['Workspace Fruits'][vN] = nil  
+                        warn(v.Name,'parent changed:',v.Parent)
                         table.remove(getgenv().ServerData['Workspace Fruits'],nextis)
                     end
                 end)
