@@ -1369,12 +1369,12 @@ function FarmMobByLevel(level)
         GetQuest(NewQuest)
     elseif CheckMob(CheckCurrentQuestMob()) then 
         KillNigga(CheckMob(CheckCurrentQuestMob()))
-    elseif CheckMob(CheckCurrentQuestMob(),true) then
-        Tweento(CheckMob(CheckCurrentQuestMob(),true).PrimaryPart.CFrame  *CFrame.new(0,60,0))
     elseif getgenv().MobSpawnClone and getgenv().MobSpawnClone[CheckCurrentQuestMob()] then 
         Tweento(getgenv().MobSpawnClone[CheckCurrentQuestMob()] * CFrame.new(0,60,0))
         for i,v in pairs(game.workspace.MobSpawns:GetChildren()) do 
-            if GetDistance(v,getgenv().MobSpawnClone[CheckCurrentQuestMob()]) > 300 and not CheckMob(CheckCurrentQuestMob()) then 
+            if GetDistance(v,getgenv().MobSpawnClone[CheckCurrentQuestMob()]) > 300 and not CheckMob(CheckCurrentQuestMob()) then  
+                warn('mob far than:',v.Name)
+                Tweento(v * CFrame.new(0,30,0))
             end
         end
     end
