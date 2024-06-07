@@ -1610,7 +1610,7 @@ function BuyMelee(MeleeN)
     end
 end
 function getMeleeLevelValues()
-    warn('Checking all melee')
+    SetContent('Checking all melee')
     task.spawn(function()
         if not getgenv().Config then repeat task.wait() until getgenv().Config end
         if not getgenv().Config["Melee Level Values"] then getgenv().Config["Melee Level Values"] = {} end
