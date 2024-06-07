@@ -1365,16 +1365,17 @@ function FarmMobByLevel(level)
         Level = level,
         DoubleQuest = true 
     }) 
+    local CurrentQuestMob = CheckCurrentQuestMob()
     if level <= game.Players.LocalPlayer.Data.Level.Value and not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
         GetQuest(NewQuest)
-    elseif CheckMob(CheckCurrentQuestMob()) then 
-        KillNigga(CheckMob(CheckCurrentQuestMob()))
-    elseif getgenv().MobSpawnClone and getgenv().MobSpawnClone[CheckCurrentQuestMob()] then 
-        Tweento(getgenv().MobSpawnClone[CheckCurrentQuestMob()] * CFrame.new(0,60,0))
+    elseif CheckMob(CurrentQuestMob) then 
+        KillNigga(CheckMob(CurrentQuestMob))
+    elseif getgenv().MobSpawnClone and getgenv().MobSpawnClone[CurrentQuestMob] then 
+        Tweento(getgenv().MobSpawnClone[CurrentQuestMob] * CFrame.new(0,60,0))
         for i,v in pairs(game.workspace.MobSpawns:GetChildren()) do 
-            if GetDistance(v,getgenv().MobSpawnClone[CheckCurrentQuestMob()]) > 300 and not CheckMob(CheckCurrentQuestMob()) then  
+            if v.Name == CurrentQuestMob and GetDistance(v,getgenv().MobSpawnClone[CurrentQuestMob]) > 300 and not CheckMob(CurrentQuestMob) then  
                 warn('mob far than:',v.Name)
-                Tweento(v * CFrame.new(0,30,0))
+                Tweento(v.CFrame* CFrame.new(0,30,0))
             end
         end
     end
