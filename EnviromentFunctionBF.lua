@@ -370,7 +370,87 @@ function CheckPlayerAlive()
     local a2,b2 = pcall(function() return game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 end)
     task.wait()
     if a2 then return b2 end 
+end  
+function SnipeFruit(fruitsSnipes)
+    if getgenv().ServerData['PlayerData'].DevilFruit == '' then 
+        local FruitStocks = {}
+        for i,v in pairs(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+            "GetFruits",
+            game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop:GetAttribute("Shop2")
+        )) do 
+            if v.OnSale then 
+                table.insert(FruitStocks,v.Name)
+            end
+        end
+        for i = #fruitsSnipes,1,1 do 
+            local f = fruitsSnipes[i]
+            if FruitStocks[f] then 
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PurchaseRawFruit", f, game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop:GetAttribute("Shop2"))
+                return 
+            end
+        end  
+    end
 end 
+function checkFruittoEat(fruitsSnipes,includedInventory)
+    for i,v in pairs(fruitsSnipes) do 
+        local OC = tostring(v):split('-')
+        local OC333 = ""
+        if #OC >= 3 then 
+            local OC2 = {} 
+            for i,v in pairs(OC) do 
+                table.insert(OC2,v)
+                if #OC2 >= #OC/2 then break end 
+            end
+            OC333 = unpack(OC2)
+        else
+            OC333 = OC[1]
+        end
+        if getgenv().ServerData['PlayerBackpack'][OC333.." Fruit"] then 
+            return true 
+        end
+    end 
+    if includedInventory then 
+        for i,v in pairs(fruitsSnipes) do 
+            if getgenv().ServerData["Inventory Items"][v] then 
+                return true
+            end
+        end
+    end
+end 
+function eatFruit(fruitsSnipes,includedInventory) 
+    function l4432()
+        for i,v in pairs(fruitsSnipes) do 
+            local OC = tostring(v):split('-')
+            local OC333 = ""
+            if #OC >= 3 then 
+                local OC2 = {} 
+                for i,v in pairs(OC) do 
+                    table.insert(OC2,v)
+                    if #OC2 >= #OC/2 then break end 
+                end
+                OC333 = unpack(OC2)
+            else
+                OC333 = OC[1]
+            end
+            if getgenv().ServerData['PlayerBackpack'][OC333.." Fruit"] then 
+                repeat 
+                    task.wait()
+                    EquipWeaponName(OC333.." Fruit")
+                until game.Players.LocalPlayer.Character:FindFirstChild("EatRemote", true)
+                game.Players.LocalPlayer.Character:FindFirstChild("EatRemote", true):InvokeServer()
+            end
+        end 
+    end
+    l4432()
+    if includedInventory then 
+        for i,v in pairs(fruitsSnipes) do 
+            if getgenv().ServerData["Inventory Items"][v] then 
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", v) 
+                l4432()
+            end
+        end
+    end
+end
 local function LoadPlayer() 
     if not IsPlayerAlive() then repeat task.wait(.1) until IsPlayerAlive() end
     if IsPlayerAlive() then
@@ -415,18 +495,15 @@ local function LoadPlayer()
                 local TweenAccess = Instance.new("IntValue")
                 TweenAccess.Name = "Teleport Access"
                 TweenAccess.Parent = game.Players.LocalPlayer.Character 
+                game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function(v)
+                    getgenv().ServerData["PlayerBackpack"][v.Name] = v
+                    for i,v2 in pairs(getgenv().ServerData["PlayerBackpack"]) do 
+                        if not game.Players.LocalPlayer.Character:FindFirstChild(i.Name) and not game.Players.LocalPlayer.Backpack:FindFirstChild(i.Name) then 
+                            getgenv().ServerData["PlayerBackpack"][i] = nil 
+                        end
+                    end 
+                end)
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function()
-                    getgenv().ServerData["PlayerBackpack"] = {}
-                    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
-                        if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
-                            getgenv().ServerData["PlayerBackpack"][v.Name] = v 
-                        end
-                    end 
-                    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-                        if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
-                            getgenv().ServerData["PlayerBackpack"][v.Name] = v 
-                        end
-                    end 
                     wait(.5)
                     if IsPlayerAlive() and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') then 
                         local bozo = require(game:GetService("ReplicatedStorage").ClientWeapons).divineart
@@ -1348,9 +1425,7 @@ function collectAllFruit_Store()
     if getgenv().ServerData['Workspace Fruits'] then 
         for i,v in pairs(getgenv().ServerData['Workspace Fruits']) do 
             Tweento(v.Handle.CFrame)
-            if GetDistance(v.Handle) < 10 then 
-                SendKey('Space',.5)
-            end
+            task.wait(.1)
         end
     end
 end
@@ -1453,7 +1528,6 @@ RunService.Heartbeat:Connect(function()
         MySea = "Sea 3"
     end
     if IsPlayerAlive() then 
-        getgenv().ServerData['Workspace Fruits'] = {}
         EnableBuso()
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
@@ -1489,10 +1563,16 @@ RunService.Heartbeat:Connect(function()
         end 
         for i,v in pairs(game.workspace:GetChildren()) do 
             if v.Name:find('Fruit') then 
-                table.insert(getgenv().ServerData['Workspace Fruits'],{
-                    Name = ReturnFruitNameWithId(v),
-                    Fruit = v 
-                })
+                local vN = ReturnFruitNameWithId(v)
+                --getgenv().ServerData['Workspace Fruits'][vN] = v 
+                local nextis = #getgenv().ServerData['Workspace Fruits']+1
+                table.insert(getgenv().ServerData['Workspace Fruits'],nextis,v)
+                v:GetPropertyChangedSignal('Parent'):Connect(function()
+                    if v.Parent ~= game.workspace then 
+                        --getgenv().ServerData['Workspace Fruits'][vN] = nil 
+                        table.remove(getgenv().ServerData['Workspace Fruits'],nextis)
+                    end
+                end)
             end
         end
         for i,v in pairs(game.Players.LocalPlayer.Data:GetChildren()) do 

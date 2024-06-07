@@ -2,7 +2,11 @@ repeat task.wait() until getgenv().EnLoaded
 getgenv().CurrentTask = ""
 function refreshTask()
     if getgenv().CurrentTask == '' then 
-        if getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
+        if getgenv().SnipeFruit and getgenv().FruitSniping and checkFruittoEat(getgenv().FruitSniping,getgenv().IncludeStored) then 
+            getgenv().CurrentTask = 'Eat Fruit'
+        elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
+            getgenv().CurrentTask = 'Collect Fruit'
+        elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
             getgenv().CurrentTask = 'Saber Quest'
         elseif getgenv().ServerData['PlayerData'].Level > 150 
         and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
