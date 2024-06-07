@@ -888,7 +888,7 @@ function KillMobList(MobList)
     for i,v in pairs(MobList) do 
         MobList[i] = RemoveLevelTitle(v)
     end
-    local NM = CheckMob(MobList,true)
+    local NM = CheckMob(MobList)
     if NM then 
         KillNigga(NM)
     else
@@ -1369,6 +1369,8 @@ function FarmMobByLevel(level)
         GetQuest(NewQuest)
     elseif CheckMob(CheckCurrentQuestMob()) then 
         KillNigga(CheckMob(CheckCurrentQuestMob()))
+    elseif CheckMob(CheckCurrentQuestMob(),true) then
+        Tweento(CheckMob(CheckCurrentQuestMob(),true).PrimaryPart.CFrame  *CFrame.new(0,60,0))
     elseif getgenv().MobSpawnClone and getgenv().MobSpawnClone[CheckCurrentQuestMob()] then 
         Tweento(getgenv().MobSpawnClone[CheckCurrentQuestMob()] * CFrame.new(0,60,0))
         for i,v in pairs(game.workspace.MobSpawns:GetChildren()) do 
