@@ -497,11 +497,18 @@ local function LoadPlayer()
                 TweenAccess.Parent = game.Players.LocalPlayer.Character 
                 game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function(v)
                     getgenv().ServerData["PlayerBackpack"][v.Name] = v
-                    for i,v2 in pairs(getgenv().ServerData["PlayerBackpack"]) do 
-                        if not game.Players.LocalPlayer.Character:FindFirstChild(i.Name) and not game.Players.LocalPlayer.Backpack:FindFirstChild(i.Name) then 
-                            getgenv().ServerData["PlayerBackpack"][i] = nil 
+                    if v.Name:find('Fruit') then 
+                    end
+                    for newids,v2 in pairs(getgenv().ServerData["PlayerBackpack"]) do 
+                        if not game.Players.LocalPlayer.Character:FindFirstChild(newids) and not game.Players.LocalPlayer.Backpack:FindFirstChild(newids) then 
+                            getgenv().ServerData["PlayerBackpack"][newids] = nil 
                         end
                     end 
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                        "StoreFruit",
+                        tostring(v:GetAttribute("OriginalName")),
+                        v
+                    )
                 end)
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function()
                     wait(.5)
@@ -1424,6 +1431,7 @@ end
 function collectAllFruit_Store()
     if getgenv().ServerData['Workspace Fruits'] then 
         for i,v in pairs(getgenv().ServerData['Workspace Fruits']) do 
+            warn(ReturnFruitNameWithId(v))
             Tweento(v.Handle.CFrame)
             task.wait(.1)
         end
@@ -1562,12 +1570,14 @@ RunService.Heartbeat:Connect(function()
             end
         end 
         for i,v in pairs(game.workspace:GetChildren()) do 
-            if v.Name:find('Fruit') then 
+            if v.Name:find('Fruit') and not table.find(getgenv().ServerData['Workspace Fruits'],v) then 
                 local vN = ReturnFruitNameWithId(v)
-                --getgenv().ServerData['Workspace Fruits'][vN] = v 
+                --getgenv().ServerData['Workspace Fruits'][vN] = v  
+                warn('Found new fruit',vN)
                 local nextis = #getgenv().ServerData['Workspace Fruits']+1
                 table.insert(getgenv().ServerData['Workspace Fruits'],nextis,v)
                 v:GetPropertyChangedSignal('Parent'):Connect(function()
+                    warn(v.Name,'parent changed:',v.Parent)
                     if v.Parent ~= game.workspace then 
                         --getgenv().ServerData['Workspace Fruits'][vN] = nil 
                         table.remove(getgenv().ServerData['Workspace Fruits'],nextis)
