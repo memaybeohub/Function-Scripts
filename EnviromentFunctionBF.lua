@@ -1,6 +1,7 @@
 repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer 
 SetContent = function(v1)
-    ContentSet(v1,getgenv().CurrentTask)
+    if not v1 then v1 = '' end
+    if ContentSet then ContentSet(v1,getgenv().CurrentTask) end
 end 
 getgenv().ServerData = {} 
 function Join(v2) 
@@ -1391,6 +1392,7 @@ function FarmMobByLevel(level)
     elseif CheckMob(CurrentQuestMob) then 
         KillNigga(CheckMob(CurrentQuestMob))
     elseif getgenv().MobSpawnClone and getgenv().MobSpawnClone[CurrentQuestMob] then 
+        SetContent('Waitting mob... | '..tostring(CurrentQuestMob))
         Tweento(getgenv().MobSpawnClone[CurrentQuestMob] * CFrame.new(0,60,0))
         for i,v in pairs(game.workspace.MobSpawns:GetChildren()) do 
             if v.Name == CurrentQuestMob and GetDistance(v,getgenv().MobSpawnClone[CurrentQuestMob]) > 300 and not CheckMob(CurrentQuestMob) then  
