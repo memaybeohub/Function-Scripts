@@ -888,7 +888,7 @@ function KillMobList(MobList)
     for i,v in pairs(MobList) do 
         MobList[i] = RemoveLevelTitle(v)
     end
-    local NM = CheckMob(MobList)
+    local NM = CheckMob(MobList,true)
     if NM then 
         KillNigga(NM)
     else
