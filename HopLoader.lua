@@ -80,12 +80,14 @@ end
 local Settings2 = ReadSetting2()
 getgenv().TimeTryHopLow = 0
 function HopServer(CountTarget, hoplowallow)
+    SetContent('Start hopping...')
     if hoplowallow and getgenv().TimeTryHopLow < 3 then
         for i = 1, 3 - getgenv().TimeTryHopLow do
             if getgenv().TimeTryHopLow < 3 then
                 HopLow()
                 getgenv().TimeTryHopLow = getgenv().TimeTryHopLow + 1
                 warn('Hop low times: ',getgenv().TimeTryHopLow)
+                SetContent('Low Server hopping times: '..tostring(getgenv().TimeTryHopLow))
             end
         end
     end
@@ -104,6 +106,7 @@ function HopServer(CountTarget, hoplowallow)
             for k, v in pairs(huhu) do
                 if k ~= game.JobId and v["Count"] < CountTarget then
                     if not Settings2[k] or tick() - Settings2[k].Time > 60 * 10 then
+                        SetContent('Hopping normal server...')
                         Settings2[k] = {
                             Time = tick()
                         }
@@ -121,7 +124,7 @@ function HopServer(CountTarget, hoplowallow)
                                     not game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Visible)
                             AntiLowHealthting = false
                         else
-                        end
+                        end 
                         game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
                         return true
                     elseif tick() - Settings2[k].Time > 60 * 60 then

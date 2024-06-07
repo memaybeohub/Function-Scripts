@@ -49,20 +49,23 @@ AutoRaceV2 = function()
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist", "3")
         wait(5)
         getgenv().CurrentTask = '' 
-        ContentSet('Done')
+        SetContent('Upgraded V2 Race | Returning task...')
         return
     else
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Alchemist", "1")
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Alchemist", "2") 
         if not getgenv().ServerData["PlayerBackpack"]['Flower 1'] then 
+            SetContent('Getting Blue Flower (Flower 1)')
             if workspace.Flower1.Transparency ~= 1 then
                 Tweento(workspace.Flower1.CFrame)
             else 
                 HopServer(10,true)
             end
-        elseif not getgenv().ServerData["PlayerBackpack"]['Flower 2'] then
+        elseif not getgenv().ServerData["PlayerBackpack"]['Flower 2'] then 
+            SetContent('Getting Red Flower (Flower 2)')
             Tweento(workspace.Flower2.CFrame)
-        else
+        else 
+            SetContent('Getting Yellow Flower (Flower 3)')
             KillMobList({"Swan Pirate"})
         end
     end
@@ -71,6 +74,7 @@ end
 AutoBartiloQuest = function()
     local QuestBartiloId = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo")
     if QuestBartiloId == 0 then 
+        SetContent('First Bartilo task...')
         if game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("Swan Pirate") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("50") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible then 
             KillMobList({"Swan Pirate"})
         else
@@ -85,6 +89,7 @@ AutoBartiloQuest = function()
             end
         end 
     elseif QuestBartiloId == 1 then 
+        SetContent('Finding Jeremy...')
         if getgenv().ServerData['Server Bosses']['Jeremy'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Jeremy'])
             getgenv().CurrentTask = ''
@@ -108,6 +113,7 @@ AutoBartiloQuest = function()
         0.999881566
     )
         if GetDistance(StartCFrame) > 400 then 
+            SetContent('Starting templates puzzle...')
             Tweento(StartCFrame)
         else
             game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame =
@@ -137,24 +143,28 @@ AutoBartiloQuest = function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                 CFrame.new(-1813.51843, 14.8604736, 1724.79541)
                 getgenv().CurrentTask = ''
+                SetContent('Done task | Returning task...')
         end
     end
 end
 AutoSea2 = function()  
     if game.Workspace.Map.Ice.Door.CanCollide then
-        if not getgenv().ServerData["PlayerBackpack"]['Key'] then 
+        if not getgenv().ServerData["PlayerBackpack"]['Key'] then  
+            SetContent('Getting key to pass the door...')
             Tweento(CFrame.new(4852.2895507813, 5.651451587677, 718.53070068359))
             if GetDistance(CFrame.new(4852.2895507813, 5.651451587677, 718.53070068359)) < 5 then
                 game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("DressrosaQuestProgress", "Detective")
                 if getgenv().ServerData["PlayerBackpack"]['Key'] then EquipWeaponName("Key") end
             end 
-        else
+        else 
+            SetContent('Opening door...')
             EquipWeaponName("Key")
             if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Key") then
                 Tweento(game.Workspace.Map.Ice.Door.CFrame)
             end
         end
-    else
+    else 
+        SetContent('Finding Ice Admiral...')
         if getgenv().ServerData['Server Bosses']['Ice Admiral'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Ice Admiral']) 
             refreshTask()
@@ -213,7 +223,7 @@ AutoSaber = function()
         return
     end
     if IsUnlockedSaberDoor() then 
-        warn('Killing Shanks...')
+        SetContent('Finding Saber Expert...')
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert']) 
             getgenv().CurrentTask = ''
@@ -221,22 +231,24 @@ AutoSaber = function()
             HopServer(9,true)
         end 
     elseif game:GetService("Workspace").Map.Jungle.QuestPlates.Door.CanCollide then 
-        warn('Touching Templatess...')
+        SetContent('Touching templates in jungle...')
         local Template = SaberTouchTemplate()
         if Template then 
             Tweento(Template.Part.CFrame)
         end
     elseif CupDoor() then 
         RichSonProgress = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ProQuestProgress", "RichSon")
-        warn('Getting Cup for open door...')
         if RichSonProgress ~= 0 and RichSonProgress ~= 1 then
             if not getgenv().ServerData["PlayerBackpack"]['Cup'] then 
                 Tweento(CFrame.new(1113.66992,7.5484705,4365.27832,-0.78613919,-2.19578524e-08,-0.618049502,1.02977182e-09,1,-3.68374984e-08,0.618049502,-2.95958493e-08,-0.78613919)) 
+                SetContent('Getting cup')
             else
                 EquipWeaponName('Cup')
                 if getgenv().ServerData["PlayerBackpack"]['Cup'].Handle:FindFirstChild('TouchInterest') then 
+                    SetContent('Filling cup with water...')
                     Tweento(CFrame.new(1395.77307,37.4733238,-1324.34631,-0.999978602,-6.53588605e-09,0.00654155109,-6.57083277e-09,1,-5.32077493e-09,-0.00654155109,-5.3636442e-09,-0.999978602))  
-                else
+                else 
+                    SetContent('Feeding sick man...')
                     Tweento(CFrame.new(1457.8768310547, 88.377502441406, -1390.6892089844))
                     if GetDistance(CFrame.new(1457.8768310547, 88.377502441406, -1390.6892089844)) < 10 then 
                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
@@ -247,6 +259,7 @@ AutoSaber = function()
                 end
             end
         elseif RichSonProgress == 0 then
+            SetContent('Finding Mob Leader...')
             if getgenv().ServerData['Server Bosses']['Mob Leader'] then 
                 KillBoss(getgenv().ServerData['Server Bosses']['Mob Leader']) 
             elseif getgenv().ServerData['PlayerData'].Level > 500 then 
@@ -263,7 +276,8 @@ AutoSaber = function()
                 end
             end
         end
-    else
+    else 
+        SetContent('Getting torch...')
         if not getgenv().ServerData["PlayerBackpack"]['Torch'] then  
             Tweento(game:GetService("Workspace").Map.Jungle.Torch.CFrame)
         else  

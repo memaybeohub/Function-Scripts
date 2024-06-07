@@ -836,6 +836,7 @@ function KillNigga(MobInstance)
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
                 CheckIsRaiding()
+            SetContent('...')
             KillingMobTick = 0
             game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
             KillingMob = false
@@ -1461,10 +1462,8 @@ end
 function collectAllFruit_Store()
     if getgenv().ServerData['Workspace Fruits'] then 
         for i,v in pairs(getgenv().ServerData['Workspace Fruits']) do 
-            SetContent('Fruit name?: '..tostring(v.Name))
-            warn(ReturnFruitNameWithId(v))
+            SetContent('Picking up fruit: '..ReturnToShowFruit(v))
             Tweento(v.Handle.CFrame)
-            getgenv().CurrentTask = ''
             task.wait(.1) 
             getgenv().CurrentTask = ''
         end
