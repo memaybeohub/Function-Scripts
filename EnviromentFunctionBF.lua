@@ -1433,7 +1433,8 @@ function collectAllFruit_Store()
         for i,v in pairs(getgenv().ServerData['Workspace Fruits']) do 
             warn(ReturnFruitNameWithId(v))
             Tweento(v.Handle.CFrame)
-            task.wait(.1)
+            task.wait(.1) 
+            getgenv().CurrentTask = ''
         end
     end
 end
@@ -1592,7 +1593,8 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end  
-        getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer()
+        getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer() 
+        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Cousin", "Buy")
     end
 end)
 loadstring([[

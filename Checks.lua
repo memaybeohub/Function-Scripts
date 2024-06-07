@@ -70,7 +70,7 @@ AutoBartiloQuest = function()
     elseif QuestBartiloId == 1 then 
         if getgenv().ServerData['Server Bosses']['Jeremy'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Jeremy'])
-            refreshTask()
+            getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level > 500 then 
             HopServer(9,true)
         end
@@ -119,12 +119,11 @@ AutoBartiloQuest = function()
                 task.wait(.5)
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                 CFrame.new(-1813.51843, 14.8604736, 1724.79541)
-                refreshTask()
+                getgenv().CurrentTask = ''
         end
     end
 end
 AutoSea2 = function()  
-    --getgenv().ServerData["PlayerBackpack"]['Cup']
     if game.Workspace.Map.Ice.Door.CanCollide then
         if not getgenv().ServerData["PlayerBackpack"]['Key'] then 
             Tweento(CFrame.new(4852.2895507813, 5.651451587677, 718.53070068359))
@@ -145,7 +144,8 @@ AutoSea2 = function()
             local args = {
                 [1] = "TravelDressrosa"
             }
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args)) 
+            getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level >= 700 then 
             HopServer(9,true)
         end
@@ -161,7 +161,7 @@ AutoPole = function()
     end 
     if getgenv().ServerData['Server Bosses']['Thunder God'] then 
         KillBoss(getgenv().ServerData['Server Bosses']['Thunder God'])
-        refreshTask()
+        getgenv().CurrentTask = ''
     elseif getgenv().ServerData['PlayerData'].Level > 500 then 
         HopServer(9,true)
     end
@@ -192,14 +192,14 @@ AutoSaber = function()
     task.wait()
     local RichSonProgress = -999
     if getgenv().ServerData["Inventory Items"]["Saber"] then 
-        refreshTask()
+        getgenv().CurrentTask = ''
         return
     end
     if IsUnlockedSaberDoor() then 
         warn('Killing Shanks...')
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert']) 
-            refreshTask()
+            getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level > 500 then 
             HopServer(9,true)
         end 
