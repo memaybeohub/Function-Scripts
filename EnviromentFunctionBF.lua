@@ -1,4 +1,7 @@
 repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer 
+SetContent = function(v1)
+    ContentSet(v1,getgenv().CurrentTask)
+end 
 getgenv().ServerData = {} 
 function Join(v2) 
     v2 = tostring(v2) or "Pirates"
@@ -784,7 +787,7 @@ function KillNigga(MobInstance)
                 LockCFrame = MobInstance.HumanoidRootPart.CFrame
                 KillingBoss = true
             end
-            local N_Name = MobInstance.Humanoid.Name
+            local N_Name = MobInstance.Name
             if string.find(N_Name, "Boss") or table.find(Elites, N_Name) then
                 if not string.find(N_Name, "Boss") then
                     for i, v in pairs(Elites) do
@@ -796,6 +799,7 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
+            SetContent('Killing: '..tostring(N_Name))
             if IsBoss(MobInstance) then 
                 KillingBoss = true 
             end
@@ -896,6 +900,7 @@ function KillMobList(MobList)
         if MS then 
             for i,v in pairs(MS) do 
                 if not CheckMob(MobList) and v then 
+                    SetContent('Waitting mobs...')
                     Tweento(v * CFrame.new(0,50,0))
                     wait(1)
                 end
@@ -906,7 +911,8 @@ end
 function KillBoss(BossInstance)
     if not BossInstance:FindFirstChild('Humanoid') then return end 
     warn('Killing boss:',BossInstance.Name)
-    if not game.Workspace.Enemies:FindFirstChild(BossInstance.Name) then 
+    if not game.Workspace.Enemies:FindFirstChild(BossInstance.Name) then  
+        SetContent('Tweening to boss:',BossInstance.Name)
         Tweento(BossInstance.PrimaryPart.CFrame * CFrame.new(0,50,0))
     end
     KillNigga(BossInstance)
@@ -1058,7 +1064,8 @@ function CheckSafeZone(p)
     end
 end
 function KillPlayer(PlayerName)
-    warn('KillPlayer',PlayerName)
+    warn('KillPlayer',PlayerName) 
+    SetContent('Start killing: '..tostring(PlayerName))
     local t = game:GetService("Workspace").Characters:FindFirstChild(PlayerName)
     local tRoot = t.PrimaryPart or t:FindFirstChild('HumanoidRootPart')
     local tHumanoid = t:FindFirstChild('Humanoid')
@@ -1079,7 +1086,8 @@ function KillPlayer(PlayerName)
             if totRoot < 50 then 
                 if tick()-getNeartick > 100 then 
                     getNeartick = tick()
-                    repeat 
+                    repeat  
+                        SetContent('Bypassing Anti-Killing')
                         task.wait()
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,100,10)
                         game.Players.LocalPlayer.Character['Fast Attack'].Value = false
@@ -1089,6 +1097,7 @@ function KillPlayer(PlayerName)
                     KillingMob = true
                     EquipWeapon()
                     if t:FindFirstChildOfClass('Tool') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding').Value then 
+                        SetContent(PlayerName..' holding skill...')
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,50,15)
                         SendKey('Z')
                         SendKey('X')
@@ -1120,10 +1129,12 @@ function KillPlayer(PlayerName)
     game.Players.LocalPlayer.Character['Aimbot Position'].Value = Vector3.new(0,0,0)
     game.Players.LocalPlayer.Character['Aimbot'].Value = false
     if IsSafeZone or tick()-StartKillTick > 80 then 
-        warn('Kill Failed:',PlayerName)
+        warn('Kill Failed:',PlayerName) 
+        SetContent('Kill Failed: '..tostring(PlayerName))
         return false 
     else 
-        warn('Kill Success:',PlayerName)
+        warn('Kill Success:',PlayerName) 
+        SetContent('Kill Success: '..tostring(PlayerName))
         return true 
     end
 end
@@ -1343,10 +1354,11 @@ function GetQuest(QuestTables)
     if game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then
         return
     end 
+    SetContent('Getting quest...')
     if not QuestTables or not QuestTables["Mob"] or not QuestTables["QuestName"] or not QuestTables["LevelReq"] or not QuestTables["QuestId"] or not QuestTables["QuestCFrame"] then 
         QuestTables = CheckQuestByLevel()
     end
-    if QuestTables.QuestCFrame and GetDistance(QuestTables.QuestCFrame) <= 8 then 
+    if QuestTables.QuestCFrame and GetDistance(QuestTables.QuestCFrame) <= 8 then  
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", tostring(QuestTables["QuestName"]), QuestTables["QuestId"])
         wait(1.75)
     else
@@ -1357,6 +1369,14 @@ function GetQuest(QuestTables)
         end
         task.wait(1)
     end
+end
+function PushData(tab,newdata)
+    for i = 1, #tab - 1 do
+        tab[i] = tab[i + 1]  -- Gán giá trị ở vị trí i + 1 vào vị trí i
+    end
+
+    tab[#tab] = newdata -- Xóa phần tử cuối cùng (hoặc gán giá trị mới nếu cần)
+    return tab
 end
 function FarmMobByLevel(level)
     if not level then level = game.Players.LocalPlayer.Data.Level.Value end
@@ -1374,7 +1394,6 @@ function FarmMobByLevel(level)
         Tweento(getgenv().MobSpawnClone[CurrentQuestMob] * CFrame.new(0,60,0))
         for i,v in pairs(game.workspace.MobSpawns:GetChildren()) do 
             if v.Name == CurrentQuestMob and GetDistance(v,getgenv().MobSpawnClone[CurrentQuestMob]) > 300 and not CheckMob(CurrentQuestMob) then  
-                warn('mob far than:',v.Name)
                 Tweento(v.CFrame* CFrame.new(0,30,0))
             end
         end
@@ -1440,6 +1459,7 @@ end
 function collectAllFruit_Store()
     if getgenv().ServerData['Workspace Fruits'] then 
         for i,v in pairs(getgenv().ServerData['Workspace Fruits']) do 
+            SetContent('Fruit name?: '..tostring(v.Name))
             warn(ReturnFruitNameWithId(v))
             Tweento(v.Handle.CFrame)
             getgenv().CurrentTask = ''
@@ -1592,6 +1612,7 @@ RunService.Heartbeat:Connect(function()
                         --getgenv().ServerData['Workspace Fruits'][vN] = nil  
                         warn(v.Name,'parent changed:',v.Parent)
                         table.remove(getgenv().ServerData['Workspace Fruits'],nextis)
+                        v:GetPropertyChangedSignal('Parent'):Disconnect()
                     end
                 end)
             end

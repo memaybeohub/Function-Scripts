@@ -1,7 +1,7 @@
 repeat task.wait() until getgenv().EnLoaded 
 getgenv().CurrentTask = "" 
 getgenv().TaskUpdateTick = tick()
-function refreshTask()
+function refreshTask() 
     if getgenv().CurrentTask == '' or tick()-getgenv().TaskUpdateTick > 60 then 
         if getgenv().ServerData['PlayerData'].DevilFruit == '' and getgenv().SnipeFruit and getgenv().FruitSniping and checkFruittoEat(getgenv().FruitSniping,getgenv().IncludeStored) then 
             getgenv().CurrentTask = 'Eat Fruit'
@@ -22,11 +22,19 @@ function refreshTask()
         end  
         getgenv().TaskUpdateTick = tick()
     end
-end
+end 
+local rF1,rF2 
 task.delay(.1,function()
     while task.wait() do 
         task.wait()
-        refreshTask()
+        rF1,rF2  = pcall(function()
+            refreshTask() 
+        end)
+        if not rF1 then 
+            print('Refreshing task error:',rF2)
+        else
+            print('Refreshing task...')
+        end
     end
 end)
 
@@ -40,7 +48,8 @@ AutoRaceV2 = function()
     if getgenv().ServerData["PlayerBackpack"]['Flower 1'] and getgenv().ServerData["PlayerBackpack"]['Flower 2'] and getgenv().ServerData["PlayerBackpack"]['Flower 3'] then 
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist", "3")
         wait(5)
-        getgenv().CurrentTask = ''
+        getgenv().CurrentTask = '' 
+        ContentSet('Done')
         return
     else
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Alchemist", "1")
