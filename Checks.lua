@@ -1,7 +1,8 @@
 repeat task.wait() until getgenv().EnLoaded 
-getgenv().CurrentTask = ""
+getgenv().CurrentTask = "" 
+getgenv().TaskUpdateTick = tick()
 function refreshTask()
-    if getgenv().CurrentTask == '' then 
+    if getgenv().CurrentTask == '' or tick()-getgenv().TaskUpdateTick > 60 then 
         if getgenv().ServerData['PlayerData'].DevilFruit == '' and getgenv().SnipeFruit and getgenv().FruitSniping and checkFruittoEat(getgenv().FruitSniping,getgenv().IncludeStored) then 
             getgenv().CurrentTask = 'Eat Fruit'
         elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
@@ -10,7 +11,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Saber Quest'
         elseif getgenv().ServerData['PlayerData'].Level > 150 
         and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
-        and (getgenv().ServerData['Server Bosses']['Thunder God']) then --or getgenv().ServerData['PlayerData'].Level > 500 then 
+        and (getgenv().ServerData['Server Bosses']['Thunder God']) then 
             getgenv().CurrentTask = 'Pole Quest'
         elseif Sea1 and getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
             getgenv().CurrentTask = 'Sea 2 Quest'
@@ -18,7 +19,8 @@ function refreshTask()
             getgenv().CurrentTask = 'Bartilo Quest'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Beli >= 500000 and getgenv().ServerData["Inventory Items"]["Warrior Helmet"] and getgenv().ServerData['PlayerData'].RaceVer == 'V1' then 
             getgenv().CurrentTask = 'Race V2 Quest'
-        end 
+        end  
+        getgenv().TaskUpdateTick = tick()
     end
 end
 task.delay(.1,function()
@@ -27,6 +29,12 @@ task.delay(.1,function()
         refreshTask()
     end
 end)
+
+
+
+
+
+
 
 AutoRaceV2 = function()
     if getgenv().ServerData["PlayerBackpack"]['Flower 1'] and getgenv().ServerData["PlayerBackpack"]['Flower 2'] and getgenv().ServerData["PlayerBackpack"]['Flower 3'] then 

@@ -1439,6 +1439,7 @@ function collectAllFruit_Store()
         for i,v in pairs(getgenv().ServerData['Workspace Fruits']) do 
             warn(ReturnFruitNameWithId(v))
             Tweento(v.Handle.CFrame)
+            getgenv().CurrentTask = ''
             task.wait(.1) 
             getgenv().CurrentTask = ''
         end
