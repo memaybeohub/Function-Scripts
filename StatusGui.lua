@@ -107,7 +107,7 @@ UICorner_3.Parent = TextBox
 
 function ContentSet(Content1, Content2)
 	if not Content1 then Content1 = 'None (Not Found)' end 
-	if not Content2 or Content2 = '' then Content2 = 'Farming Level (or None)' end 
+	if not Content2 or Content2 == '' then Content2 = 'Farming Level (or None)' end 
 	doing.Text = Content1
 	doing_2.Text = Content2
 end
