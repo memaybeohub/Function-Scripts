@@ -1610,23 +1610,24 @@ function BuyMelee(MeleeN)
     end
 end
 function getMeleeLevelValues()
-    if not getgenv().Config then repeat task.wait() until getgenv().Config end
-    if not getgenv().Config["Melee Level Values"] then getgenv().Config["Melee Level Values"] = {} end
-    for i,v in pairs(Melee_and_RemoteBuy) do 
-        if not getgenv().Config["Melee Level Values"][i] then 
-            getgenv().Config["Melee Level Values"][i] = 0 
+    warn('Checking all melee')
+    task.spawn(function()
+        if not getgenv().Config then repeat task.wait() until getgenv().Config end
+        if not getgenv().Config["Melee Level Values"] then getgenv().Config["Melee Level Values"] = {} end
+        for i,v in pairs(Melee_and_RemoteBuy) do 
+            if not getgenv().Config["Melee Level Values"][i] then 
+                getgenv().Config["Melee Level Values"][i] = 0 
+            end
+            if getgenv().Config["Melee Level Values"][i] == 0 then 
+                BuyMelee(i)
+            end
+            if getgenv().ServerData["PlayerBackpack"][i] then 
+                getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][i].Level.Value 
+            end
         end
-        if getgenv().Config["Melee Level Values"][i] == 0 then 
-            BuyMelee(i)
-        end
-        if getgenv().ServerData["PlayerBackpack"][i] then 
-            getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][i].Level.Value 
-        end
-    end
+    end)
 end
-local a,b = pcall(function()
-    getMeleeLevelValues()
-end)
+getMeleeLevelValues()
 if not a then setclipboard(tostring(b)) end 
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
