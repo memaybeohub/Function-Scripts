@@ -433,7 +433,7 @@ function eatFruit(fruitsSnipes,includedInventory)
                 OC333 = OC[1]
             end
             if getgenv().ServerData['PlayerBackpack'][OC333.." Fruit"] then 
-                Tweento(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.X,2000,game.Players.LocalPlayer.Character.PrimaryPart.Z))
+                Tweento(CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.X,2000,game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z))
                 repeat 
                     task.wait()
                     EquipWeaponName(OC333.." Fruit")
