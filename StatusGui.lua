@@ -118,7 +118,6 @@ MainStroke.Archivable = true
 
 
 UICorner_2.Parent = TextBox
-
 ImageButton.Parent = Frame
 ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -128,7 +127,12 @@ ImageButton.Size = UDim2.new(0, 61, 0, 61)
 ImageButton.Image = "http://www.roblox.com/asset/?id=17140528880"
 
 UICorner_3.Parent = ImageButton
-
+ImageButton.MouseButton1Click:Connect(function()
+	getgenv().BlackScreenToggle = not getgenv().BlackScreenToggle
+	if getgenv().BlackScreenToggle then 
+		game:GetService("RunService"):Set3dRenderingEnabled(getgenv().BlackScreenToggle)
+	end
+end)
 function ContentSet(Content1, Content2)
 	if not Content1 then Content1 = 'None (Not Found)' end 
 	if not Content2 or Content2 == '' then Content2 = 'Farming Level (or None)' end 

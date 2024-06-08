@@ -96,7 +96,7 @@ AutoMeleeCheck = function()
     task.spawn(function()
         getgenv().MeleeTask = 'None'
         repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"]
-        while task.wait(.1) do 
+        while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"]
             if MLLV["Superhuman"] == 0 then
                 if MLLV["Black Leg"] < 300 then 
