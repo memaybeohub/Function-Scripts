@@ -337,7 +337,7 @@ AutoSaber = function()
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert']) 
             getgenv().CurrentTask = ''
-        elseif getgenv().ServerData['PlayerData'].Level > 500 then 
+        elseif getgenv().ServerData['PlayerData'].Level > 200 then 
             HopServer(9,true)
         end 
     elseif game:GetService("Workspace").Map.Jungle.QuestPlates.Door.CanCollide then 

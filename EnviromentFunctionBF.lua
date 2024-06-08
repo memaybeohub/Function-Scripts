@@ -507,7 +507,18 @@ local function LoadPlayer()
                     end
                 end)
             end
-        end 
+        end  
+        if not getgenv().ServerData['PlayerData'] = then getgenv().ServerData['PlayerData'] = {} end
+        for i,v in pairs(game.Players.LocalPlayer.Data:GetChildren()) do 
+            if tostring(v.ClassName):find('Value') then 
+                if not getgenv().ServerData['PlayerData'][v.Name] then 
+                    getgenv().ServerData['PlayerData'][v.Name] = v.Value 
+                    v:GetPropertyChangedSignal('Value'):Connect(function() 
+                        getgenv().ServerData['PlayerData'][v.Name] = v.Value 
+                    end)
+                end
+            end
+        end  
         if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then 
             wait(1)
             if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
@@ -933,7 +944,7 @@ function KillBoss(BossInstance)
     if not BossInstance:FindFirstChild('Humanoid') then return end 
     warn('Killing boss:',BossInstance.Name)
     if not game.Workspace.Enemies:FindFirstChild(BossInstance.Name) then  
-        SetContent('Tweening to boss:',BossInstance.Name)
+        SetContent('Tweening to boss:'..BossInstance.Name)
         Tweento(BossInstance.PrimaryPart.CFrame * CFrame.new(0,50,0))
     end
     KillNigga(BossInstance)
@@ -1541,7 +1552,6 @@ getgenv().ServerData["Inventory Items"] = {}
 getgenv().ServerData['Skill Loaded'] = {}
 getgenv().ServerData['Workspace Fruits'] = {}
 getgenv().ServerData['Server Bosses'] = {}
-getgenv().ServerData['PlayerData'] = {}
 getgenv().ServerData["PlayerBackpack"] = {}
 for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
     LoadBoss(v) 
@@ -1651,7 +1661,7 @@ function getFruitBelow1M()
     end 
 end
 getMeleeLevelValues()
-if not a then setclipboard(tostring(b)) end 
+if not a then setclipboard(tostring(b)) end  
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true
@@ -1720,13 +1730,6 @@ RunService.Heartbeat:Connect(function()
                 end)
             end
         end
-        for i,v in pairs(game.Players.LocalPlayer.Data:GetChildren()) do 
-            if tostring(v.ClassName):find('Value') then 
-                if not getgenv().ServerData['PlayerData'][v.Name] then 
-                    getgenv().ServerData['PlayerData'][v.Name] = v.Value 
-                end
-            end
-        end  
         getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer() 
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Cousin", "Buy")
     end
