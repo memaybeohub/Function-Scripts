@@ -18,7 +18,7 @@ end
 
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.Parent = game:GetService("Players").LocalPlayer.PlayerGui
-ScreenGui.Name - 'CoinCard'
+ScreenGui.Name = 'CoinCard'
 
 DropShadowHolder.AnchorPoint = Vector2.new(0.5, 0.5)
 DropShadowHolder.BackgroundTransparency = 1
