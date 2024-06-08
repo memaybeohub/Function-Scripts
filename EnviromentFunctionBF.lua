@@ -1612,9 +1612,7 @@ function BuyMelee(MeleeN)
             return 
         end
         local RemoteArg = Melee_and_RemoteBuy[MeleeN]
-        game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
         if type(RemoteArg) == "string" then
-            game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg, true)
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg)
         else
@@ -1625,7 +1623,6 @@ function BuyMelee(MeleeN)
                 end
             )
         end 
-        SetContent(MeleeN)
     end
 end
 function getMeleeLevelValues()
