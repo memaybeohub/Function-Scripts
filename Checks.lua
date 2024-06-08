@@ -28,37 +28,16 @@ function refreshTask()
 end 
 local rF1,rF2 
 task.delay(.1,function()
-    while task.wait() do 
+    while task.wait(.5) do 
         task.wait()
         rF1,rF2  = pcall(function()
             refreshTask() 
         end)
         if not rF1 then 
-            print('Refreshing task error:',rF2)
-        else
-            print('Refreshing task...')
+            warn('Refreshing task error:',rF2)
         end
     end
 end)
---[[
-local Melee_and_RemoteBuy = {
-    ["Black Leg"] = "BuyBlackLeg",
-    ["Fishman Karate"] = "BuyFishmanKarate",
-    ["Electro"] = "BuyElectro",
-    ["Dragon Claw"] = function()
-        local OwnDragonClaw = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "1") == 1
-        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "2")
-        return OwnDragonClaw
-    end,
-    ["Superhuman"] = "BuySuperhuman",
-    ["Sharkman Karate"] = "BuySharkmanKarate",
-    ["Death Step"] = "BuyDeathStep",
-    ["Dragon Talon"] = "BuyDragonTalon",
-    ["Godhuman"] = "BuyGodhuman",
-    ["Electric Claw"] = "BuyElectricClaw",
-    ["Sanguine Art"] = "BuySanguineArt"
-} 
-]]
 AutoMeleeFunc = function()
     if getgenv().MeleeTask == 'Find Ice' then  
         if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
@@ -136,24 +115,6 @@ AutoMeleeCheck = function()
     end)
 end
 AutoMeleeCheck()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 AutoRaceV2 = function()
     if getgenv().ServerData["PlayerBackpack"]['Flower 1'] and getgenv().ServerData["PlayerBackpack"]['Flower 2'] and getgenv().ServerData["PlayerBackpack"]['Flower 3'] then 
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist", "3")

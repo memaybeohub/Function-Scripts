@@ -1492,7 +1492,7 @@ end
 function collectAllFruit_Store()
     if getgenv().ServerData['Workspace Fruits'] then 
         for i,v in pairs(getgenv().ServerData['Workspace Fruits']) do 
-            SetContent('Picking up fruit: '..ReturnToShowFruit(v))
+            SetContent('Picking up '..getRealFruit(v))
             Tweento(v.Handle.CFrame)
             task.wait(.1) 
             getgenv().CurrentTask = ''
@@ -1618,8 +1618,10 @@ table.sort(Melee_in_game)
 function BuyMelee(MeleeN)
     if IsPlayerAlive() then 
         if getgenv().ServerData["PlayerBackpack"][MeleeN] then 
-            getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][MeleeN].Level.Value 
-            return 
+            task.spawn(function()
+                getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][MeleeN].Level.Value 
+            end) 
+            return
         end
         local RemoteArg = Melee_and_RemoteBuy[MeleeN]
         if type(RemoteArg) == "string" then
@@ -1661,7 +1663,25 @@ function getFruitBelow1M()
     end 
 end
 getMeleeLevelValues()
-if not a then setclipboard(tostring(b)) end  
+function ReloadFrutis()    
+    warn('Reloading fruits')
+    for i,v in pairs(game.workspace:GetChildren()) do 
+    if v.Name:find('Fruit') and not table.find(getgenv().ServerData['Workspace Fruits'],v) then 
+        local vN = ReturnFruitNameWithId(v)
+        warn('Found new fruit',vN)
+        table.insert(getgenv().ServerData['Workspace Fruits'],#getgenv().ServerData['Workspace Fruits']+1,v) 
+        local selfs 
+        selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
+            if v.Parent ~= game.workspace then 
+                warn(v.Name,'parent changed:',v.Parent)
+                getgenv().ServerData['Workspace Fruits'] = {}
+                selfs:Disconnect()
+                ReloadFrutis()
+            end
+        end)
+    end
+end 
+ReloadFrutis()
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true
@@ -1713,23 +1733,6 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end 
-        for i,v in pairs(game.workspace:GetChildren()) do 
-            if v.Name:find('Fruit') and not table.find(getgenv().ServerData['Workspace Fruits'],v) then 
-                local vN = ReturnFruitNameWithId(v)
-                --getgenv().ServerData['Workspace Fruits'][vN] = v  
-                warn('Found new fruit',vN)
-                local nextis = #getgenv().ServerData['Workspace Fruits']+1
-                table.insert(getgenv().ServerData['Workspace Fruits'],nextis,v)
-                v:GetPropertyChangedSignal('Parent'):Connect(function()
-                    if v.Parent ~= game.workspace then 
-                        --getgenv().ServerData['Workspace Fruits'][vN] = nil  
-                        warn(v.Name,'parent changed:',v.Parent)
-                        table.remove(getgenv().ServerData['Workspace Fruits'],nextis)
-                        v:GetPropertyChangedSignal('Parent'):Disconnect()
-                    end
-                end)
-            end
-        end
         getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer() 
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Cousin", "Buy")
     end
