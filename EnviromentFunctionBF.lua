@@ -508,7 +508,7 @@ local function LoadPlayer()
                 end)
             end
         end  
-        if not getgenv().ServerData['PlayerData'] = then getgenv().ServerData['PlayerData'] = {} end
+        if not getgenv().ServerData['PlayerData'] then getgenv().ServerData['PlayerData'] = {} end
         for i,v in pairs(game.Players.LocalPlayer.Data:GetChildren()) do 
             if tostring(v.ClassName):find('Value') then 
                 if not getgenv().ServerData['PlayerData'][v.Name] then 
