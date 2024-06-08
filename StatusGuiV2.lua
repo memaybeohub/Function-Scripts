@@ -10,8 +10,15 @@ local UIGradient1 = Instance.new("UIGradient");
 local Under = Instance.new("TextLabel");
 local UIGradient2 = Instance.new("UIGradient");
 
+for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do 
+    if v.Name == 'CoinCard' then 
+        v:Destroy() 
+    end
+end
+
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+ScreenGui.Name - 'CoinCard'
 
 DropShadowHolder.AnchorPoint = Vector2.new(0.5, 0.5)
 DropShadowHolder.BackgroundTransparency = 1
@@ -124,11 +131,11 @@ Under:GetPropertyChangedSignal("Text"):Connect(function()
     end
 end)
 
-
-Under.Text = "thua55555555555555555555555555555555555555555555555555555555555555555555" 
+Top.Text = 'Auto Farm: None'
+Under.Text = "Task: None" 
 function ContentSet(Content1, Content2)
 	if not Content1 then Content1 = 'None (Not Found)' end 
 	if not Content2 or Content2 == '' then Content2 = 'Farming Level (or None)' end 
 	Top.Text = "Auto Farm: "..Content1
-	Under.Text = "Task:"..Content2 
+	Under.Text = "Task: "..Content2 
 end

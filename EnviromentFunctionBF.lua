@@ -1666,19 +1666,20 @@ getMeleeLevelValues()
 function ReloadFrutis()    
     warn('Reloading fruits')
     for i,v in pairs(game.workspace:GetChildren()) do 
-    if v.Name:find('Fruit') and not table.find(getgenv().ServerData['Workspace Fruits'],v) then 
-        local vN = ReturnFruitNameWithId(v)
-        warn('Found new fruit',vN)
-        table.insert(getgenv().ServerData['Workspace Fruits'],#getgenv().ServerData['Workspace Fruits']+1,v) 
-        local selfs 
-        selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
-            if v.Parent ~= game.workspace then 
-                warn(v.Name,'parent changed:',v.Parent)
-                getgenv().ServerData['Workspace Fruits'] = {}
-                selfs:Disconnect()
-                ReloadFrutis()
-            end
-        end)
+        if v.Name:find('Fruit') and not table.find(getgenv().ServerData['Workspace Fruits'],v) then 
+            local vN = ReturnFruitNameWithId(v)
+            warn('Found new fruit',vN)
+            table.insert(getgenv().ServerData['Workspace Fruits'],#getgenv().ServerData['Workspace Fruits']+1,v) 
+            local selfs 
+            selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
+                if v.Parent ~= game.workspace then 
+                    warn(v.Name,'parent changed:',v.Parent)
+                    getgenv().ServerData['Workspace Fruits'] = {}
+                    selfs:Disconnect()
+                    ReloadFrutis()
+                end
+            end)
+        end 
     end
 end 
 ReloadFrutis()
@@ -1784,16 +1785,13 @@ loadstring([[
     end)
 ]])
 task.delay(10,function()
-    local lee = 0
     for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
         pcall(function()
             if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
                 hookfunction(require(v2),function()end)
-                lee +=1
             end
         end)
     end
-    warn('Disabled',lee,"effects")
 end)
 warn('Loaded Success Full!')
 getgenv().EnLoaded = true   
