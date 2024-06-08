@@ -830,7 +830,7 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
-            SetContent('Killing: '..tostring(N_Name))
+            SetContent('Killing '..tostring(N_Name))
             if IsBoss(MobInstance) then 
                 KillingBoss = true 
             end
@@ -1097,7 +1097,7 @@ function CheckSafeZone(p)
 end
 function KillPlayer(PlayerName)
     warn('KillPlayer',PlayerName) 
-    SetContent('Start killing: '..tostring(PlayerName))
+    SetContent('Start killing '..tostring(PlayerName))
     local t = game:GetService("Workspace").Characters:FindFirstChild(PlayerName)
     local tRoot = t.PrimaryPart or t:FindFirstChild('HumanoidRootPart')
     local tHumanoid = t:FindFirstChild('Humanoid')

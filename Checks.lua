@@ -242,7 +242,7 @@ AutoSea2 = function()
             local args = {
                 [1] = "TravelDressrosa"
             }
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args)) 
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa") 
             getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level >= 700 then 
             HopServer(9,true)
