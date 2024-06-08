@@ -312,7 +312,7 @@ function GetMidPoint(MobName, b2)
     allid = 0
     for i, v in pairs(game.workspace.Enemies:GetChildren()) do
         if
-            v.Name == MobName and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and
+            v.Name == MobName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") and
                 (b2 and GetDistance(v.HumanoidRootPart, b2) <= 475)
          then
             if not totalpos then
@@ -1616,7 +1616,7 @@ for i,v in pairs(Melee_and_RemoteBuy) do
 end
 table.sort(Melee_in_game)
 function BuyMelee(MeleeN)
-    if IsPlayerAlive() then 
+    if IsPlayerAlive() and not KillingMob then 
         if getgenv().ServerData["PlayerBackpack"][MeleeN] then 
             task.spawn(function()
                 getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][MeleeN].Level.Value 
@@ -1664,16 +1664,17 @@ function getFruitBelow1M()
 end
 getMeleeLevelValues()
 function ReloadFrutis()    
-    warn('Reloading fruits')
+    print('Reloading fruits')
     for i,v in pairs(game.workspace:GetChildren()) do 
         if v.Name:find('Fruit') and not table.find(getgenv().ServerData['Workspace Fruits'],v) then 
             local vN = ReturnFruitNameWithId(v)
             warn('Found new fruit',vN)
-            table.insert(getgenv().ServerData['Workspace Fruits'],#getgenv().ServerData['Workspace Fruits']+1,v) 
+            table.insert(getgenv().ServerData['Workspace Fruits'],v)  
+            for i2,v2 in pairs(getgenv().ServerData['Workspace Fruits']) do print(i,v) end
             local selfs 
             selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
                 if v.Parent ~= game.workspace then 
-                    warn(v.Name,'parent changed:',v.Parent)
+                    print(v.Name,'parent changed:',v.Parent)
                     getgenv().ServerData['Workspace Fruits'] = {}
                     selfs:Disconnect()
                     ReloadFrutis()
