@@ -489,12 +489,23 @@ local function LoadPlayer()
         getgenv().ServerData["PlayerBackpack"] = {}
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
+                getgenv().ServerData["PlayerBackpack"][v.Name] = v  
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v 
+                task.spawn(function()
+                    if v:IsA('Tool') and v.ToolTip == 'Melee' then 
+                        repeat task.wait() until getgenv().Config and getgenv().Config['Melee Level Values'] getgenv().Config["Melee Level Values"][v.Name] = v:WaitForChild('Level').Value 
+                    end
+                end)
             end
         end 
         for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v 
+                task.spawn(function()
+                    if v:IsA('Tool') and v.ToolTip == 'Melee' then 
+                        repeat task.wait() until getgenv().Config and getgenv().Config['Melee Level Values'] getgenv().Config["Melee Level Values"][v.Name] = v:WaitForChild('Level').Value 
+                    end
+                end)
             end
         end 
         if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then 
@@ -505,18 +516,26 @@ local function LoadPlayer()
                 TweenAccess.Parent = game.Players.LocalPlayer.Character 
                 game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function(v)
                     getgenv().ServerData["PlayerBackpack"][v.Name] = v
-                    if v.Name:find('Fruit') then 
-                    end
+                    if v.Name:find('Fruit') then  
+                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                            "StoreFruit",
+                            tostring(v:GetAttribute("OriginalName")),
+                            v
+                        )
+                    end 
+                    task.spawn(function()
+                        if v:IsA('Tool') and v.ToolTip == 'Melee' then 
+                            repeat task.wait() until getgenv().Config and getgenv().Config['Melee Level Values'] getgenv().Config["Melee Level Values"][v.Name] = v:WaitForChild('Level').Value 
+                        end
+                    end)
                     for newids,v2 in pairs(getgenv().ServerData["PlayerBackpack"]) do 
+                        
                         if not game.Players.LocalPlayer.Character:FindFirstChild(newids) and not game.Players.LocalPlayer.Backpack:FindFirstChild(newids) then 
                             getgenv().ServerData["PlayerBackpack"][newids] = nil 
+         
                         end
                     end 
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
-                        "StoreFruit",
-                        tostring(v:GetAttribute("OriginalName")),
-                        v
-                    )
+
                 end)
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function()
                     wait(.5)
@@ -1626,6 +1645,13 @@ function getMeleeLevelValues()
             end
         end
     end)
+end 
+function getFruitBelow1M()
+    for i,v in pairs(getgenv().ServerData['Inventory Items']) do 
+        if v.Value and v.Value < 1000000 then 
+            return v.Name 
+        end 
+    end 
 end
 getMeleeLevelValues()
 if not a then setclipboard(tostring(b)) end 

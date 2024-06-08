@@ -2,7 +2,10 @@ repeat task.wait() until getgenv().EnLoaded
 getgenv().CurrentTask = "" 
 getgenv().TaskUpdateTick = tick()
 function refreshTask() 
-    if getgenv().CurrentTask == '' or tick()-getgenv().TaskUpdateTick > 60 then 
+    if tick()-getgenv().TaskUpdateTick >= 60 then 
+        getgenv().CurrentTask = ''
+    end
+    if getgenv().CurrentTask == '' then 
         if getgenv().ServerData['PlayerData'].DevilFruit == '' and getgenv().SnipeFruit and getgenv().FruitSniping and checkFruittoEat(getgenv().FruitSniping,getgenv().IncludeStored) then 
             getgenv().CurrentTask = 'Eat Fruit'
         elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
