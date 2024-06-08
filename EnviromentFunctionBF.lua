@@ -1619,7 +1619,7 @@ function BuyMelee(MeleeN)
     if IsPlayerAlive() and not KillingMob then 
         if getgenv().ServerData["PlayerBackpack"][MeleeN] then 
             task.spawn(function()
-                getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][MeleeN].Level.Value 
+                getgenv().Config["Melee Level Values"][MeleeN] = getgenv().ServerData["PlayerBackpack"][MeleeN].Level.Value 
             end) 
             return
         end
