@@ -858,9 +858,9 @@ function KillNigga(MobInstance)
                     AddBodyVelocity(true)
                     EquipWeapon()
                     TweenKill(MobInstance)
-                    --game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
+                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
                 else 
-                    --game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
+                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
                     wait(1)
                 end 
                 task.wait(.1)
@@ -1430,6 +1430,19 @@ function ReturnFruitNameWithId(v)
     end   
     return v.Name
 end
+local function mmb(v)  
+    local OC = tostring(v):split('-')
+    if #OC >= 3 then 
+        local OC2 = {} 
+        for i,v in pairs(OC) do 
+            table.insert(OC2,v)
+            if #OC2 >= #OC/2 then break end 
+        end
+        return unpack(OC2)
+    else
+        return OC[1]
+    end
+end
 function ReturnToShowFruit(v)
     local OC = ReturnFruitNameWithId(v):split('-')
     if #OC >= 3 then 
@@ -1686,7 +1699,22 @@ game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(functi
         end 
         getgenv().ServerData['Nearest Raid Island'] = getNearestRaidIsland()
     end
-end) 
+end)  
+function CheckX2Exp()
+    local a2, b2 =
+        pcall(
+        function()
+            if LocalPlayerLevelValue < 2450 then
+                if string.find(game.Players.LocalPlayer.PlayerGui.Main.Level.Exp.Text, "ends in") then
+                    return true
+                end
+            end
+        end
+    )
+    if a2 then
+        return b2
+    end
+end
 local Raids = require(game:GetService("ReplicatedStorage").Raids).raids
 local AdvancedRaids = require(game:GetService("ReplicatedStorage").Raids).advancedRaids
 local RealRaid = {}
@@ -1702,7 +1730,13 @@ for i, v in pairs(AdvancedRaids) do
 end
 function buyRaidingChip() 
     if getgenv().EnLoaded and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
-        --if table.find(game) 
+        if getgenv().FragmentNeeded or (not CheckX2Exp() and getgenv().ServerData['PlayerData'].Fragments < 7500) then 
+            if table.find(Raids,mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)) then 
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaidsNpc","Select",mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value))  
+            else
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaidsNpc","Select","Flame")
+            end 
+        end
     end
 end
 RunService.Heartbeat:Connect(function()
