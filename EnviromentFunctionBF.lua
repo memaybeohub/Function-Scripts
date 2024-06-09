@@ -1034,39 +1034,6 @@ function isnetworkowner2(p1)
         end
     end
 end 
-function IsIslandRaid(nu)
-    if game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island " .. nu) then
-        local min = 4500
-        for i, v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-            if
-                v.Name == "Island " .. nu and
-                    (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < min
-             then
-                min = (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-            end
-        end
-        for i, v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-            if
-                v.Name == "Island " .. nu and
-                    (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= min
-             then
-                return v
-            end
-        end
-    end
-end
-function getNextIsland()
-    local v
-    for v = 5,1,-1 do 
-        if
-            IsIslandRaid(v) and
-                (IsIslandRaid(v).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <=
-                    4500
-         then
-            return IsIslandRaid(v)
-        end
-    end
-end
 function Click()
     local VirtualUser = game:GetService("VirtualUser")
     VirtualUser:CaptureController()
@@ -1169,18 +1136,35 @@ function KillPlayer(PlayerName)
         SetContent('Kill Success: '..tostring(PlayerName))
         return true 
     end
-end
-function CheckIsRaiding()
-    local checkraid2 = getNextIsland()
-    local checkraid1 = game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == true
-    if getNextIsland() then
-        return getNextIsland()
-    end     
-    --[[
-        if not ALLCHECK_Func["Auto Trial Stage 1"]() and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible and not GetSeaBeastTrial() and GetDistance(CFrame.new(28282.5703125, 14896.8505859375, 105.1042709350586)) > 3000 then
-        return true
+end 
+function getNearestRaidIsland()
+    local function GetI(vId)  
+        local Nears = math.huge 
+        local ChildSet 
+        for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
+            if v.Name == 'Island '..vId and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-v.Position).Magnitude <= 4500 then 
+                ChildSet = v 
+                Nears = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-v.Position).Magnitude 
+            end 
+        end 
+        return ChildSet
     end
-    ]]
+    local nextg
+    for i = 5,1,-1 do   
+        nextg = GetI(i)          
+        if nextg then
+            return nextg 
+        end 
+    end
+end 
+function CheckIsRaiding()
+    local checkraid2 = getgenv().ServerData['Nearest Raid Island']
+    local checkraid1 = game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == true
+    if checkraid1 then 
+        return checkraid1 
+    else 
+        return checkraid2 
+    end 
 end
 local lplr = game.Players.LocalPlayer
 if not isnetworkowner then
@@ -1191,7 +1175,7 @@ if not isnetworkowner then
         return part.ReceiveAge == 0 and GetNearestPlayer(part.Position)
     end
 else
-    z("your exploit already can use isnetworkowner (or you executed this twice lmao)") -- bruh
+    warn("already isnetworkowner 😎😎😎") -- bruh
 end
 function FlyBoat(e,b,h)
     if not b then return end 
@@ -1664,17 +1648,13 @@ function getFruitBelow1M()
 end
 getMeleeLevelValues()
 function ReloadFrutis()    
-    print('Reloading fruits')
     for i,v in pairs(game.workspace:GetChildren()) do 
         if v.Name:find('Fruit') and not table.find(getgenv().ServerData['Workspace Fruits'],v) then 
             local vN = ReturnFruitNameWithId(v)
-            warn('Found new fruit',vN)
             table.insert(getgenv().ServerData['Workspace Fruits'],v)  
-            for i2,v2 in pairs(getgenv().ServerData['Workspace Fruits']) do print(i,v) end
             local selfs 
             selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
                 if v.Parent ~= game.workspace then 
-                    print(v.Name,'parent changed:',v.Parent)
                     getgenv().ServerData['Workspace Fruits'] = {}
                     selfs:Disconnect()
                     ReloadFrutis()
@@ -1683,7 +1663,47 @@ function ReloadFrutis()
         end 
     end
 end 
-ReloadFrutis()
+ReloadFrutis() 
+game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(function(v)
+    local AddedTick = tick() 
+    if not getgenv().ServerData then getgenv().ServerData = {} end
+    if v.Name == 'Island 1' then 
+        repeat 
+            task.wait()
+        until tick()-AddedTick > 60 or (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-v.Position).Magnitude <= 1000 
+        if tick()-AddedTick > 60 then 
+            return  
+        end
+    end 
+    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-v.Position).Magnitude <= 4500 then  
+        if v.Name:find('Island') then 
+            v:GetPropertyChangedSignal('Parent'):Connect(function()
+                if not v.Parent or v.Parent ~= game:GetService("Workspace")["_WorldOrigin"].Locations then 
+                    getgenv().ServerData['Nearest Raid Island'] = nil  
+                end
+            end)  
+        end 
+        getgenv().ServerData['Nearest Raid Island'] = getNearestRaidIsland()
+    end
+end) 
+local Raids = require(game:GetService("ReplicatedStorage").Raids).raids
+local AdvancedRaids = require(game:GetService("ReplicatedStorage").Raids).advancedRaids
+local RealRaid = {}
+for i, v in pairs(Raids) do 
+    if v ~= " " and v ~= "" then 
+        table.insert(RealRaid, v) 
+    end
+end
+for i, v in pairs(AdvancedRaids) do
+    if v ~= " " and v ~= "" then 
+        table.insert(RealRaid, v) 
+    end
+end
+function buyRaidingChip() 
+    if getgenv().EnLoaded and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
+        --if table.find(game) 
+    end
+end
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true

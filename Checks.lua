@@ -87,6 +87,8 @@ AutoMeleeCheck = function()
                 elseif MLLV["Dragon Claw"] < 300 then 
                     if getgenv().ServerData['PlayerData'].Fragments < 1500 then 
                         getgenv().FragmentNeeded = true 
+                    else 
+                        getgenv().FragmentNeeded = false 
                     end
                     BuyMelee('Dragon Claw')
                 end 
