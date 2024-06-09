@@ -5,8 +5,10 @@ function refreshTask()
     if tick()-getgenv().TaskUpdateTick >= 60 then 
         getgenv().CurrentTask = ''
     end
-    if getgenv().CurrentTask == '' then 
-        if getgenv().ServerData['PlayerData'].DevilFruit == '' and getgenv().SnipeFruit and getgenv().FruitSniping and checkFruittoEat(getgenv().FruitSniping,getgenv().IncludeStored) then 
+    if getgenv().CurrentTask == '' then  
+        if getgenv().ServerData["PlayerBackpack"]['Special Microchip'] or CheckIsRaiding() then 
+            getgenv().CurrentTask = 'Auto Raid'
+        elseif getgenv().ServerData['PlayerData'].DevilFruit == '' and getgenv().SnipeFruit and getgenv().FruitSniping and checkFruittoEat(getgenv().FruitSniping,getgenv().IncludeStored) then 
             getgenv().CurrentTask = 'Eat Fruit'
         elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
             getgenv().CurrentTask = 'Collect Fruit'
@@ -38,6 +40,30 @@ task.delay(.1,function()
         end
     end
 end)
+
+AutoRaid = function()
+    if getgenv().ServerData['Nearest Raid Island'] then 
+        Tweento(getgenv().ServerData['Nearest Raid Island'].CFrame  *CFrame.new(0,60,0))
+    end
+    SetContent('Doing raid')
+    for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
+        if v:FindFirstChildOfClass('Humanoid') and v.Humanoid.Health >0 then 
+            v.Humanoid.Health = 0 
+        end 
+    end
+end
+
+
+
+
+
+
+
+
+
+
+
+
 AutoMeleeFunc = function()
     if getgenv().MeleeTask == 'Find Ice' then  
         if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 

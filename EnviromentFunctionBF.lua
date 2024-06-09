@@ -1204,13 +1204,7 @@ function FlyBoat(e,b,h)
         bodyP.Position = Vector3.new(0,b.WaterOrigin.Value ,0)
     end
 end
-workspace._WorldOrigin.ChildAdded:Connect(function(v)
-    if v.Name =='DamageCounter' then 
-        v.Enabled  = false 
-    end
-end)
-hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
-hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
+
 function EquipWeaponName(fff)
     if not fff then
         return
@@ -1728,13 +1722,24 @@ for i, v in pairs(AdvancedRaids) do
         table.insert(RealRaid, v) 
     end
 end
+getgenv().SuccessBoughtTick = 0
 function buyRaidingChip() 
-    if getgenv().EnLoaded and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
+    if getgenv().EnLoaded and tick()-getgenv().SuccessBoughtTick > 60 and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
         if getgenv().FragmentNeeded or (not CheckX2Exp() and getgenv().ServerData['PlayerData'].Fragments < 7500) then 
-            if table.find(Raids,mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)) then 
-                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaidsNpc","Select",mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value))  
+            local SelRaid = "Flame"
+            if table.find(Raids,mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)) then  
+                SelRaid = mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)
+            end
+            local bought = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaidsNpc","Select",SelRaid) == 1 
+            if bought then 
+                getgenv().SuccessBoughtTick = tick() 
             else
-                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaidsNpc","Select","Flame")
+                local below1MFruit = getFruitBelow1M()
+                if below1MFruit then 
+                    SetContent('Getting '..tostring(below1MFruit)..' from inventory to buy chips...')
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", below1MFruit)
+                    return buyRaidingChip()
+                end
             end 
         end
     end
@@ -1758,6 +1763,7 @@ RunService.Heartbeat:Connect(function()
     end
     if IsPlayerAlive() then 
         EnableBuso()
+        buyRaidingChip()
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
         if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().tween and getgenv().tween.PlaybackState and tostring(string.gsub(tostring(getgenv().tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
@@ -1840,15 +1846,7 @@ loadstring([[
         return old(unpack(args))
     end)
 ]])
-task.delay(10,function()
-    for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
-        pcall(function()
-            if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
-                hookfunction(require(v2),function()end)
-            end
-        end)
-    end
-end)
+
 warn('Loaded Success Full!')
 getgenv().EnLoaded = true   
 LoadPlayer()
