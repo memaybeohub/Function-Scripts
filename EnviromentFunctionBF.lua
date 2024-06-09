@@ -858,11 +858,12 @@ function KillNigga(MobInstance)
                     AddBodyVelocity(true)
                     EquipWeapon()
                     TweenKill(MobInstance)
-                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
+                    --game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
                 else 
-                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
+                    --game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
                     wait(1)
-                end
+                end 
+                task.wait(.1)
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
                 CheckIsRaiding()
