@@ -86,7 +86,10 @@ function HopServer(CountTarget, hoplowallow,delay)
     if hoplowallow and getgenv().TimeTryHopLow < 3 then
         for i = 1, 3 - getgenv().TimeTryHopLow do
             if getgenv().TimeTryHopLow < 3 then
-                HopLow()
+                local a2,b2 = pcall(function()
+                    HopLow()
+                end)
+                if not a2 then SetContent('hop fail') end
                 getgenv().TimeTryHopLow = getgenv().TimeTryHopLow + 1
                 warn('Hop low times: ',getgenv().TimeTryHopLow)
                 SetContent('Low Server hopping times: '..tostring(getgenv().TimeTryHopLow))
@@ -130,7 +133,7 @@ function HopServer(CountTarget, hoplowallow,delay)
                         else
                         end 
                         game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
-                        return true
+                        return true 
                     elseif tick() - Settings2[k].Time > 60 * 60 then
                         Settings2[k] = nil
                     end
