@@ -1,6 +1,6 @@
 repeat task.wait() until getgenv().EnLoaded 
 getgenv().CurrentTask = "" 
-getgenv().TaskUpdateTick = tick()
+getgenv().TaskUpdateTick = tick() 
 function refreshTask() 
     if tick()-getgenv().TaskUpdateTick >= 60 then 
         getgenv().CurrentTask = ''
@@ -267,10 +267,9 @@ AutoSea2 = function()
         if getgenv().ServerData['Server Bosses']['Ice Admiral'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Ice Admiral']) 
             refreshTask()
-            local args = {
-                [1] = "TravelDressrosa"
-            }
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa") 
+            task.delay(10,function()
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa") 
+            end)
             getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level >= 700 then 
             HopServer(9,true)

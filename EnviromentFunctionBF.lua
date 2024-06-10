@@ -945,7 +945,7 @@ function KillBoss(BossInstance)
     if not BossInstance:FindFirstChild('Humanoid') then return end 
     warn('Killing boss:',BossInstance.Name)
     if not game.Workspace.Enemies:FindFirstChild(BossInstance.Name) then  
-        SetContent('Tweening to boss:'..BossInstance.Name)
+        SetContent('Tweening to boss '..BossInstance.Name)
         Tweento(BossInstance.PrimaryPart.CFrame * CFrame.new(0,50,0))
     end
     KillNigga(BossInstance)

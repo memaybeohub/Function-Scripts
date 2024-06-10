@@ -1,6 +1,9 @@
 local namequest
 local BlackListedKillPlayers = {} 
 function AutoL()
+    if getgenv().QuestKillPlayer and not game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
+        getgenv().QuestKillPlayer = false 
+    end
     if game.PlaceId == 2753915549 and not getgenv().QuestKillPlayer and game.Players.LocalPlayer.Data.Level.Value >= 35 and game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("PlayerHunter") ~="I don't have anything for you right now. Come back later." then 
         namequest =
             string.gsub(
