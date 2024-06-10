@@ -994,12 +994,14 @@ function BringMob(TAR,V5)
                     v.Humanoid.MaxHealth < 100000
             then
                 task.spawn(function()
-                    for i,__ in pairs(v:GetDescendants()) do 
-                        if __:IsA('BasePart') then 
-                            __.CanCollide = false 
-                            __.Transparency = 1
+                    --[[
+                        for i,__ in pairs(v:GetDescendants()) do 
+                            if __:IsA('BasePart') then 
+                                __.CanCollide = false 
+                                __.Transparency = 1
+                            end
                         end
-                    end
+                    ]]
                     TweenObject(V6,v.PrimaryPart,1000)
                     v.HumanoidRootPart.CanCollide = false
                     v.PrimaryPart.CanCollide = false

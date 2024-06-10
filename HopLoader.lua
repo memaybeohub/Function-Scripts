@@ -79,8 +79,10 @@ function HopLow()
 end
 local Settings2 = ReadSetting2()
 getgenv().TimeTryHopLow = 0
-function HopServer(CountTarget, hoplowallow)
+function HopServer(CountTarget, hoplowallow,delay)
     SetContent('Start hopping...')
+    if not delay then delay = 0 end 
+    wait(delay)
     if hoplowallow and getgenv().TimeTryHopLow < 3 then
         for i = 1, 3 - getgenv().TimeTryHopLow do
             if getgenv().TimeTryHopLow < 3 then
@@ -88,12 +90,14 @@ function HopServer(CountTarget, hoplowallow)
                 getgenv().TimeTryHopLow = getgenv().TimeTryHopLow + 1
                 warn('Hop low times: ',getgenv().TimeTryHopLow)
                 SetContent('Low Server hopping times: '..tostring(getgenv().TimeTryHopLow))
+                wait(delay/2)
             end
         end
     end
     if not CountTarget then
         CountTarget = 10
     end
+    wait(delay)
     local function Hop()
         for i = 1, 100 do
             if ChooseRegion == nil or ChooseRegion == "" then
