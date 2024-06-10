@@ -490,7 +490,13 @@ local function LoadPlayer()
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v  
-                getgenv().ServerData["PlayerBackpack"][v.Name] = v 
+                if v.Name:find('Fruit') then  
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                        "StoreFruit",
+                        tostring(v:GetAttribute("OriginalName")),
+                        v
+                    )
+                end 
                 task.spawn(function()
                     if v:IsA('Tool') and v.ToolTip == 'Melee' then 
                         repeat task.wait() until getgenv().Config and getgenv().Config['Melee Level Values'] getgenv().Config["Melee Level Values"][v.Name] = v:WaitForChild('Level').Value 
@@ -500,7 +506,14 @@ local function LoadPlayer()
         end 
         for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
-                getgenv().ServerData["PlayerBackpack"][v.Name] = v 
+                getgenv().ServerData["PlayerBackpack"][v.Name] = v  
+                if v.Name:find('Fruit') then  
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                        "StoreFruit",
+                        tostring(v:GetAttribute("OriginalName")),
+                        v
+                    )
+                end 
                 task.spawn(function()
                     if v:IsA('Tool') and v.ToolTip == 'Melee' then 
                         repeat task.wait() until getgenv().Config and getgenv().Config['Melee Level Values'] getgenv().Config["Melee Level Values"][v.Name] = v:WaitForChild('Level').Value 
@@ -548,7 +561,14 @@ local function LoadPlayer()
                     end 
 
                 end)
-                game.Players.LocalPlayer.Character.ChildAdded:Connect(function()
+                game.Players.LocalPlayer.Character.ChildAdded:Connect(function(newchild)
+                    if newchild.Name:find('Fruit') then  
+                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                            "StoreFruit",
+                            tostring(newchild:GetAttribute("OriginalName")),
+                            newchild
+                        )
+                    end 
                     wait(.5)
                     if IsPlayerAlive() and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') then 
                         local bozo = require(game:GetService("ReplicatedStorage").ClientWeapons).divineart
@@ -1491,10 +1511,16 @@ function collectAllFruit_Store()
         end
     end
 end
-function LoadBoss(v) 
-    local Root = v:WaitForChild('HumanoidRootPart')
+function LoadBoss(v)  
+    local CastleCFrame = CFrame.new(-5543.5327148438, 313.80062866211, -2964.2585449219)
+    local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart')
     local Hum = v:WaitForChild('Humanoid')
-    if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and v.Humanoid.DisplayName:find('Boss') and not getgenv().ServerData['Server Bosses'][v.Name] then 
+    task.spawn(function()
+        if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 then 
+            getgenv().PirateRaidTick = tick() 
+        end
+    end)
+    if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and (v.Humanoid.DisplayName:find('Boss') or RemoveLevelTitle(v.Name) == 'Core') and not getgenv().ServerData['Server Bosses'][v.Name] then 
         getgenv().ServerData['Server Bosses'][v.Name] = v 
     else
         return
@@ -1846,7 +1872,16 @@ loadstring([[
         return old(unpack(args))
     end)
 ]])
-
+local GC = getconnections or get_signal_cons
+if GC then
+    game.Players.LocalPlayer.Idled:Connect(
+        function()
+            for i, v in pairs(GC(game.Players.LocalPlayer.Idled)) do
+                v:Disable()
+            end
+        end
+    )
+end
 warn('Loaded Success Full!')
 getgenv().EnLoaded = true   
 LoadPlayer()

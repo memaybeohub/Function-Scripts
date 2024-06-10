@@ -1,6 +1,7 @@
 repeat task.wait() until getgenv().EnLoaded 
 getgenv().CurrentTask = "" 
-getgenv().TaskUpdateTick = tick() 
+getgenv().TaskUpdateTick = tick()  
+getgenv().PirateRaidTick = 0
 function refreshTask() 
     if tick()-getgenv().TaskUpdateTick >= 60 then 
         getgenv().CurrentTask = ''
@@ -20,6 +21,8 @@ function refreshTask()
             getgenv().CurrentTask = 'Pole Quest'
         elseif Sea1 and getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
             getgenv().CurrentTask = 'Sea 2 Quest'
+        elseif (Sea2 or Sea3) and (getgenv().ServerData['Server Bosses']['Core'] or (Sea3 and tick()-getgenv().PirateRaidTick > 60)) then 
+            getgenv().CurrentTask = '3rd Sea Event'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
             getgenv().CurrentTask = 'Bartilo Quest'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Beli >= 500000 and getgenv().ServerData["Inventory Items"]["Warrior Helmet"] and getgenv().ServerData['PlayerData'].RaceVer == 'V1' then 
@@ -52,7 +55,22 @@ AutoRaid = function()
         end 
     end
 end
-
+Auto3rdEvent = function() 
+    if Sea2 then
+        KillBoss(getgenv().ServerData['Server Bosses']['Core']) 
+    else 
+        local CastleCFrame = CFrame.new(-5543.5327148438, 313.80062866211, -2964.2585449219)
+        if GetDistance(CastleCFrame) > 1500 then 
+            Tweento(CastleCFrame * CFrame.new(0,-100,0))
+        else
+            for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
+                if v:FindFirstChildOfClass("Humanoid") and v.Humanoid.Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 then 
+                    KillNigga(v)
+                end
+            end
+        end
+    end
+end
 
 
 
