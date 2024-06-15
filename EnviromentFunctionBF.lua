@@ -466,7 +466,7 @@ function eatFruit(fruitsSnipes,includedInventory)
     end
 end 
 function Storef(v) 
-    if 1 > 0 then 
+    if getgenv().CurrentTask ~= 'Eat Fruit' then 
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
             "StoreFruit",
             tostring(v:GetAttribute("OriginalName")),
@@ -1668,11 +1668,15 @@ function getMeleeLevelValues()
     end)
 end 
 function getFruitBelow1M()
+    local minValue = 1000000
+    local fruitName 
     for i,v in pairs(getgenv().ServerData['Inventory Items']) do 
-        if v.Value and v.Value < 1000000 then 
-            return v.Name 
+        if v.Value and v.Value < minValue then 
+            fruitName = v.Name 
+            minValue = v.Value  
         end 
-    end 
+    end
+    return fruitName 
 end
 getMeleeLevelValues()
 function ReloadFrutis()    
