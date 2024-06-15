@@ -302,12 +302,12 @@ AutoPole = function()
         refreshTask()
         return
     end 
-    if getgenv().ServerData['Server Bosses']['Thunder God'] then 
-        KillBoss(getgenv().ServerData['Server Bosses']['Thunder God'])
-        getgenv().CurrentTask = ''
-    elseif getgenv().ServerData['PlayerData'].Level > 500 then 
-        HopServer(9,true)
-    end
+        if getgenv().ServerData['Server Bosses']['Thunder God'] then 
+            KillBoss(getgenv().ServerData['Server Bosses']['Thunder God'])
+            getgenv().CurrentTask = ''
+        elseif getgenv().ServerData['PlayerData'].Level > 500 then 
+            HopServer(9,true)
+        end
 end
 local function IsUnlockedSaberDoor()
     for i, v in next, game:GetService("Workspace").Map.Jungle.Final:GetChildren() do

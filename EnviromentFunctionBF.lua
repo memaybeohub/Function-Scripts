@@ -458,6 +458,15 @@ function eatFruit(fruitsSnipes,includedInventory)
             end
         end
     end
+end 
+function Storef(v) 
+    if 1 > 0 then 
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+            "StoreFruit",
+            tostring(v:GetAttribute("OriginalName")),
+            v
+        )
+    end
 end
 local function LoadPlayer() 
     if not IsPlayerAlive() then repeat task.wait(.1) until IsPlayerAlive() end
@@ -491,11 +500,9 @@ local function LoadPlayer()
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v  
                 if v.Name:find('Fruit') then  
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
-                        "StoreFruit",
-                        tostring(v:GetAttribute("OriginalName")),
-                        v
-                    )
+                    if v.Name:find('Fruit') then  
+                        Storef(v)
+                    end 
                 end 
                 task.spawn(function()
                     if v:IsA('Tool') and v.ToolTip == 'Melee' then 
@@ -508,11 +515,7 @@ local function LoadPlayer()
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v  
                 if v.Name:find('Fruit') then  
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
-                        "StoreFruit",
-                        tostring(v:GetAttribute("OriginalName")),
-                        v
-                    )
+                    Storef(v)
                 end 
                 task.spawn(function()
                     if v:IsA('Tool') and v.ToolTip == 'Melee' then 
@@ -541,11 +544,7 @@ local function LoadPlayer()
                 game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function(v)
                     getgenv().ServerData["PlayerBackpack"][v.Name] = v
                     if v.Name:find('Fruit') then  
-                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
-                            "StoreFruit",
-                            tostring(v:GetAttribute("OriginalName")),
-                            v
-                        )
+                        Storef(v)
                     end 
                     task.spawn(function()
                         if v:IsA('Tool') and v.ToolTip == 'Melee' then 
@@ -562,23 +561,9 @@ local function LoadPlayer()
 
                 end)
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function(newchild)
-                    if newchild.Name:find('Fruit') then  
-                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
-                            "StoreFruit",
-                            tostring(newchild:GetAttribute("OriginalName")),
-                            newchild
-                        )
+                    if v.Name:find('Fruit') then  
+                        Storef(newchild)
                     end 
-                    wait(.5)
-                    if IsPlayerAlive() and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') then 
-                        local bozo = require(game:GetService("ReplicatedStorage").ClientWeapons).divineart
-                        for i,v in pairs(bozo) do 
-                            if typeof(v) == 'function' then 
-                                bozo[i] = function() end 
-                            end
-                        end
-                        getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data = bozo
-                    end
                 end)
             end
             task.spawn(function()
@@ -1413,13 +1398,12 @@ function PushData(tab,newdata)
 end
 function FarmMobByLevel(level)
     if not level then level = game.Players.LocalPlayer.Data.Level.Value end
-
-    local NewQuest = CheckQuestByLevel({
-        Level = level,
-        DoubleQuest = true 
-    }) 
     local CurrentQuestMob = CheckCurrentQuestMob()
     if level <= game.Players.LocalPlayer.Data.Level.Value and not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
+        local NewQuest = CheckQuestByLevel({
+            Level = level,
+            DoubleQuest = true 
+        }) 
         GetQuest(NewQuest)
     elseif CheckMob(CurrentQuestMob) then 
         KillNigga(CheckMob(CurrentQuestMob))
