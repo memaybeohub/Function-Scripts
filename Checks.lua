@@ -47,6 +47,13 @@ end)
 AutoRaid = function()
     if getgenv().ServerData['Nearest Raid Island'] then 
         Tweento(getgenv().ServerData['Nearest Raid Island'].CFrame  *CFrame.new(0,60,0))
+    elseif getgenv().ServerData["PlayerBackpack"]['Special Microchip'] then
+        SetContent('Firing raid remote...')
+        if Sea2 then
+            fireclickdetector(Workspace.Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
+        elseif Sea3 then
+            fireclickdetector(Workspace.Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector)
+        end
     end
     SetContent('Doing raid')
     for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
@@ -117,6 +124,7 @@ AutoMeleeFunc = function()
 end 
 AutoMeleeCheck = function()
     task.spawn(function()
+        getgenv().FragmentNeeded = false
         getgenv().MeleeTask = 'None'
         repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"]
         while task.wait(1) do 

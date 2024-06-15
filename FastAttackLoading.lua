@@ -112,7 +112,8 @@ FastAttack = function()
     if ac and ac.equipped then
         task.spawn(function()
             if tick() - cdnormal > 0.5 then
-                ac:attack()
+                VirtualUser:Button1Down(Vector2.new())
+                VirtualUser:Button1Up(Vector2.new())
                 cdnormal = tick()
             else
                 Animation.AnimationId = ac.anims.basic[2]
@@ -127,7 +128,7 @@ FastAttack = function()
     end
 end
 
-bs = tick()
+local bs = tick()
 task.spawn(function()
     while task.wait(_G.Fast_Delay) do
         if getgenv().FastAttackSpeed then
@@ -153,13 +154,13 @@ task.spawn(function()
     end
 end)
 
-k = tick()
+local kkt = tick()
 task.spawn(function()
     if _G.Fast then
         while task.wait(.2) do
-            if k - tick() > 0.75 then
+            if kkt - tick() > 0.75 then
                 task.wait()
-                k = tick()
+                kkt = tick()
             end
             pcall(function()
                 for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
@@ -175,6 +176,7 @@ task.spawn(function()
     end
 end)
 
+--[[
 task.spawn(function()
     while task.wait() do
         if _G.Fast then
@@ -188,4 +190,4 @@ task.spawn(function()
         end
     end
 end)
-
+]]

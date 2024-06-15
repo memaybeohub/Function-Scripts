@@ -1699,7 +1699,9 @@ game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(functi
         if v.Name:find('Island') then 
             v:GetPropertyChangedSignal('Parent'):Connect(function()
                 if not v.Parent or v.Parent ~= game:GetService("Workspace")["_WorldOrigin"].Locations then 
+                    warn('Clearing',getgenv().ServerData['Nearest Raid Island'])
                     getgenv().ServerData['Nearest Raid Island'] = nil  
+                    warn('Cleared',getgenv().ServerData['Nearest Raid Island'])
                 end
             end)  
         end 
