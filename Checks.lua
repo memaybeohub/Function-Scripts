@@ -46,9 +46,14 @@ end)
 
 AutoRaid = function()
     if getgenv().ServerData['Nearest Raid Island'] then 
-        Tweento(getgenv().ServerData['Nearest Raid Island'].CFrame  *CFrame.new(0,60,0))
+        local RaidDis = GetDistance(getgenv().ServerData['Nearest Raid Island'])
+        if RaidDis < 5000 then
+            Tweento(getgenv().ServerData['Nearest Raid Island'].CFrame  *CFrame.new(0,60,0)) 
+        elseif RaidDis >= 5000 then
+            wait(10) 
+        end
     elseif getgenv().ServerData["PlayerBackpack"]['Special Microchip'] then
-        SetContent('Firing raid remote...')
+        SetContent('Firing raid remote...',3)
         if Sea2 then
             fireclickdetector(Workspace.Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
         elseif Sea3 then

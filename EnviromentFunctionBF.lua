@@ -1,7 +1,13 @@
 repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer 
-SetContent = function(v1)
-    if not v1 then v1 = '' end
-    if ContentSet then ContentSet(v1,getgenv().CurrentTask) end
+local lasttis = 0
+SetContent = function(v1,delayticks)
+    if not v1 then v1 = '' end 
+    if tick()-lasttis > 0 then 
+        if ContentSet then ContentSet(v1,getgenv().CurrentTask) end
+    end 
+    if delayticks then 
+        lasttis = tick()+delayticks
+    end
 end 
 getgenv().ServerData = {} 
 function Join(v2) 
@@ -542,10 +548,12 @@ local function LoadPlayer()
                 TweenAccess.Name = "Teleport Access"
                 TweenAccess.Parent = game.Players.LocalPlayer.Character 
                 game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function(v)
-                    getgenv().ServerData["PlayerBackpack"][v.Name] = v
-                    if v.Name:find('Fruit') then  
-                        Storef(v)
-                    end 
+                    getgenv().ServerData["PlayerBackpack"][v.Name] = v 
+                    task.delay(3,function()
+                        if v.Name:find('Fruit') then  
+                            Storef(v)
+                        end
+                    end) 
                     task.spawn(function()
                         if v:IsA('Tool') and v.ToolTip == 'Melee' then 
                             repeat task.wait() until getgenv().Config and getgenv().Config['Melee Level Values'] getgenv().Config["Melee Level Values"][v.Name] = v:WaitForChild('Level').Value 
@@ -561,7 +569,7 @@ local function LoadPlayer()
 
                 end)
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function(newchild)
-                    if v.Name:find('Fruit') then  
+                    if newchild.Name:find('Fruit') then  
                         Storef(newchild)
                     end 
                 end)
@@ -1712,7 +1720,7 @@ function CheckX2Exp()
     local a2, b2 =
         pcall(
         function()
-            if LocalPlayerLevelValue < 2450 then
+            if getgenv().ServerData['PlayerData'].Level < 2450 then
                 if string.find(game.Players.LocalPlayer.PlayerGui.Main.Level.Exp.Text, "ends in") then
                     return true
                 end
@@ -1737,6 +1745,7 @@ for i, v in pairs(AdvancedRaids) do
     end
 end
 getgenv().SuccessBoughtTick = 0
+getgenv().LastBuyChipTick = 0
 function buyRaidingChip() 
     if getgenv().EnLoaded and tick()-getgenv().SuccessBoughtTick > 60 and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
         if getgenv().FragmentNeeded or (not CheckX2Exp() and getgenv().ServerData['PlayerData'].Fragments < 7500) then 
@@ -1756,7 +1765,8 @@ function buyRaidingChip()
                 end
             end 
         end
-    end
+    end 
+    getgenv().LastBuyChipTick = tick()
 end
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
@@ -1777,7 +1787,7 @@ RunService.Heartbeat:Connect(function()
     end
     if IsPlayerAlive() then 
         EnableBuso()
-        buyRaidingChip()
+        if tick() - getgenv().LastBuyChipTick > 5 then buyRaidingChip() end
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
         if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().tween and getgenv().tween.PlaybackState and tostring(string.gsub(tostring(getgenv().tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
