@@ -400,7 +400,40 @@ function SnipeFruit(fruitsSnipes)
             end
         end  
     end
-end 
+end  
+function checkFruit1MWS()
+    for i,v in pairs(game.workspace:GetChildren()) do 
+        if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 then 
+            return v 
+        end 
+    end
+end
+function checkFruit1M(in5)
+    local function fruitsea3bp()
+        local n3
+        for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+            if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 then 
+                n3 = v 
+            end 
+        end 
+        for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
+            if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 then 
+                n3 = v 
+            end 
+        end 
+        return n3 
+    end 
+    if fruitsea3bp() then return fruitsea3bp() end
+    if in5 then 
+        for i,v in pairs(fruitsSnipes) do 
+            if getgenv().ServerData["Inventory Items"][v] then 
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", v) 
+                wait(1)
+                if fruitsea3bp() then return fruitsea3bp() end
+            end
+        end
+    end
+end
 function checkFruittoEat(fruitsSnipes,includedInventory)
     for i,v in pairs(fruitsSnipes) do 
         local OC = tostring(v):split('-')

@@ -25,6 +25,8 @@ function refreshTask()
             getgenv().CurrentTask = '3rd Sea Event'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
             getgenv().CurrentTask = 'Bartilo Quest'
+        elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") ~= 0 then 
+            getgenv().CurrentTask = 'Auto Sea 3'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Beli >= 500000 and getgenv().ServerData["Inventory Items"]["Warrior Helmet"] and getgenv().ServerData['PlayerData'].RaceVer == 'V1' then 
             getgenv().CurrentTask = 'Race V2 Quest'
         end  
@@ -43,6 +45,88 @@ task.delay(.1,function()
         end
     end
 end)
+
+
+
+
+AutoSea3 = function()
+    if Sea2 and  then  
+        local v135 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
+        if v135 and v135 ~= 0 then 
+            if checkFruit1M() then 
+                EquipWeaponName(checkFruit1M().Name)
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "2")
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "3")  
+                return 
+            end
+            local v136666 = checkFruit1M(true)
+            if v136666 then 
+                EquipWeaponName(v136666.Name)
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "2")
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "3")  
+            elseif checkFruit1MWS() then  
+                SetContent('Picking up '..getRealFruit(checkFruit1MWS()))
+                Tweento(v.Handle.CFrame)
+                task.wait(.1) 
+                getgenv().CurrentTask = ''
+            else
+                SetContent('Hoping for 1M Fruit',5)
+                HopServer(9,math.random(1,2) == 1)
+            end
+        elseif v135 == 0 then
+            local ZQuestProgress = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Check")
+            if not ZQuestProgress then 
+                if getgenv().ServerData['Server Bosses']['Don Swan'] then 
+                    KillBoss(getgenv().ServerData['Server Bosses']['Don Swan'])
+                else
+                    HopServer(9,true)
+                end
+            elseif ZQuestProgress == 0 and GetDistance(game:GetService("Workspace").Map.IndraIsland.Part) > 1000 then
+                local RedHeadCFrame =
+                    CFrame.new(
+                    -1926.78772,
+                    12.1678171,
+                    1739.80884,
+                    0.956294656,
+                    -0,
+                    -0.292404652,
+                    0,
+                    1,
+                    -0,
+                    0.292404652,
+                    0,
+                    0.956294656
+                )
+                if GetDistance(RedHeadCFrame) <= 50 then
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ZQuestProgress", "Begin")
+                else
+                    Tweento(RedHeadCFrame)
+                end
+            elseif getgenv().ServerData['Server Bosses']['rip_indra'] then 
+                KillBoss(getgenv().ServerData['Server Bosses']['rip_indra'])
+                local args = {
+                    [1] = "TravelZou"
+                }
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            end 
+        end
+    end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 AutoRaid = function()
     if getgenv().ServerData['Nearest Raid Island'] then 
@@ -83,17 +167,6 @@ Auto3rdEvent = function()
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
 AutoMeleeFunc = function()
     if getgenv().MeleeTask == 'Find Ice' then  
         if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
