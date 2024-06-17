@@ -1428,6 +1428,28 @@ function GetQuest(QuestTables)
         end
         task.wait(1)
     end
+end  
+local function FireAddPoint(PointName,num) 
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint",PointName,num)
+end
+function autoStats() 
+    if IsPlayerAlive() then
+        local MaxLevel = 2550 
+        local Stats_Melee = game:GetService("Players").LocalPlayer.Data.Stats.Melee.Level.Value  
+        local Stats_Def = game:GetService("Players").LocalPlayer.Data.Stats['Defense'].Level.Value
+        local Stats_DF = game:GetService("Players").LocalPlayer.Data.Stats["Demon Fruit"].Level.Value 
+        local Stats_Gun = game:GetService("Players").LocalPlayer.Data.Stats.Gun.Level.Value 
+        local Stats_Sword = game:GetService("Players").LocalPlayer.Data.Stats.Sword.Level.Value   
+        if Stats_Melee < MaxLevel then 
+            FireAddPoint('Melee',MaxLength-Stats_Melee)
+        elseif Stats_Def < 1250 then 
+            FireAddPoint('Defense',1250-Stats_Def)
+        elseif Stats_DF < 1750 then 
+            FireAddPoint('Demon Fruit',1750-Stats_DF)
+        else 
+            FireAddPoint('Sword',999)
+        end
+    end
 end
 function PushData(tab,newdata)
     for i = 1, #tab - 1 do
@@ -1676,7 +1698,7 @@ function BuyMelee(MeleeN)
             pcall(
                 function()
                     game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
-                    RemoteArg = momo()
+                    RemoteArg()
                 end
             )
         end 
