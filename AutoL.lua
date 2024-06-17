@@ -67,6 +67,9 @@ function AutoL()
         
     elseif not getgenv().QuestKillPlayer and game.PlaceId == 2753915549 and game.Players.LocalPlayer.Data.Level.Value < 120 and game.Players.LocalPlayer.Data.Level.Value >= 10 then 
         KillMobList({"Royal Squad [Lv. 525]", "Shanda [Lv. 475]"}) 
+    elseif getgenv().ServerData["PlayerBackpack"]['Hidden Key'] then 
+        EquipWeaponName('Hidden Key')
+        Tweento(CFrame.new(6571.1201171875, 299.23028564453, -6967.841796875)) 
     elseif getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData["PlayerBackpack"]['Water Key'] then 
         if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
             EquipWeaponName('Library Key')
