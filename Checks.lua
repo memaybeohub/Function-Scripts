@@ -25,7 +25,7 @@ function refreshTask()
             getgenv().CurrentTask = '3rd Sea Event'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
             getgenv().CurrentTask = 'Bartilo Quest'
-        elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") ~= 0 then 
+        elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 1500 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") ~= 0 then 
             getgenv().CurrentTask = 'Auto Sea 3'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Beli >= 500000 and getgenv().ServerData["Inventory Items"]["Warrior Helmet"] and getgenv().ServerData['PlayerData'].RaceVer == 'V1' then 
             getgenv().CurrentTask = 'Race V2 Quest'
@@ -215,12 +215,14 @@ AutoMeleeCheck = function()
                 elseif MLLV["Electro"] < 300 then 
                     BuyMelee('Electro')   
                 elseif MLLV["Dragon Claw"] < 300 then 
-                    if getgenv().ServerData['PlayerData'].Fragments < 1500 then 
-                        getgenv().FragmentNeeded = true 
-                    else 
-                        getgenv().FragmentNeeded = false 
+                    if MLLV['Dragon Claw'] == 0 then 
+                        if getgenv().ServerData['PlayerData'].Fragments < 1500 then 
+                            getgenv().FragmentNeeded = true 
+                        else 
+                            getgenv().FragmentNeeded = false 
+                        end
+                        BuyMelee('Dragon Claw')
                     end
-                    BuyMelee('Dragon Claw')
                 end 
             elseif MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 then 
                 if MLLV['Fishman Karate'] < 400 then 
