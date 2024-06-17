@@ -50,7 +50,7 @@ end)
 
 
 AutoSea3 = function()
-    if Sea2 and  then  
+    if Sea2 and getgenv().ServerData['PlayerData'].Level >= 1000 then  
         local v135 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
         if v135 and v135 ~= 0 then 
             if checkFruit1M() then 
