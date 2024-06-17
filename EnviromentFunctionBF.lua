@@ -500,7 +500,7 @@ function eatFruit(fruitsSnipes,includedInventory)
 end 
 function Storef(v) 
     if getgenv().CurrentTask ~= 'Eat Fruit' then 
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+        return game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
             "StoreFruit",
             tostring(v:GetAttribute("OriginalName")),
             v
@@ -534,13 +534,20 @@ local function LoadPlayer()
             vector3Value.Parent = game.Players.LocalPlayer.Character
             vector3Value.Value = Vector3.new(1, 2, 3)
         end
+        getgenv().ServerData["PlayerBackpackFruits"] = {}
         getgenv().ServerData["PlayerBackpack"] = {}
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v  
                 if v.Name:find('Fruit') then  
                     if v.Name:find('Fruit') then  
-                        Storef(v)
+                        if not Storef(v) then 
+                            local nextid = #getgenv().ServerData["PlayerBackpackFruits"]
+                            getgenv().ServerData["PlayerBackpackFruits"][nextid] = v 
+                            v:GetPropertyChangedSignal('Parent'):Connect(function() 
+                                if not v.Parent then getgenv().ServerData["PlayerBackpackFruits"][nextid]=nil end
+                            end) 
+                        end
                     end 
                 end 
                 task.spawn(function()
@@ -554,7 +561,13 @@ local function LoadPlayer()
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v  
                 if v.Name:find('Fruit') then  
-                    Storef(v)
+                    if not Storef(v) then 
+                        local nextid = #getgenv().ServerData["PlayerBackpackFruits"]
+                        getgenv().ServerData["PlayerBackpackFruits"][nextid] = v 
+                        v:GetPropertyChangedSignal('Parent'):Connect(function() 
+                            if not v.Parent then getgenv().ServerData["PlayerBackpackFruits"][nextid]=nil end
+                        end) 
+                    end
                 end 
                 task.spawn(function()
                     if v:IsA('Tool') and v.ToolTip == 'Melee' then 
@@ -584,7 +597,13 @@ local function LoadPlayer()
                     getgenv().ServerData["PlayerBackpack"][v.Name] = v 
                     task.delay(3,function()
                         if v.Name:find('Fruit') then  
-                            Storef(v)
+                            if not Storef(v) then 
+                                local nextid = #getgenv().ServerData["PlayerBackpackFruits"]
+                                getgenv().ServerData["PlayerBackpackFruits"][nextid] = v 
+                                v:GetPropertyChangedSignal('Parent'):Connect(function() 
+                                    if not v.Parent then getgenv().ServerData["PlayerBackpackFruits"][nextid]=nil end
+                                end) 
+                            end
                         end
                     end) 
                     task.spawn(function()
@@ -603,7 +622,13 @@ local function LoadPlayer()
                 end)
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function(newchild)
                     if newchild.Name:find('Fruit') then  
-                        Storef(newchild)
+                        if not Storef(newchild) then 
+                            local nextid = #getgenv().ServerData["PlayerBackpackFruits"]
+                            getgenv().ServerData["PlayerBackpackFruits"][nextid] = newchild 
+                            newchild:GetPropertyChangedSignal('Parent'):Connect(function() 
+                                if not newchild.Parent then getgenv().ServerData["PlayerBackpackFruits"][nextid]=nil end
+                            end) 
+                        end
                     end 
                 end)
             end
@@ -1807,7 +1832,7 @@ getgenv().SuccessBoughtTick = 0
 getgenv().LastBuyChipTick = 0
 function buyRaidingChip() 
     if getgenv().EnLoaded and tick()-getgenv().SuccessBoughtTick > 60 and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
-        if getgenv().FragmentNeeded or (not CheckX2Exp() and getgenv().ServerData['PlayerData'].Fragments < 7500) then 
+        if getgenv().FragmentNeeded or (not CheckX2Exp() and (getgenv().ServerData['PlayerData'].Fragments < 7500 or #getgenv().ServerData["PlayerBackpackFruits"] > 0)) then 
             local SelRaid = "Flame"
             if table.find(Raids,mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)) then  
                 SelRaid = mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)

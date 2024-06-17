@@ -66,7 +66,31 @@ function AutoL()
         end
         
     elseif not getgenv().QuestKillPlayer and game.PlaceId == 2753915549 and game.Players.LocalPlayer.Data.Level.Value < 120 and game.Players.LocalPlayer.Data.Level.Value >= 10 then 
-        KillMobList({"Royal Squad [Lv. 525]", "Shanda [Lv. 475]"})
+        KillMobList({"Royal Squad [Lv. 525]", "Shanda [Lv. 475]"}) 
+    elseif getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData["PlayerBackpack"]['Water Key'] then 
+        if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
+            EquipWeaponName('Library Key')
+            Tweento(CFrame.new(
+                6375.9126,
+                296.634583,
+                -6843.14062,
+                -0.849467814,
+                1.5493983e-08,
+                -0.527640462,
+                3.70608895e-08,
+                1,
+                -3.0301031e-08,
+                0.527640462,
+                -4.5294577e-08,
+                -0.849467814
+            ))
+        else 
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
+        end
+    elseif getgenv().ServerData['PlayerData'].Level >= 1350 and getgenv().ServerData['PlayerData'].Level < 1425 and getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] then
+        KillBoss(getgenv().ServerData['Server Bosses']['Awakened Ice Admiral']) 
+    elseif getgenv().ServerData['PlayerData'].Level >= 1425 and getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
+        KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper'])
     elseif not getgenv().QuestKillPlayer then
         FarmMobByLevel()
     end
