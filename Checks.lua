@@ -60,7 +60,8 @@ AutoSea3 = function()
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "3")  
                 return 
             end
-            local v136666 = checkFruit1M(true)
+            local v136666 = checkFruit1M(true) 
+            warn('Check fruits 1m',v136666)
             if v136666 then 
                 EquipWeaponName(v136666.Name)
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
