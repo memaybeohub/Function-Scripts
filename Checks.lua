@@ -168,7 +168,8 @@ Auto3rdEvent = function()
     end
 end
 AutoMeleeFunc = function()
-    if getgenv().MeleeTask == 'Find Ice' and Sea2 then  
+    if getgenv().MeleeTask == 'Find Ice' then
+        if not Sea2 then TeleportWorld(2) end  
         if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
             EquipWeaponName('Library Key')
             Tweento(CFrame.new(
@@ -209,7 +210,8 @@ AutoMeleeFunc = function()
             SetContent('Hopping for Ice Admiral',5)
             HopServer(10,true)
         end
-    elseif getgenv().MeleeTask == 'Find Waterkey' and Sea2 then  
+    elseif getgenv().MeleeTask == 'Find Waterkey' then  
+        if not Sea2 then TeleportWorld(2) end  
         if getgenv().ServerData["PlayerBackpack"]['Water Key'] then 
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
         elseif getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
@@ -270,13 +272,15 @@ AutoMeleeCheck = function()
                 end
                 pcall(function() 
                     if not getgenv().Config.WaterkeyPassed then 
-                        local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
-                        getgenv().Config.WaterkeyPassed = v178 == 3;
-                        warn('getgenv().Config.WaterkeyPassed',getgenv().Config.WaterkeyPassed,v178)
+                        if MLLV['Sharkman Karate'] > 0 then 
+                            getgenv().Config.WaterkeyPassed = true; 
+                        else 
+                            local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
+                            getgenv().Config.WaterkeyPassed = typeof(v178) ~= 'string'; 
+                        end
                     end
-                    if game.Workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.CanCollide then 
-                        getgenv().Config.IceCastleDoorPassed = false   
-                        warn('getgenv().Config.IceCastleDoorPassed',getgenv().Config.IceCastleDoorPassed)
+                    if not getgenv().Config.IceCastleDoorPassed then 
+                        getgenv().Config.IceCastleDoorPassed = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("OpenLibrary")   
                     end
                 end) 
                 if (not getgenv().Config.IceCastleDoorPassed) and (getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
