@@ -222,7 +222,9 @@ AutoMeleeCheck = function()
                             getgenv().FragmentNeeded = false 
                         end
                         BuyMelee('Dragon Claw')
-                    end
+                    end 
+                else
+                    BuyMelee('Superhuman')
                 end 
             elseif MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 then 
                 if MLLV['Fishman Karate'] < 400 then 
