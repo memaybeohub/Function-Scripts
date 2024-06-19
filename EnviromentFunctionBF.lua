@@ -1,5 +1,6 @@
 repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer 
-local lasttis = 0
+local lasttis = 0 
+local JoinedGame = tick()
 SetContent = function(v1,delayticks)
     if not v1 then v1 = '' end 
     if tick()-lasttis > 0 then 
@@ -1831,7 +1832,7 @@ end
 getgenv().SuccessBoughtTick = 0
 getgenv().LastBuyChipTick = 0
 function buyRaidingChip() 
-    if getgenv().EnLoaded and tick()-getgenv().SuccessBoughtTick > 60 and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
+    if getgenv().EnLoaded and tick()-JoinedGame > 90 and tick()-getgenv().SuccessBoughtTick > 60 and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
         if getgenv().FragmentNeeded or (not CheckX2Exp() and (getgenv().ServerData['PlayerData'].Fragments < 7500 or #getgenv().ServerData["PlayerBackpackFruits"] > 0)) then 
             local SelRaid = "Flame"
             if table.find(Raids,mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)) then  

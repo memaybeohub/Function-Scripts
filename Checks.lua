@@ -207,7 +207,8 @@ AutoMeleeCheck = function()
         repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"]
         while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"]
-            if MLLV["Superhuman"] == 0 then
+            if MLLV["Superhuman"] == 0 then 
+                BuyMelee('Superhuman')
                 if MLLV["Black Leg"] < 300 then 
                     BuyMelee('Black Leg')
                 elseif MLLV["Fishman Karate"] < 300 then 
