@@ -8,64 +8,65 @@ local DMG = require(Client.PlayerScripts.CombatFramework.Particle.Damage)
 local CamShake = require(game.ReplicatedStorage.Util.CameraShaker)
 CamShake:Stop()
 
-if hookfunction and not islclosure(hookfunction) then 
-    task.wait(30)
-    workspace._WorldOrigin.ChildAdded:Connect(function(v)
-        if v.Name =='DamageCounter' then 
-            v.Enabled  = false 
-        end
-        if v:IsA('Part') or v:IsA('MeshPart') then 
-            v.Transparency = 1 
-        end
-    end)
-    hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
-    hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
-    task.spawn(function()
-        repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee'
-        for i,v in pairs(getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data) do  
-            if typeof(v) == 'function' then 
-                hookfunction(v,function() end )
+task.delay(15,function() 
+    if hookfunction and not islclosure(hookfunction) then 
+        workspace._WorldOrigin.ChildAdded:Connect(function(v)
+            if v.Name =='DamageCounter' then 
+                v.Enabled  = false 
             end
-        end 
-    end) 
-    abc = true
-    task.spawn(function()
-        local a = game.Players.LocalPlayer
-        local b = require(a.PlayerScripts.CombatFramework.Particle)
-        local c = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib)
-        if not shared.orl then
-            shared.orl = c.wrapAttackAnimationAsync
-        end
-        if not shared.cpc then
-            shared.cpc = b.play
-        end
-        if abc then
-            pcall(function()
-                c.wrapAttackAnimationAsync = function(d, e, f, g, h)
-                    local i = c.getBladeHits(e, f, g)
-                    if i then
-                        b.play = function()
+            if v:IsA('Part') or v:IsA('MeshPart') then 
+                v.Transparency = 1 
+            end
+        end)
+        hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
+        hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
+        task.spawn(function()
+            repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee'
+            for i,v in pairs(getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data) do  
+                if typeof(v) == 'function' then 
+                    hookfunction(v,function() end )
+                end
+            end 
+        end) 
+        abc = true
+        task.spawn(function()
+            local a = game.Players.LocalPlayer
+            local b = require(a.PlayerScripts.CombatFramework.Particle)
+            local c = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib)
+            if not shared.orl then
+                shared.orl = c.wrapAttackAnimationAsync
+            end
+            if not shared.cpc then
+                shared.cpc = b.play
+            end
+            if abc then
+                pcall(function()
+                    c.wrapAttackAnimationAsync = function(d, e, f, g, h)
+                        local i = c.getBladeHits(e, f, g)
+                        if i then
+                            b.play = function()
+                            end
+                            d:Play(0.1, 0.1, 0.1)
+                            h(i)
+                            b.play = shared.cpc
+                            wait(.5)
+                            d:Stop()
                         end
-                        d:Play(0.1, 0.1, 0.1)
-                        h(i)
-                        b.play = shared.cpc
-                        wait(.5)
-                        d:Stop()
                     end
-                end
-            end)
-        end
-    end)
-    task.delay(math.random(30,60),function()
-        for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
-            pcall(function()
-                if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
-                    hookfunction(require(v2),function()end)
-                end
-            end)
-        end
-    end)
-end
+                end)
+            end
+        end)
+        task.delay(math.random(30,60),function()
+            for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
+                pcall(function()
+                    if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
+                        hookfunction(require(v2),function()end)
+                    end
+                end)
+            end
+        end)
+    end
+end)
 
 
 
