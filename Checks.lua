@@ -21,7 +21,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Pole Quest'
         elseif Sea1 and getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
             getgenv().CurrentTask = 'Sea 2 Quest'
-        elseif (Sea2 or Sea3) and (getgenv().ServerData['Server Bosses']['Core'] or (Sea3 and getgenv().PirateRaidTick and tick()-getgenv().PirateRaidTick > 60)) then 
+        elseif (Sea2 or Sea3) and (getgenv().ServerData['Server Bosses']['Core'] or (Sea3 and getgenv().PirateRaidTick and tick()-getgenv().PirateRaidTick < 60)) then 
             getgenv().CurrentTask = '3rd Sea Event'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
             getgenv().CurrentTask = 'Bartilo Quest'
