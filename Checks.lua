@@ -221,10 +221,15 @@ AutoMeleeFunc = function()
         else   
             SetContent('Hopping for Tide Keeper',5)
             HopServer(10,true)
-        end
+        end 
+    elseif getgenv().MeleeTask == 'Previous Hero Puzzle' then   
+        Tweento(GetNPC('Previous Hero').PrimaryPart.CFrame * CFrame.new(0,0,-2.5))
+        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", "Start")
+        Tweento(CFrame.new(-12548.8, 332.378, -7617.77)) 
+        getgenv().MeleeTask = ''
     end
 end   
-AutoMeleeCheck = function()
+AutoMeleeMasteryCheck = function() 
     task.spawn(function()
         getgenv().FragmentNeeded = false
         getgenv().MeleeTask = 'None'
@@ -252,24 +257,39 @@ AutoMeleeCheck = function()
                 else
                     BuyMelee('Superhuman')
                 end 
-            elseif MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 then 
+            elseif MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0 then 
                 if MLLV['Fishman Karate'] < 400 then 
                     BuyMelee('Fishman Karate')  
-                elseif MLLV['Death Step'] < 400 then 
-                    BuyMelee('Death Step') 
+                elseif MLLV['Black Leg'] < 400 then 
+                    BuyMelee('Black Leg') 
+                elseif MLLV['Electro'] < 400 then 
+                    BuyMelee('Eletroc') 
+                elseif MLLV['Dragon Claw'] < 400 then 
+                    BuyMelee('Dragon Claw')  
                 end 
-                BuyMelee('Sharkman Karate') 
-                BuyMelee('Death Step')
-                if Sea2 then 
-                    local bb,bb3 = pcall(function()
-                        return game.Workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.CanCollide
-                    end)
-                    if bb then 
-                        getgenv().Config.IceCastleDoorPassed = not bb3 
-                    else 
-                        getgenv().Config.IceCastleDoorPassed = true 
-                    end 
+                if MLLV['Sharkman Karate'] == 0 then 
+                    BuyMelee('Sharkman Karate')  
+                elseif MLLV['Death Step'] == 0 then 
+                    BuyMelee('Death Step')  
+                elseif MLLV['Electric Claw'] == 0 then 
+                    BuyMelee('Electric Claw')  
+                elseif MLLV['Dragon Talon'] == 0 then 
+                    BuyMelee('Dragon Talon')  
                 end
+            end
+        end
+    end)
+end 
+AutoMeleeMasteryCheck()
+AutoMeleeCheck = function()
+    task.spawn(function()
+        getgenv().FragmentNeeded = false
+        getgenv().MeleeTask = 'None'
+        repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"] 
+        getgenv().Config.IceCastleDoorPassed = false
+        while task.wait(1) do 
+            local MLLV = getgenv().Config["Melee Level Values"]
+            if MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 then 
                 pcall(function() 
                     if not getgenv().Config.WaterkeyPassed then 
                         if MLLV['Sharkman Karate'] > 0 then 
@@ -278,6 +298,12 @@ AutoMeleeCheck = function()
                             local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
                             getgenv().Config.WaterkeyPassed = typeof(v178) ~= 'string'; 
                         end
+                    end 
+                    if not getgenv().Config.PreviousHeroPassed then
+                        getgenv().Config.PreviousHeroPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true))~= 'string'
+                    end 
+                    if not getgenv().Config.FireEssencePassed then 
+                        getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string' 
                     end
                     if not getgenv().Config.IceCastleDoorPassed then 
                         getgenv().Config.IceCastleDoorPassed = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("OpenLibrary")   
@@ -286,7 +312,9 @@ AutoMeleeCheck = function()
                 if (not getgenv().Config.IceCastleDoorPassed) and (getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Ice'
                 elseif not getgenv().Config.WaterkeyPassed and (getgenv().ServerData["PlayerBackpack"]['Water Key'] or getgenv().ServerData['Server Bosses']['Tide Keeper'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
-                    getgenv().MeleeTask = 'Find Waterkey'
+                    getgenv().MeleeTask = 'Find Waterkey' 
+                elseif getgenv().Config.PreviousHeroPassed then  
+                    getgenv().MeleeTask = 'Previous Hero Puzzle' 
                 end 
             else  
                 getgenv().MeleeTask = ''

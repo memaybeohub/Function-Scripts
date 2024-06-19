@@ -1455,6 +1455,17 @@ function GetQuest(QuestTables)
         end
         task.wait(1)
     end
+end    
+local AllNPCS = getnilinstances()
+for i, v in pairs(game:GetService("Workspace").NPCs:GetChildren()) do
+    table.insert(AllNPCS, v)
+end
+function GetNPC(npc)
+    for i, v in pairs(AllNPCS) do
+        if v.Name == npc then
+            return v
+        end
+    end
 end  
 local function FireAddPoint(PointName,num) 
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint",PointName,num)
