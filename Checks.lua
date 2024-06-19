@@ -187,7 +187,25 @@ AutoMeleeFunc = function()
                 -0.849467814
             ))
         elseif getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] then 
-            KillBoss(getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'])
+            KillBoss(getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'])  
+            if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
+                EquipWeaponName('Library Key')
+                Tweento(CFrame.new(
+                    6375.9126,
+                    296.634583,
+                    -6843.14062,
+                    -0.849467814,
+                    1.5493983e-08,
+                    -0.527640462,
+                    3.70608895e-08,
+                    1,
+                    -3.0301031e-08,
+                    0.527640462,
+                    -4.5294577e-08,
+                    -0.849467814
+                )) 
+            end
+            getgenv().MeleeTask = ''
         else  
             SetContent('Hopping for Ice Admiral',5)
             HopServer(10,true)
@@ -196,8 +214,10 @@ AutoMeleeFunc = function()
         if getgenv().ServerData["PlayerBackpack"]['Water Key'] then 
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
         elseif getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
-            KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper'])
-        else  
+            KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper']) 
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)  
+            getgenv().MeleeTask = ''
+        else   
             SetContent('Hopping for Tide Keeper',5)
             HopServer(10,true)
         end
@@ -239,9 +259,15 @@ AutoMeleeCheck = function()
                 BuyMelee('Sharkman Karate') 
                 BuyMelee('Death Step')
                 pcall(function() 
-                    local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
-                    getgenv().Config.WaterkeyPassed = v178 == 3;
-                    getgenv().Config.IceCastleDoorPassed = not game.Workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.CanCollide 
+                    if not getgenv().Config.WaterkeyPassed then 
+                        local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
+                        getgenv().Config.WaterkeyPassed = v178 == 3;
+                        warn('getgenv().Config.WaterkeyPassed',getgenv().Config.WaterkeyPassed,v178)
+                    end
+                    if not getgenv().Config.IceCastleDoorPassed then 
+                        getgenv().Config.IceCastleDoorPassed = not game.Workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.CanCollide  
+                        warn('getgenv().Config.IceCastleDoorPassed',getgenv().Config.IceCastleDoorPassed)
+                    end
                 end) 
                 if (not getgenv().Config.IceCastleDoorPassed) and (getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Ice'
