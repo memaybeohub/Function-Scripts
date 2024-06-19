@@ -134,8 +134,7 @@ AutoRaid = function()
         local RaidDis = GetDistance(getgenv().ServerData['Nearest Raid Island'])
         if RaidDis < 5000 then
             Tweento(getgenv().ServerData['Nearest Raid Island'].CFrame  *CFrame.new(0,60,0)) 
-        elseif RaidDis >= 5000 then
-            wait(10) 
+            task.wait(.1)
         end
     elseif getgenv().ServerData["PlayerBackpack"]['Special Microchip'] then
         SetContent('Firing raid remote...',3)

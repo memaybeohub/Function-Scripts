@@ -1875,7 +1875,7 @@ RunService.Heartbeat:Connect(function()
     end
     if IsPlayerAlive() then 
         EnableBuso()
-        if tick() - getgenv().LastBuyChipTick > 5 then buyRaidingChip() end
+        if tick() - getgenv().LastBuyChipTick > 5 then getgenv().LastBuyChipTick = tick() buyRaidingChip() end
         _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
         getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
         if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().tween and getgenv().tween.PlaybackState and tostring(string.gsub(tostring(getgenv().tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
