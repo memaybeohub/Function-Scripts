@@ -80,7 +80,8 @@ AutoSea3 = function()
             if not ZQuestProgress then 
                 if getgenv().ServerData['Server Bosses']['Don Swan'] then 
                     KillBoss(getgenv().ServerData['Server Bosses']['Don Swan'])
-                else
+                else 
+                    SetContent('Hopping for Don Swan',5)
                     HopServer(9,true)
                 end
             elseif ZQuestProgress == 0 and GetDistance(game:GetService("Workspace").Map.IndraIsland.Part) > 1000 then
@@ -187,7 +188,8 @@ AutoMeleeFunc = function()
             ))
         elseif getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'])
-        else 
+        else  
+            SetContent('Hopping for Ice Admiral',5)
             HopServer(10,true)
         end
     elseif getgenv().MeleeTask == 'Find Waterkey' then  
@@ -195,7 +197,8 @@ AutoMeleeFunc = function()
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
         elseif getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper'])
-        else 
+        else  
+            SetContent('Hopping for Tide Keeper',5)
             HopServer(10,true)
         end
     end
@@ -266,7 +269,8 @@ AutoRaceV2 = function()
             SetContent('Getting Blue Flower (Flower 1)')
             if workspace.Flower1.Transparency ~= 1 then
                 Tweento(workspace.Flower1.CFrame)
-            else 
+            else  
+                SetContent('Hopping for Blue Flower',5)
                 HopServer(10,true)
             end
         elseif not getgenv().ServerData["PlayerBackpack"]['Flower 2'] then 
@@ -301,7 +305,8 @@ AutoBartiloQuest = function()
         if getgenv().ServerData['Server Bosses']['Jeremy'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Jeremy'])
             getgenv().CurrentTask = ''
-        elseif getgenv().ServerData['PlayerData'].Level > 500 then 
+        elseif getgenv().ServerData['PlayerData'].Level > 500 then  
+            SetContent('Hopping for Bartilo',5)
             HopServer(9,true)
         end
     elseif QuestBartiloId == 2 then 
@@ -380,7 +385,8 @@ AutoSea2 = function()
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa") 
             end)
             getgenv().CurrentTask = ''
-        elseif getgenv().ServerData['PlayerData'].Level >= 700 then 
+        elseif getgenv().ServerData['PlayerData'].Level >= 700 then  
+            SetContent('Hopping for Ice Admiral',5)
             HopServer(9,true)
         end
     end
@@ -396,7 +402,8 @@ AutoPole = function()
         if getgenv().ServerData['Server Bosses']['Thunder God'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Thunder God'])
             getgenv().CurrentTask = ''
-        elseif getgenv().ServerData['PlayerData'].Level > 500 then 
+        elseif getgenv().ServerData['PlayerData'].Level > 500 then  
+            SetContent('Hopping for Thunder God',5)
             HopServer(9,true)
         end
 end
@@ -434,7 +441,8 @@ AutoSaber = function()
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert']) 
             getgenv().CurrentTask = ''
-        elseif getgenv().ServerData['PlayerData'].Level > 200 then 
+        elseif getgenv().ServerData['PlayerData'].Level > 200 then  
+            SetContent('Hopping for Shanks',5)
             HopServer(9,true)
         end 
     elseif game:GetService("Workspace").Map.Jungle.QuestPlates.Door.CanCollide then 
@@ -469,7 +477,8 @@ AutoSaber = function()
             SetContent('Finding Mob Leader...')
             if getgenv().ServerData['Server Bosses']['Mob Leader'] then 
                 KillBoss(getgenv().ServerData['Server Bosses']['Mob Leader']) 
-            elseif getgenv().ServerData['PlayerData'].Level > 500 then 
+            elseif getgenv().ServerData['PlayerData'].Level > 500 then  
+                SetContent('Hopping for Mob Leader',5)
                 HopServer()  
             end
         elseif RichSonProgress == 1 then
