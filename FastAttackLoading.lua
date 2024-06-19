@@ -9,7 +9,7 @@ local CamShake = require(game.ReplicatedStorage.Util.CameraShaker)
 CamShake:Stop()
 
 if hookfunction and not islclosure(hookfunction) then 
-    task.delay(30)
+    task.wait(30)
     workspace._WorldOrigin.ChildAdded:Connect(function(v)
         if v.Name =='DamageCounter' then 
             v.Enabled  = false 
