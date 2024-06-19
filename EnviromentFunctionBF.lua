@@ -4,8 +4,14 @@ local JoinedGame = tick()
 getgenv().MeleeWait = ''
 SetContent = function(v1,delayticks)
     if not v1 then v1 = '' end 
-    if tick()-lasttis > 0 then 
-        if ContentSet then ContentSet(v1,getgenv().CurrentTask..getgenv().MeleeWait) end
+    if tick()-lasttis > 0 then
+        if not getgenv().CurrentTask then 
+            getgenv().CurrentTask = ''
+        end 
+        if not getgenv().MeleeWait then 
+            getgenv().MeleeWait = '' 
+        end
+        if ContentSet then ContentSet(v1,tostring(getgenv().CurrentTask)..tostring(getgenv().MeleeWait)) end
     end 
     if delayticks then 
         lasttis = tick()+delayticks
