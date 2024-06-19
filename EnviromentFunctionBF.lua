@@ -1845,8 +1845,11 @@ function buyRaidingChip()
                 local below1MFruit = getFruitBelow1M()
                 if below1MFruit then 
                     SetContent('Getting '..tostring(below1MFruit)..' from inventory to buy chips...')
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", below1MFruit)
-                    return buyRaidingChip()
+                    if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", below1MFruit) then 
+                        buyRaidingChip() 
+                    else 
+                        getgenv().ServerData['Inventory Items'] = {}
+                    end
                 end
             end 
         end

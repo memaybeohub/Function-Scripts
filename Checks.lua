@@ -273,10 +273,11 @@ AutoMeleeCheck = function()
                     if not getgenv().Config.WaterkeyPassed then 
                         local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
                         getgenv().Config.WaterkeyPassed = v178 == 3;
-                        warn('getgenv().Config.WaterkeyPassed',getgenv().Config.WaterkeyPassed)
+                        warn('getgenv().Config.WaterkeyPassed',getgenv().Config.WaterkeyPassed,v178)
                     end
                     if game.Workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.CanCollide then 
-                        getgenv().Config.IceCastleDoorPassed = false  
+                        getgenv().Config.IceCastleDoorPassed = false   
+                        warn('getgenv().Config.IceCastleDoorPassed',getgenv().Config.IceCastleDoorPassed)
                     end
                 end) 
                 if (not getgenv().Config.IceCastleDoorPassed) and (getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
