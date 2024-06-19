@@ -1,15 +1,19 @@
 repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer 
 local lasttis = 0 
-local JoinedGame = tick()
+local JoinedGame = tick() 
+getgenv().MeleeWait = ''
 SetContent = function(v1,delayticks)
     if not v1 then v1 = '' end 
     if tick()-lasttis > 0 then 
-        if ContentSet then ContentSet(v1,getgenv().CurrentTask) end
+        if ContentSet then ContentSet(v1,getgenv().CurrentTask..getgenv().MeleeWait) end
     end 
     if delayticks then 
         lasttis = tick()+delayticks
     end
-end 
+end  
+SetMeleeWait = function(v1Name,v1Value)
+    getgenv().MeleeWait = " | Waitting "..tostring(v1Name).." hit "..tostring(v1Value).." mastery." 
+end
 getgenv().ServerData = {} 
 function Join(v2) 
     v2 = tostring(v2) or "Pirates"

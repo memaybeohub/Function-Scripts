@@ -233,18 +233,22 @@ end
 AutoMeleeMasteryCheck = function() 
     task.spawn(function()
         getgenv().FragmentNeeded = false
-        getgenv().MeleeTask = 'None'
+        getgenv().MeleeTask = 'None' 
+        getgenv().MeleeWait = ''
         repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"] 
         while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"]
             if MLLV["Superhuman"] == 0 then 
                 BuyMelee('Superhuman')
                 if MLLV["Black Leg"] < 300 then 
-                    BuyMelee('Black Leg')
+                    BuyMelee('Black Leg') 
+                    SetMeleeWait('Black Leg',300)
                 elseif MLLV["Fishman Karate"] < 300 then 
-                    BuyMelee('Fishman Karate') 
+                    BuyMelee('Fishman Karate')  
+                    SetMeleeWait('Fishman Karate',300)
                 elseif MLLV["Electro"] < 300 then 
-                    BuyMelee('Electro')   
+                    BuyMelee('Electro')    
+                    SetMeleeWait('Electro',300)
                 elseif MLLV["Dragon Claw"] < 300 then 
                     if MLLV['Dragon Claw'] == 0 then 
                         if getgenv().ServerData['PlayerData'].Fragments < 1500 then 
@@ -252,20 +256,26 @@ AutoMeleeMasteryCheck = function()
                         else 
                             getgenv().FragmentNeeded = false 
                         end
-                        BuyMelee('Dragon Claw')
+                    else 
+                        BuyMelee('Dragon Claw') 
+                        SetMeleeWait('Dragon Claw',300)
                     end 
                 else
                     BuyMelee('Superhuman')
                 end 
             elseif MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0 then 
                 if MLLV['Fishman Karate'] < 400 then 
-                    BuyMelee('Fishman Karate')  
+                    BuyMelee('Fishman Karate')   
+                    SetMeleeWait('Fishman Karate',400)
                 elseif MLLV['Black Leg'] < 400 then 
                     BuyMelee('Black Leg') 
+                    SetMeleeWait('Black Leg',400)
                 elseif MLLV['Electro'] < 400 then 
-                    BuyMelee('Eletroc') 
+                    BuyMelee('Electro') 
+                    SetMeleeWait('Electro',400)
                 elseif MLLV['Dragon Claw'] < 400 then 
                     BuyMelee('Dragon Claw')  
+                    SetMeleeWait('Dragon Claw',400)
                 end 
                 if MLLV['Sharkman Karate'] == 0 then 
                     BuyMelee('Sharkman Karate')  
@@ -288,7 +298,7 @@ AutoMeleeCheck = function()
         repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"] 
         while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"]
-            if MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 then 
+            if MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0  then 
                 pcall(function() 
                     if not getgenv().Config.WaterkeyPassed then 
                         if MLLV['Sharkman Karate'] > 0 then 
