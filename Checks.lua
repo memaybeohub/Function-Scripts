@@ -222,13 +222,13 @@ AutoMeleeFunc = function()
             HopServer(10,true)
         end
     end
-end  
-getgenv().Config.IceCastleDoorPassed = false
+end   
 AutoMeleeCheck = function()
     task.spawn(function()
         getgenv().FragmentNeeded = false
         getgenv().MeleeTask = 'None'
-        repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"]
+        repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"] 
+        getgenv().Config.IceCastleDoorPassed = false
         while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"]
             if MLLV["Superhuman"] == 0 then 
