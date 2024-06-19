@@ -427,8 +427,9 @@ function checkFruit1M(in5)
     if fruitsea3bp() then return fruitsea3bp() end
     if in5 then 
         for i,v in pairs(getgenv().ServerData["Inventory Items"]) do 
-            if v.Value and v.Value >= 1000000 then 
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", v) 
+            if v.Value and v.Value >= 1000000 then  
+                warn(v.Name)
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", v.Name) 
                 wait(.5)
                 if fruitsea3bp() then return fruitsea3bp() end
             end
@@ -1751,7 +1752,7 @@ end
 function getFruitBelow1M()
     local minValue = 1000000
     local fruitName 
-    for i,v in pairs(getgenv().ServerData['Inventory Items']) do 
+    for i,v in pairs(getgenv().ServerData["Inventory Items"]) do 
         if v.Value and v.Value < minValue then 
             fruitName = v.Name 
             minValue = v.Value  
