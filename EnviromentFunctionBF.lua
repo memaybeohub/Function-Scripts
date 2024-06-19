@@ -1508,7 +1508,8 @@ function FarmMobByLevel(level)
     end
 end
 FruitsID = loadstring(game:HttpGet("https://raw.githubusercontent.com/memaybeohub/Function-Scripts/main/Magnetism.lua"))()
-function ReturnFruitNameWithId(v)
+function ReturnFruitNameWithId(v) 
+    if not v then return end 
     local SH = v:WaitForChild("Fruit",15):WaitForChild("Fruit",1)
     if not SH then 
         SH = v:WaitForChild("Fruit",15):WaitForChild("Retopo_Cube.001",1) 
@@ -1593,7 +1594,7 @@ function LoadBoss(v)
     local Hum = v:WaitForChild('Humanoid')
     task.spawn(function()
         if Hum and Root and v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 then  
-            warn('Skibidi toilet',v.Name)
+            warn('Skibidi toilet',v.Name,GetDistance(v.PrimaryPart,CastleCFrame))
             getgenv().PirateRaidTick = tick() 
         end
     end)
