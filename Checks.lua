@@ -222,7 +222,8 @@ AutoMeleeFunc = function()
             HopServer(10,true)
         end
     end
-end 
+end  
+getgenv().Config.IceCastleDoorPassed = true
 AutoMeleeCheck = function()
     task.spawn(function()
         getgenv().FragmentNeeded = false
@@ -262,11 +263,10 @@ AutoMeleeCheck = function()
                     if not getgenv().Config.WaterkeyPassed then 
                         local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
                         getgenv().Config.WaterkeyPassed = v178 == 3;
-                        warn('getgenv().Config.WaterkeyPassed',getgenv().Config.WaterkeyPassed,v178)
+                        warn('getgenv().Config.WaterkeyPassed',getgenv().Config.WaterkeyPassed)
                     end
-                    if not getgenv().Config.IceCastleDoorPassed then 
-                        getgenv().Config.IceCastleDoorPassed = not game.Workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.CanCollide  
-                        warn('getgenv().Config.IceCastleDoorPassed',getgenv().Config.IceCastleDoorPassed)
+                    if game.Workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.CanCollide then 
+                        getgenv().Config.IceCastleDoorPassed = false  
                     end
                 end) 
                 if (not getgenv().Config.IceCastleDoorPassed) and (getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
