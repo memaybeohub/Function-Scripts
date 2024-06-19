@@ -223,7 +223,7 @@ AutoMeleeFunc = function()
         end
     end
 end  
-getgenv().Config.IceCastleDoorPassed = true
+getgenv().Config.IceCastleDoorPassed = false
 AutoMeleeCheck = function()
     task.spawn(function()
         getgenv().FragmentNeeded = false
@@ -259,6 +259,16 @@ AutoMeleeCheck = function()
                 end 
                 BuyMelee('Sharkman Karate') 
                 BuyMelee('Death Step')
+                if Sea2 then 
+                    local bb,bb3 = pcall(function()
+                        return game.Workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.CanCollide
+                    end)
+                    if bb then 
+                        getgenv().Config.IceCastleDoorPassed = not bb3 
+                    else 
+                        getgenv().Config.IceCastleDoorPassed = true 
+                    end 
+                end
                 pcall(function() 
                     if not getgenv().Config.WaterkeyPassed then 
                         local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
