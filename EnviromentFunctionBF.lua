@@ -426,10 +426,10 @@ function checkFruit1M(in5)
     end 
     if fruitsea3bp() then return fruitsea3bp() end
     if in5 then 
-        for i,v in pairs(fruitsSnipes) do 
-            if getgenv().ServerData["Inventory Items"][v] then 
+        for i,v in pairs(getgenv().ServerData["Inventory Items"]) do 
+            if v.Value and v.Value >= 1000000 then 
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", v) 
-                wait(1)
+                wait(.5)
                 if fruitsea3bp() then return fruitsea3bp() end
             end
         end
