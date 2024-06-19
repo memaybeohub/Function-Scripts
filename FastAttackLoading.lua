@@ -9,6 +9,7 @@ local CamShake = require(game.ReplicatedStorage.Util.CameraShaker)
 CamShake:Stop()
 
 if hookfunction and not islclosure(hookfunction) then 
+    task.delay(30)
     workspace._WorldOrigin.ChildAdded:Connect(function(v)
         if v.Name =='DamageCounter' then 
             v.Enabled  = false 
@@ -20,8 +21,7 @@ if hookfunction and not islclosure(hookfunction) then
     hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
     hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
     task.spawn(function()
-        wait(1)
-        repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee'
+        repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee'
         for i,v in pairs(getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data) do  
             if typeof(v) == 'function' then 
                 hookfunction(v,function() end )

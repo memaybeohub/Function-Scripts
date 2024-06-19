@@ -67,10 +67,10 @@ function AutoL()
         
     elseif not getgenv().QuestKillPlayer and game.PlaceId == 2753915549 and game.Players.LocalPlayer.Data.Level.Value < 120 and game.Players.LocalPlayer.Data.Level.Value >= 10 then 
         KillMobList({"Royal Squad [Lv. 525]", "Shanda [Lv. 475]"}) 
-    elseif getgenv().ServerData["PlayerBackpack"]['Hidden Key'] then 
+    elseif Sea2 and getgenv().ServerData["PlayerBackpack"]['Hidden Key'] then 
         EquipWeaponName('Hidden Key')
         Tweento(CFrame.new(6571.1201171875, 299.23028564453, -6967.841796875)) 
-    elseif getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData["PlayerBackpack"]['Water Key'] then 
+    elseif Sea2 and getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData["PlayerBackpack"]['Water Key'] then 
         if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
             EquipWeaponName('Library Key')
             Tweento(CFrame.new(
@@ -90,9 +90,9 @@ function AutoL()
         else 
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
         end
-    elseif getgenv().ServerData['PlayerData'].Level >= 1350 and getgenv().ServerData['PlayerData'].Level < 1425 and getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] then
+    elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 1350 and getgenv().ServerData['PlayerData'].Level < 1425 and getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] then
         KillBoss(getgenv().ServerData['Server Bosses']['Awakened Ice Admiral']) 
-    elseif getgenv().ServerData['PlayerData'].Level >= 1425 and getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
+    elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 1425 and getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
         KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper'])
     elseif not getgenv().QuestKillPlayer then
         FarmMobByLevel()
