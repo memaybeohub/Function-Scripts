@@ -1806,9 +1806,12 @@ game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(functi
     if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-v.Position).Magnitude <= 4500 then  
         if v.Name:find('Island') then 
             v:GetPropertyChangedSignal('Parent'):Connect(function()
-                if not v.Parent or v.Parent ~= game:GetService("Workspace")["_WorldOrigin"].Locations then 
-                    warn('Clearing',getgenv().ServerData['Nearest Raid Island'])
-                    getgenv().ServerData['Nearest Raid Island'] = nil  
+                if not v.Parent or v.Parent ~= game:GetService("Workspace")["_WorldOrigin"].Locations then  
+                    if getgenv().CurrentTask == 'Auto Raid' then 
+                        getgenv().CurrentTask = '' 
+                        warn('Clearing',getgenv().ServerData['Nearest Raid Island'])
+                        getgenv().ServerData['Nearest Raid Island'] = nil 
+                    end
                 end
             end)  
         end 
