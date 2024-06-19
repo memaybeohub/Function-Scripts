@@ -1592,7 +1592,7 @@ function LoadBoss(v)
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart')
     local Hum = v:WaitForChild('Humanoid')
     task.spawn(function()
-        if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 then 
+        if Hum and Root and v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 then 
             getgenv().PirateRaidTick = tick() 
         end
     end)
