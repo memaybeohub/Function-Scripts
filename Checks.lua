@@ -61,7 +61,6 @@ AutoSea3 = function()
                 return 
             end
             local v136666 = checkFruit1M(true) 
-            warn('Check fruits 1m',v136666)
             if v136666 then 
                 EquipWeaponName(v136666.Name)
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
@@ -169,7 +168,7 @@ Auto3rdEvent = function()
     end
 end
 AutoMeleeFunc = function()
-    if getgenv().MeleeTask == 'Find Ice' then  
+    if getgenv().MeleeTask == 'Find Ice' and Sea2 then  
         if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
             EquipWeaponName('Library Key')
             Tweento(CFrame.new(
@@ -210,7 +209,7 @@ AutoMeleeFunc = function()
             SetContent('Hopping for Ice Admiral',5)
             HopServer(10,true)
         end
-    elseif getgenv().MeleeTask == 'Find Waterkey' then  
+    elseif getgenv().MeleeTask == 'Find Waterkey' and Sea2 then  
         if getgenv().ServerData["PlayerBackpack"]['Water Key'] then 
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
         elseif getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
