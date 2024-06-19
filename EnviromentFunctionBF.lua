@@ -139,14 +139,6 @@ for i,v in pairs(game.Workspace.MobSpawns:GetChildren()) do
     end 
 end
 warn('Loaded total',lss,' mobs middle spawns')
-if lss ~= #l1 then 
-    warn('Missing:')
-    for i,v in pairs(l1) do 
-        if not MobSpawnClone[v] then 
-            warn(i)
-        end
-    end
-end
 getgenv().MobSpawnClone = MobSpawnClone
 function GetMobSpawnList(a)
     local a = RemoveLevelTitle(a)
@@ -428,7 +420,6 @@ function checkFruit1M(in5)
     if in5 then 
         for i,v in pairs(getgenv().ServerData["Inventory Items"]) do 
             if v.Value and v.Value >= 1000000 then  
-                warn(v.Name)
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", v.Name) 
                 wait(.5)
                 if fruitsea3bp() then return fruitsea3bp() end
@@ -1808,7 +1799,6 @@ game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(functi
                 if not v.Parent or v.Parent ~= game:GetService("Workspace")["_WorldOrigin"].Locations then 
                     warn('Clearing',getgenv().ServerData['Nearest Raid Island'])
                     getgenv().ServerData['Nearest Raid Island'] = nil  
-                    warn('Cleared',getgenv().ServerData['Nearest Raid Island'])
                 end
             end)  
         end 
