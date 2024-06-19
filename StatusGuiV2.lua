@@ -133,9 +133,9 @@ end)
 
 Top.Text = 'Auto Farm: None'
 Under.Text = "Task: None" 
-function ContentSet(Content1, Content2)
+function ContentSet(Content1, Content2,Content3)
 	if not Content1 then Content1 = 'None (Not Found)' end 
 	if not Content2 or Content2 == '' then Content2 = 'Farming Level (or None)' end 
 	Top.Text = "Auto Farm: "..Content1
-	Under.Text = "Task: "..Content2 
+	Under.Text = "Task: "..Content2 .. Content3
 end
