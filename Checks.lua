@@ -223,6 +223,7 @@ AutoMeleeFunc = function()
             HopServer(10,true)
         end 
     elseif getgenv().MeleeTask == 'Previous Hero Puzzle' then   
+        if not Sea3 then TeleportWorld(3) end
         Tweento(GetNPC('Previous Hero').PrimaryPart.CFrame * CFrame.new(0,0,-2.5))
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", "Start")
         Tweento(CFrame.new(-12548.8, 332.378, -7617.77)) 
@@ -234,7 +235,6 @@ AutoMeleeMasteryCheck = function()
         getgenv().FragmentNeeded = false
         getgenv().MeleeTask = 'None'
         repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"] 
-        getgenv().Config.IceCastleDoorPassed = false
         while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"]
             if MLLV["Superhuman"] == 0 then 
@@ -286,7 +286,6 @@ AutoMeleeCheck = function()
         getgenv().FragmentNeeded = false
         getgenv().MeleeTask = 'None'
         repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"] 
-        getgenv().Config.IceCastleDoorPassed = false
         while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"]
             if MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 then 
