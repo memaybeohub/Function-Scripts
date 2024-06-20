@@ -1609,7 +1609,7 @@ function LoadBoss(v)
         end
     end)
     local IsElite = table.find(Elites,RemoveLevelTitle(v.Name))
-    if Hum and Root and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 and (v.Humanoid.DisplayName:find('Boss') or RemoveLevelTitle(v.Name) == 'Core' or IsElite) and not getgenv().ServerData['Server Bosses'][v.Name] then 
+    if Hum and Root and v:FindFirstChildOfClass('Humanoid') and v.Humanoid.Health > 0 and (v.Humanoid.DisplayName:find('Boss') or RemoveLevelTitle(v.Name) == 'Core' or IsElite) and not getgenv().ServerData['Server Bosses'][v.Name] then 
         if not IsElite then 
             getgenv().ServerData['Server Bosses'][v.Name] = v  
         end
