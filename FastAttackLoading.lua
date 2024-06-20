@@ -112,12 +112,18 @@ FastAttack = function()
     local ac = CurveFrame.activeController
     if ac and ac.equipped then
         task.spawn(function()
-            if tick() - cdnormal > 0.5 then
-                ac:attack()
+            if tick() - cdnormal > 0.5 then 
+                CurveFrame.activeController.timeToNextAttack = -1
+                CurveFrame.activeController.focusStart = 0
+                CurveFrame.activeController.hitboxMagnitude = 40
+                CurveFrame.activeController.humanoid.AutoRotate = true
+                CurveFrame.activeController.increment = 1 + 1 / 1
+                VirtualUser:Button1Down(Vector2.new())
+                VirtualUser:Button1Up(Vector2.new())
                 cdnormal = tick()
             else
                 Animation.AnimationId = ac.anims.basic[2]
-                ac.humanoid:LoadAnimation(Animation):Play(1, 1)
+                ac.humanoid:LoadAnimation(Animation):Play(0.1, 0.1)
                 game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
                     game.Players.LocalPlayer.Character,
                     {game.Players.LocalPlayer.Character.HumanoidRootPart},
