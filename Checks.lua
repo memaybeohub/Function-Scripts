@@ -210,6 +210,7 @@ Auto3rdEvent = function()
     end
 end
 AutoMeleeFunc = function()
+    warn('Auto melee func')
     if getgenv().MeleeTask == 'Find Ice' then
         if not Sea2 then TeleportWorld(2) end  
         if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
@@ -337,8 +338,20 @@ AutoMeleeMasteryCheck = function()
                     SetMeleeWait('Electro',400)
                 elseif MLLV['Dragon Claw'] < 400 then 
                     BuyMelee('Dragon Claw')  
-                    SetMeleeWait('Dragon Claw',400)
-                end 
+                    SetMeleeWait('Dragon Claw',400) 
+                elseif MLLV['Sharkman Karate'] < 400 then 
+                    BuyMelee('Sharkman Karate')  
+                    SetMeleeWait('Sharkman Karate',400)
+                elseif MLLV['Death Step'] < 400 then 
+                    BuyMelee('Death Step')  
+                    SetMeleeWait('Death Step',400)
+                elseif MLLV['Electric Claw'] < 400 then 
+                    BuyMelee('Electric Claw')  
+                    SetMeleeWait('Electric Claw',400)
+                elseif MLLV['Dragon Talon'] < 400 then 
+                    SetMeleeWait('Dragon Talon',400)
+                    BuyMelee('Dragon Talon')
+                end  
                 if MLLV['Sharkman Karate'] == 0 then 
                     BuyMelee('Sharkman Karate')  
                 elseif MLLV['Death Step'] == 0 then 
@@ -348,15 +361,7 @@ AutoMeleeMasteryCheck = function()
                 elseif MLLV['Dragon Talon'] == 0 then 
                     BuyMelee('Dragon Talon')   
                 end  
-                if MLLV['Sharkman Karate'] < 400 then 
-                    BuyMelee('Sharkman Karate')  
-                elseif MLLV['Death Step'] < 400 then 
-                    BuyMelee('Death Step')  
-                elseif MLLV['Electric Claw'] < 400 then 
-                    BuyMelee('Electric Claw')  
-                elseif MLLV['Dragon Talon'] < 400 then 
-                    BuyMelee('Dragon Talon')
-                end  
+
             elseif MLLV['Sharkman Karate'] < 400 then 
                 BuyMelee('Sharkman Karate')  
             elseif MLLV['Death Step'] < 400 then 
