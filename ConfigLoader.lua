@@ -21,4 +21,5 @@ task.delay(1,function()
     while task.wait(.5) do 
         SaveConfig()
     end
-end)
+end) 
+warn('Loaded Data!')
