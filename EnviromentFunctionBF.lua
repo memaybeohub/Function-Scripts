@@ -1615,6 +1615,7 @@ function LoadBoss(v)
         return
     end 
     if table.find(Elites,RemoveLevelTitle(v.Name)) then 
+        warn('Elite',v.Name)
         getgenv().CurrentElite = v 
     end
     v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
