@@ -337,7 +337,10 @@ AutoMeleeMasteryCheck = function()
                     SetMeleeWait('Electro',400)
                 elseif MLLV['Dragon Claw'] < 400 then 
                     BuyMelee('Dragon Claw')  
-                    SetMeleeWait('Dragon Claw',400) 
+                    SetMeleeWait('Dragon Claw',400)  
+                elseif MLLV['Superhuman'] < 400 then
+                    BuyMelee('Superhuman')
+                    SetMeleeWait('Superhuman',400)
                 elseif MLLV['Sharkman Karate'] < 400 then 
                     BuyMelee('Sharkman Karate')  
                     SetMeleeWait('Sharkman Karate',400)
@@ -350,7 +353,7 @@ AutoMeleeMasteryCheck = function()
                 elseif MLLV['Dragon Talon'] < 400 then 
                     SetMeleeWait('Dragon Talon',400)
                     BuyMelee('Dragon Talon')
-                end  
+                end   
                 if MLLV['Sharkman Karate'] == 0 then 
                     BuyMelee('Sharkman Karate')  
                 elseif MLLV['Death Step'] == 0 then 
@@ -360,16 +363,22 @@ AutoMeleeMasteryCheck = function()
                 elseif MLLV['Dragon Talon'] == 0 then 
                     BuyMelee('Dragon Talon')   
                 end  
-
+            elseif MLLV['Superhuman'] < 400 then
+                BuyMelee('Superhuman')
+                SetMeleeWait('Superhuman',400)
             elseif MLLV['Sharkman Karate'] < 400 then 
                 BuyMelee('Sharkman Karate')  
+                SetMeleeWait('Sharkman Karate',400)
             elseif MLLV['Death Step'] < 400 then 
                 BuyMelee('Death Step')  
+                SetMeleeWait('Death Step',400)
             elseif MLLV['Electric Claw'] < 400 then 
                 BuyMelee('Electric Claw')  
+                SetMeleeWait('Electric Claw',400)
             elseif MLLV['Dragon Talon'] < 400 then 
-                BuyMelee('Dragon Talon')  
-            end
+                SetMeleeWait('Dragon Talon',400)
+                BuyMelee('Dragon Talon')
+            end  
         end
     end)
 end 
@@ -406,9 +415,9 @@ AutoMeleeCheck = function()
                     getgenv().MeleeTask = 'Find Ice'
                 elseif not getgenv().Config.WaterkeyPassed and (getgenv().ServerData["PlayerBackpack"]['Water Key'] or getgenv().ServerData['Server Bosses']['Tide Keeper'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Waterkey' 
-                elseif not getgenv().Config.PreviousHeroPassed then  
+                elseif Sea3 and not getgenv().Config.PreviousHeroPassed then  
                     getgenv().MeleeTask = 'Previous Hero Puzzle' 
-                elseif v318 and v318 > 0 then  
+                elseif Sea3 and v318 and v318 > 0 then  
                     game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1)
                     if v316 and v316 < v318*50 then 
                         getgenv().MeleeTask = 'Find Fire Essence' 
