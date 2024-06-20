@@ -210,7 +210,6 @@ Auto3rdEvent = function()
     end
 end
 AutoMeleeFunc = function()
-    warn('Auto melee func')
     if getgenv().MeleeTask == 'Find Ice' then
         if not Sea2 then TeleportWorld(2) end  
         if getgenv().ServerData["PlayerBackpack"]['Library Key'] then 
