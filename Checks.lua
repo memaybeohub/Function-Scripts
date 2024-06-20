@@ -88,6 +88,7 @@ AutoElite = function()
             )
         else
             KillBoss(getgenv().CurrentElite)
+            getgenv().CurrentTask = ''
         end
     end
 end

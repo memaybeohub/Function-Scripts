@@ -905,7 +905,8 @@ function KillNigga(MobInstance)
                 end
             end
             SetContent('Killing '..tostring(N_Name))
-            if IsBoss(MobInstance) then 
+            --[[
+                        if IsBoss(MobInstance) then 
                 KillingBoss = true 
             end
             if not KillingBoss then
@@ -920,6 +921,7 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
+            ]]
             task.delay(.1 ,function()
                 repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 100
                 BringMob(MobInstance, LockCFrame) 
@@ -937,7 +939,6 @@ function KillNigga(MobInstance)
                     game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
                     wait(1)
                 end 
-                task.wait(.1)
             until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
                 CheckIsRaiding()
@@ -949,6 +950,7 @@ function KillNigga(MobInstance)
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
             game.Players.LocalPlayer.Character['Aimbot'].Value = false
             AddBodyVelocity(false)
+            return true
         end
     end)
     if not LS then print('ls',LS2) end
@@ -1022,7 +1024,7 @@ function KillBoss(BossInstance)
         SetContent('Tweening to boss '..BossInstance.Name)
         Tweento(BossInstance.PrimaryPart.CFrame * CFrame.new(0,50,0))
     end
-    KillNigga(BossInstance)
+    return KillNigga(BossInstance)
 end
 function BringMob(TAR,V5)
     if not TAR then 
