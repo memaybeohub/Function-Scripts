@@ -117,9 +117,9 @@ FastAttack = function()
                 CurveFrame.activeController.focusStart = 0
                 CurveFrame.activeController.hitboxMagnitude = 40
                 CurveFrame.activeController.humanoid.AutoRotate = true
-                CurveFrame.activeController.increment = 1 + 1 / 1
-                VirtualUser:Button1Down(Vector2.new())
-                VirtualUser:Button1Up(Vector2.new())
+                CurveFrame.activeController.increment = 1 + 1 / 1 
+                VirtualUser:CaptureController()
+                VirtualUser:Button1Down(Vector2.new())  
                 cdnormal = tick()
             else
                 Animation.AnimationId = ac.anims.basic[2]

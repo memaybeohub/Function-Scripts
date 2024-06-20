@@ -12,7 +12,9 @@ function refreshTask()
         elseif getgenv().ServerData['PlayerData'].DevilFruit == '' and getgenv().SnipeFruit and getgenv().FruitSniping and checkFruittoEat(getgenv().FruitSniping,getgenv().IncludeStored) then 
             getgenv().CurrentTask = 'Eat Fruit'
         elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
-            getgenv().CurrentTask = 'Collect Fruit'
+            getgenv().CurrentTask = 'Collect Fruit' 
+        elseif Sea3 and getgenv().CurrentElite then 
+            getgenv().CurrentTask = 'Hunting Elite'
         elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
             getgenv().CurrentTask = 'Saber Quest'
         elseif getgenv().ServerData['PlayerData'].Level > 150 
@@ -67,7 +69,26 @@ end)
 
 
 
-
+AutoElite = function() 
+    if getgenv().CurrentElite then  
+        if
+            not string.find(
+                game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,
+                getgenv().CurrentElite.Name
+            ) or
+                not game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible
+            then
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                "AbandonQuest"
+            )
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                "EliteHunter"
+            )
+        else
+            KillBoss(getgenv().CurrentElite)
+        end
+    end
+end
 AutoSea3 = function()
     if Sea2 and getgenv().ServerData['PlayerData'].Level >= 1000 then  
         local v135 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")

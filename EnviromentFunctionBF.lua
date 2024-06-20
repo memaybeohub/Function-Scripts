@@ -871,9 +871,9 @@ function AddBodyVelocity(enable)
     end
 end
 local Elites = {
-    "Deandre [Lv. 1750]",
-    "Urban [Lv. 1750]",
-    "Diablo [Lv. 1750]"
+    "Deandre",
+    "Urban",
+    "Diablo"
 }
 local KillingBoss
 local KillingMobTick = tick()-10
@@ -1598,6 +1598,7 @@ function collectAllFruit_Store()
         end
     end
 end 
+getgenv().CurrentElite = false
 function LoadBoss(v)  
     local CastleCFrame = CFrame.new(-5543.5327148438, 313.80062866211, -2964.2585449219)
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart')
@@ -1612,9 +1613,15 @@ function LoadBoss(v)
         getgenv().ServerData['Server Bosses'][v.Name] = v 
     else
         return
+    end 
+    if table.find(Elites,RemoveLevelTitle(v.Name)) then 
+        getgenv().CurrentElite = v 
     end
     v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
         if v.Humanoid.Health <= 0 then  
+            if table.find(Elites,RemoveLevelTitle(v.Name)) then 
+                getgenv().CurrentElite = nil
+            end
             local index = getgenv().ServerData['Server Bosses'][v.Name]
             if index then
                 getgenv().ServerData['Server Bosses'][v.Name] = nil
