@@ -33,6 +33,25 @@ function refreshTask()
         getgenv().TaskUpdateTick = tick()
     end
 end 
+if hookfunction then 
+    hookfunction(require(game.ReplicatedStorage.Notification).new,function(v1,v2) 
+        v1 = tostring(v1):gsub("<Color=[^>]+>", "")
+        if v1:find('spotted') then 
+            getgenv().PirateRaidTick = tick()
+        elseif v1:find('Good job') then 
+            getgenv().PirateRaidTick = 0 
+        elseif v1:find('attack') then 
+            getgenv().AttackedSafe = true
+        end
+        local FakeLOL = {}
+        function FakeLOL.Display(p18)
+            return true;
+        end; 
+        function FakeLOL.Dead()
+        end
+        return FakeLOL
+    end)  
+end 
 local rF1,rF2 
 task.delay(.1,function()
     while task.wait(.5) do 

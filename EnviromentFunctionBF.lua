@@ -1116,7 +1116,8 @@ function Click()
     VirtualUser:CaptureController()
     VirtualUser:ClickButton1(Vector2.new(851, 158), game:GetService("Workspace").Camera.CFrame)
 end
-local cancelKill = false 
+local cancelKill = false  
+getgenv().AttackedSafe = false 
 function CancelKillPlayer()
     cancelKill = true 
 end 
@@ -1131,12 +1132,9 @@ function CheckSafeZone(p)
             end
         end
     end
-    for i,k in pairs(game.Players.LocalPlayer.PlayerGui.Notifications:GetDescendants()) do
-        if k:IsA("TextLabel") then
-            if string.find(k.Text,"attack") and not k:FindFirstChild(v.Name) then
-                return true
-            end
-        end
+    if getgenv().AttackedSafe then 
+        getgenv().AttackedSafe = false 
+        return true 
     end
 end
 function KillPlayer(PlayerName)
@@ -1599,7 +1597,7 @@ function collectAllFruit_Store()
             getgenv().CurrentTask = ''
         end
     end
-end
+end 
 function LoadBoss(v)  
     local CastleCFrame = CFrame.new(-5543.5327148438, 313.80062866211, -2964.2585449219)
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart')
