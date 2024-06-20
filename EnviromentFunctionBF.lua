@@ -1619,7 +1619,6 @@ function LoadBoss(v)
         return
     end 
     if table.find(Elites,RemoveLevelTitle(v.Name)) then 
-        warn('Elite',v.Name)
         getgenv().CurrentElite = v 
     end 
     v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
@@ -1786,6 +1785,7 @@ function getFruitBelow1M()
 end
 getMeleeLevelValues()
 function ReloadFrutis()    
+    SetContent('Checking Server Fruits...')
     for i,v in pairs(game.workspace:GetChildren()) do 
         if v.Name:find('Fruit') and not table.find(getgenv().ServerData['Workspace Fruits'],v) then 
             local vN = ReturnFruitNameWithId(v)
