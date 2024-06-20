@@ -347,7 +347,16 @@ AutoMeleeMasteryCheck = function()
                     BuyMelee('Electric Claw')  
                 elseif MLLV['Dragon Talon'] == 0 then 
                     BuyMelee('Dragon Talon')   
-                end 
+                end  
+                if MLLV['Sharkman Karate'] < 400 then 
+                    BuyMelee('Sharkman Karate')  
+                elseif MLLV['Death Step'] < 400 then 
+                    BuyMelee('Death Step')  
+                elseif MLLV['Electric Claw'] < 400 then 
+                    BuyMelee('Electric Claw')  
+                elseif MLLV['Dragon Talon'] < 400 then 
+                    BuyMelee('Dragon Talon')
+                end  
             elseif MLLV['Sharkman Karate'] < 400 then 
                 BuyMelee('Sharkman Karate')  
             elseif MLLV['Death Step'] < 400 then 
