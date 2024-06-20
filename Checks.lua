@@ -269,7 +269,27 @@ AutoMeleeFunc = function()
         Tweento(GetNPC('Previous Hero').PrimaryPart.CFrame * CFrame.new(0,0,-2.5))
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", "Start")
         Tweento(CFrame.new(-12548.8, 332.378, -7617.77)) 
-        getgenv().MeleeTask = ''
+        getgenv().MeleeTask = '' 
+    elseif getgenv().MeleeTask == 'Find Fire Essence' then 
+        if getgenv().ServerData['PlayerData'].Level >= 2000 then  
+            if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
+                FarmMobByLevel(2000)
+            else 
+                KillMobList({
+                    "Reborn Skeleton [Lv. 1975]",
+                    "Living Zombie [Lv. 2000]",
+                    "Demonic Soul [Lv. 2025]",
+                    "Posessed Mummy [Lv. 2050]"
+                })
+            end
+        else 
+            KillMobList({
+                "Reborn Skeleton [Lv. 1975]",
+                "Living Zombie [Lv. 2000]",
+                "Demonic Soul [Lv. 2025]",
+                "Posessed Mummy [Lv. 2050]"
+            })
+        end
     end
 end   
 AutoMeleeMasteryCheck = function() 
@@ -326,8 +346,16 @@ AutoMeleeMasteryCheck = function()
                 elseif MLLV['Electric Claw'] == 0 then 
                     BuyMelee('Electric Claw')  
                 elseif MLLV['Dragon Talon'] == 0 then 
-                    BuyMelee('Dragon Talon')  
-                end
+                    BuyMelee('Dragon Talon')   
+                end 
+            elseif MLLV['Sharkman Karate'] < 400 then 
+                BuyMelee('Sharkman Karate')  
+            elseif MLLV['Death Step'] < 400 then 
+                BuyMelee('Death Step')  
+            elseif MLLV['Electric Claw'] < 400 then 
+                BuyMelee('Electric Claw')  
+            elseif MLLV['Dragon Talon'] < 400 then 
+                BuyMelee('Dragon Talon')  
             end
         end
     end)
@@ -339,7 +367,8 @@ AutoMeleeCheck = function()
         getgenv().MeleeTask = 'None'
         repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"] 
         while task.wait(1) do 
-            local MLLV = getgenv().Config["Melee Level Values"]
+            local MLLV = getgenv().Config["Melee Level Values"] 
+            local v316, v317, v318, v319 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Check")
             if MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0  then 
                 pcall(function() 
                     if not getgenv().Config.WaterkeyPassed then 
@@ -366,6 +395,13 @@ AutoMeleeCheck = function()
                     getgenv().MeleeTask = 'Find Waterkey' 
                 elseif not getgenv().Config.PreviousHeroPassed then  
                     getgenv().MeleeTask = 'Previous Hero Puzzle' 
+                elseif v318 and v318 > 0 then  
+                    game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1)
+                    if v316 and v316 < v318*50 then 
+                        getgenv().MeleeTask = 'Find Fire Essence' 
+                    else
+                        getgenv().MeleeTask = ''
+                    end
                 end 
             else  
                 getgenv().MeleeTask = ''
