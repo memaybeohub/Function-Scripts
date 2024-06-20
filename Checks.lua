@@ -38,9 +38,11 @@ end
 if hookfunction then 
     hookfunction(require(game.ReplicatedStorage.Notification).new,function(v1,v2) 
         v1 = tostring(v1):gsub("<Color=[^>]+>", "")
-        if v1:find('spotted') then 
+        if v1:find('spotted') then  
+            warn('Pirate raid FOUND!')
             getgenv().PirateRaidTick = tick()
         elseif v1:find('Good job') then 
+            warn('Pirate raid Cancelled!')
             getgenv().PirateRaidTick = 0 
         elseif v1:find('attack') then 
             getgenv().AttackedSafe = true
