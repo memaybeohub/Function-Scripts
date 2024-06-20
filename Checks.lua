@@ -364,7 +364,7 @@ AutoMeleeCheck = function()
                     getgenv().MeleeTask = 'Find Ice'
                 elseif not getgenv().Config.WaterkeyPassed and (getgenv().ServerData["PlayerBackpack"]['Water Key'] or getgenv().ServerData['Server Bosses']['Tide Keeper'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Waterkey' 
-                elseif getgenv().Config.PreviousHeroPassed then  
+                elseif not getgenv().Config.PreviousHeroPassed then  
                     getgenv().MeleeTask = 'Previous Hero Puzzle' 
                 end 
             else  
