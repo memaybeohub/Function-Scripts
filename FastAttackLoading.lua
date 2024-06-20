@@ -113,8 +113,7 @@ FastAttack = function()
     if ac and ac.equipped then
         task.spawn(function()
             if tick() - cdnormal > 0.5 then
-                VirtualUser:Button1Down(Vector2.new())
-                VirtualUser:Button1Up(Vector2.new())
+                ac:attack()
                 cdnormal = tick()
             else
                 Animation.AnimationId = ac.anims.basic[2]
