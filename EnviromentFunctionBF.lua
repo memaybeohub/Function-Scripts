@@ -688,7 +688,8 @@ function Tweento(targetCFrame)
         local tweenfunc = {}
         local info =
             TweenInfo.new(
-            Distance /
+                (targetPos -
+                game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude /
                 TweenSpeed,
             Enum.EasingStyle.Linear
         )
