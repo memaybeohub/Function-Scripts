@@ -186,6 +186,7 @@ AutoRaid = function()
         elseif Sea3 then
             fireclickdetector(Workspace.Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector)
         end
+        wait(10)
     end
     SetContent('Doing raid')
     for i,v in pairs(game.workspace.Enemies:GetChildren()) do 

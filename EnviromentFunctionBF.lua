@@ -1043,8 +1043,8 @@ function BringMob(TAR,V5)
     end  
     if TAR then
         for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
-            if
-                RemoveLevelTitle(v.Name) == RemoveLevelTitle(TAR.Name) and
+            if v.PrimaryPart and
+                RemoveLevelTitle(v.Name) == RemoveLevelTitle(TAR.Name) and 
                     (V6.Position - v.HumanoidRootPart.Position).Magnitude < 340 and
                     (isnetworkowner2(v.HumanoidRootPart) or isnetworkowner(v.HumanoidRootPart)) and
                     v.Humanoid.MaxHealth < 100000
