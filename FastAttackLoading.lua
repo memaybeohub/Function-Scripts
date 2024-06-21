@@ -1,4 +1,4 @@
-_G.Fast_Delay = 0.1
+_G.Fast_Delay = 0.2
 getgenv().FastAttackSpeed = true
 local CurveFrame = debug.getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts:WaitForChild("CombatFramework")))[2]
 local VirtualUser = game:GetService("VirtualUser")

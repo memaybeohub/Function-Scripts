@@ -523,7 +523,7 @@ local function LoadPlayer()
             local FastAttackDelayIn = Instance.new("NumberValue")
             FastAttackDelayIn.Name = 'Fast Attack Delay'
             FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
-            FastAttackDelayIn.Value = 0.3
+            FastAttackDelayIn.Value = 0.35
         end
         if not game.Players.LocalPlayer.Character:FindFirstChild("Aimbot") then 
             local AimBot_Togg = Instance.new("BoolValue")
@@ -1638,15 +1638,6 @@ function TeleportWorld(world)
     if typeof(world) == "string" then
         world = world:gsub(" ", ""):gsub("Sea", "")
         world = tonumber(world)
-    end
-    if not CheckWorld(world) then
-        CreateUiNotify(
-            {
-                Content = "Teleporting to Sea: " .. tostring(world)
-            }
-        )
-    else
-        return
     end
     if world == 1 then
         local args = {
