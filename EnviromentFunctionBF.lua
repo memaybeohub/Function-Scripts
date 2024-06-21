@@ -892,7 +892,8 @@ function KillNigga(MobInstance)
                 LockCFrame = MobInstance.HumanoidRootPart.CFrame
                 KillingBoss = true
             end
-            local N_Name = MobInstance.Name
+            --[[
+                        local N_Name = MobInstance.Name
             if string.find(N_Name, "Boss") or table.find(Elites, N_Name) then
                 if not string.find(N_Name, "Boss") then
                     for i, v in pairs(Elites) do
@@ -904,6 +905,7 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
+            ]]
             SetContent('Killing '..tostring(N_Name))
             --[[
                         if IsBoss(MobInstance) then 
@@ -939,14 +941,12 @@ function KillNigga(MobInstance)
                     game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
                     wait(1)
                 end 
-            until not MobInstance or not MobInstance:FindFirstChild("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
+            until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
                 CheckIsRaiding()
             SetContent('...')
             KillingMobTick = 0
-            game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
             KillingMob = false
-            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
             game.Players.LocalPlayer.Character['Aimbot'].Value = false
             AddBodyVelocity(false)
@@ -1050,14 +1050,6 @@ function BringMob(TAR,V5)
                     v.Humanoid.MaxHealth < 100000
             then
                 task.spawn(function()
-                    --[[
-                        for i,__ in pairs(v:GetDescendants()) do 
-                            if __:IsA('BasePart') then 
-                                __.CanCollide = false 
-                                __.Transparency = 1
-                            end
-                        end
-                    ]]
                     TweenObject(V6,v.PrimaryPart,1000)
                     v.HumanoidRootPart.CanCollide = false
                     v.PrimaryPart.CanCollide = false
@@ -1066,11 +1058,6 @@ function BringMob(TAR,V5)
                     v.Humanoid.JumpPower = 0
                     if v.Humanoid:FindFirstChild("Animator") then
                         v.Humanoid.Animator:Destroy()
-                    end
-                    for i,__ in pairs(v:GetDescendants()) do 
-                        if __:IsA('BasePart') then 
-                            __.CanCollide = false 
-                        end
                     end
                 end)
             end
