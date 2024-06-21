@@ -645,7 +645,8 @@ local function LoadPlayer()
     end
 end
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
-getgenv().Ticktp = tick()
+getgenv().Ticktp = tick() 
+local tween_s = game:service "TweenService"
 function Tweento(targetCFrame)
     if CheckPlayerAlive() then
         if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
@@ -654,14 +655,8 @@ function Tweento(targetCFrame)
         if not TweenSpeed or type(TweenSpeed) ~= "number" then
             TweenSpeed = 325
         end
-        if AntiLowHealthting then
-            return
-        end
         
-        local TargetY = targetCFrame.Y
-        local targetCFrameWithDefualtY = CFrame.new(targetCFrame.X, DefualtY, targetCFrame.Z)
         local targetPos = targetCFrame.Position
-        local oldcframe = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
         local Distance =
             (targetPos -
             game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
@@ -690,22 +685,10 @@ function Tweento(targetCFrame)
                 game.Players.LocalPlayer.Character.Humanoid.Health = 0
             end
         end
-        local b1 =
-            CFrame.new(
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,
-            DefualtY,
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
-        )
-        if DoNotTweenInThisTime then
-            CancelTween()
-            return
-        end 
         local tweenfunc = {}
-        local tween_s = game:service "TweenService"
         local info =
             TweenInfo.new(
-            (targetPos -
-                game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude /
+            Distance /
                 TweenSpeed,
             Enum.EasingStyle.Linear
         )
@@ -722,12 +705,6 @@ function Tweento(targetCFrame)
         getgenv().TweenStats = getgenv().tween.PlaybackState
         tween.Completed:Wait()
         getgenv().TweenStats = getgenv().tween.PlaybackState
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-            CFrame.new(
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,
-            TargetY,
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
-        )
         return tweenfunc 
     end
 end  
@@ -891,9 +868,10 @@ function KillNigga(MobInstance)
             else
                 LockCFrame = MobInstance.HumanoidRootPart.CFrame
                 KillingBoss = true
-            end
+            end 
+            local N_Name = MobInstance.Name
             --[[
-                        local N_Name = MobInstance.Name
+                        
             if string.find(N_Name, "Boss") or table.find(Elites, N_Name) then
                 if not string.find(N_Name, "Boss") then
                     for i, v in pairs(Elites) do
@@ -1798,7 +1776,8 @@ game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(functi
                     if getgenv().CurrentTask == 'Auto Raid' then 
                         getgenv().CurrentTask = '' 
                         warn('Clearing',getgenv().ServerData['Nearest Raid Island'])
-                        getgenv().ServerData['Nearest Raid Island'] = nil 
+                        getgenv().ServerData['Nearest Raid Island'] = nil
+                        getgenv().tween:Cancel()  
                     end
                 end
             end)  
