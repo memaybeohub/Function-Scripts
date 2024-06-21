@@ -644,6 +644,20 @@ local function LoadPlayer()
 
     end
 end
+function AddNoknockback(enemy)
+    local humanoid = enemy.PrimaryPart or enemy:WaitForChild('HumanoidRootPart')
+    if not humanoid then return end  -- Nếu enemy không có Humanoid, thoát hàm
+
+    humanoid.ChildAdded:Connect(function(child)
+        if child:IsA("BodyVelocity") or child:IsA("BodyPosition") then
+            child.MaxForce = Vector3.new(0, 0, 0)
+            child.P = 0 
+        elseif child:IsA("BodyGyro") then 
+            child.P = 0 
+            child.MaxTorque = Vector3.new(0, 0, 0) -- Sửa thành MaxTorque
+        end
+    end)
+end
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
 getgenv().Ticktp = tick() 
 local tween_s = game:service "TweenService"
@@ -1572,6 +1586,7 @@ function LoadBoss(v)
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart')
     local Hum = v:WaitForChild('Humanoid')
     task.spawn(function()
+        AddNoknockback(v)
         if Hum and Root and v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 then  
             getgenv().PirateRaidTick = tick() 
         end
