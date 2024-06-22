@@ -14,7 +14,9 @@ function refreshTask()
         elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
             getgenv().CurrentTask = 'Collect Fruit' 
         elseif Sea3 and getgenv().CurrentElite then 
-            getgenv().CurrentTask = 'Hunting Elite' 
+            getgenv().CurrentTask = 'Hunting Elite'  
+        elseif Sea3 and getgenv().ServerData['PlayerData'].Level >= 2000 and not getgenv().ServerData["Inventory Items"]["Tushita"] and (getgenv().ServerData['Server Bosses']['rip_indra'] or (not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate"))) then 
+            getgenv().CurrentTask = 'Getting Tushita'
         elseif Sea3 and not getgenv().ServerData["Inventory Items"]["Yama"] and (getgenv().ServerData['PlayerData']["Elite Hunted"] >= 30 or getgenv().ServerData['PlayerData'].Level >= 2100) then 
             getgenv().CurrentTask = 'Getting Yama' 
         elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
@@ -75,7 +77,42 @@ task.delay(.1,function()
     end
 end)
 
-
+AutoTushita = function()
+    if not getgenv().ServerData["Inventory Items"]["Tushita"] then
+        if not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then 
+            if getgenv().ServerData['Server Bosses']['Longma'] then 
+                KillBoss(getgenv().ServerData['Server Bosses']['Longma'])
+                getgenv().CurrentTask = '' 
+            else
+                HopServer(9,true)
+            end
+        elseif getgenv().ServerData['Server Bosses']['rip_indra'] then  
+            if getgenv().ServerData["PlayerBackpack"]['Holy Torch'] then
+                EquipWeaponName("Holy Torch")
+                if (function() 
+                    for i = 1,5,1 do 
+                        if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
+                            return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled
+                        end 
+                    end
+                end)() then
+                    Tweento((function() 
+                        for i = 1,5,1 do 
+                            if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
+                                return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled
+                            end 
+                        end
+                    end)().CFrame)
+                end
+            else
+                repeat 
+                    Tweento(game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame)
+                    task.wait(1)
+                until getgenv().ServerData["PlayerBackpack"]['Holy Torch']
+            end
+        end 
+    end
+end
 AutoYama = function()
     if Sea3 then 
         if getgenv().ServerData['PlayerData']["Elite Hunted"] >= 30 then  
@@ -84,15 +121,18 @@ AutoYama = function()
             else
                 repeat 
                     task.wait()
-                    for i,v in pairs(workspace.Enemies:GetChildren()) do 
-                        if v:FindFirstChildOfClass('Humanoid') then 
-                            v:FindFirstChildOfClass('Humanoid').Health = 0 
-                        end 
-                    end  
-                until not game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]")
-                if not game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]") then
-                    fireclickdetector(game.Workspace.Map.Waterfall.SealedKatana.Handle.ClickDetector)
-                end
+                    repeat 
+                        task.wait()
+                        for i,v in pairs(workspace.Enemies:GetChildren()) do 
+                            if v:FindFirstChildOfClass('Humanoid') then 
+                                v:FindFirstChildOfClass('Humanoid').Health = 0 
+                            end 
+                        end  
+                    until not game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]")
+                    if not game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]") then
+                        fireclickdetector(game.Workspace.Map.Waterfall.SealedKatana.Handle.ClickDetector)
+                    end
+                until getgenv().ServerData["Inventory Items"]["Yama"]
             end 
         else 
             
