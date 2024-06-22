@@ -82,8 +82,9 @@ AutoYama = function()
             if GetDistance(game.Workspace.Map.Waterfall.SealedKatana.Handle.CFrame) > 50 then
                 Tweento(game.Workspace.Map.Waterfall.SealedKatana.Handle.CFrame * CFrame.new(0, 20, 0))
             else
-                repeat task.wait()
-                    for i,v in pairs(workspace:Enemies:GetChildren()) do 
+                repeat 
+                    task.wait()
+                    for i,v in pairs(workspace.Enemies:GetChildren()) do 
                         if v:FindFirstChildOfClass('Humanoid') then 
                             v:FindFirstChildOfClass('Humanoid').Health = 0 
                         end 
