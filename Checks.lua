@@ -668,9 +668,9 @@ AutoMeleeFunc = function()
             else
                 KillMobList({"Military Spy","Military Soldier"})
             end
-        elseif MysticDroplet < 20 then 
+        elseif MysticDroplet < 10 then 
             if not Sea2 then 
-                TeleportWorld(1)
+                TeleportWorld(2)
             else
                 KillMobList({"Sea Soldier","Water Fighter"})
             end
