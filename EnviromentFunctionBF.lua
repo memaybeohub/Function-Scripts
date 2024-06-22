@@ -1717,9 +1717,11 @@ function BuyMelee(MeleeN)
         end
         local RemoteArg = Melee_and_RemoteBuy[MeleeN]
         if type(RemoteArg) == "string" then
-            local Loser = game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg, true)
-            if Loser and typeof(Loser) == 'number' and (Loser ~= 3 or (Loser == 0 and getgenv().ServerData['PlayerData'].Fragments >= Melee_and_Price[MeleeN].Fragment and getgenv().ServerData['PlayerData'].Beli >= Melee_and_Price[MeleeN].Beli)) then  
-                print('Buy Melee:',MeleeN)
+            local Loser = game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg, true) 
+            local BeliPassed = getgenv().ServerData['PlayerData'].Beli >= Melee_and_Price[MeleeN].Beli 
+            local FragmentPassed = getgenv().ServerData['PlayerData'].Fragments >= Melee_and_Price[MeleeN].Fragment  
+            if Loser and typeof(Loser) == 'number' and (Loser ~= 3 and (Loser ~= 0 or (Loser == 0 and FragmentPassed and BeliPassed ))) then  
+                print('Buy Melee:',MeleeN,BeliPassed,FragmentPassed)
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg) 
             end
         else
