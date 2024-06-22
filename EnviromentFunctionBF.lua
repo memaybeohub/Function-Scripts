@@ -1793,7 +1793,11 @@ game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(functi
                         getgenv().CurrentTask = '' 
                         warn('Clearing',getgenv().ServerData['Nearest Raid Island'])
                         getgenv().ServerData['Nearest Raid Island'] = nil
-                        getgenv().tween:Cancel()  
+                        getgenv().tween:Cancel()   
+                        if getgenv().KillAuraConnection then 
+                            getgenv().KillAuraConnection:Disconnect()
+                            getgenv().KillAuraConnection = nil 
+                        end
                     end
                 end
             end)  
@@ -1908,6 +1912,7 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end 
+        getgenv().ServerData['PlayerData']["Elite Hunted"] = tonumber(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("EliteHunter", "Progress")) or 0
         getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer() 
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Cousin", "Buy")
     end

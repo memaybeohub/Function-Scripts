@@ -14,7 +14,9 @@ function refreshTask()
         elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
             getgenv().CurrentTask = 'Collect Fruit' 
         elseif Sea3 and getgenv().CurrentElite then 
-            getgenv().CurrentTask = 'Hunting Elite'
+            getgenv().CurrentTask = 'Hunting Elite' 
+        elseif Sea3 and not getgenv().ServerData["Inventory Items"]["Yama"] and (getgenv().ServerData['PlayerData']["Elite Hunted"] >= 30 or getgenv().ServerData['PlayerData'].Level >= 2100) then 
+            getgenv().CurrentTask = 'Getting Yama' 
         elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
             getgenv().CurrentTask = 'Saber Quest'
         elseif getgenv().ServerData['PlayerData'].Level > 150 
@@ -37,7 +39,7 @@ function refreshTask()
 end 
 if hookfunction then 
     hookfunction(require(game.ReplicatedStorage.Notification).new,function(v1,v2) 
-        v1 = tostring(v1):gsub("<Color=[^>]+>", "")
+        v1 = tostring(v1):gsub("<Color=[^>]+>", "") 
         if v1:find('spotted') then  
             warn('Pirate raid FOUND!')
             getgenv().PirateRaidTick = tick()
@@ -45,7 +47,11 @@ if hookfunction then
             warn('Pirate raid Cancelled!')
             getgenv().PirateRaidTick = 0 
         elseif v1:find('attack') then 
-            getgenv().AttackedSafe = true
+            getgenv().AttackedSafe = true 
+        elseif v1:find('rare item') then 
+            getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string' 
+        elseif v1:find('legendary item') then 
+            getgenv().HallowEssence = true
         end
         local FakeLOL = {}
         function FakeLOL.Display(p18)
@@ -70,7 +76,29 @@ task.delay(.1,function()
 end)
 
 
-
+AutoYama = function()
+    if Sea3 then 
+        if getgenv().ServerData['PlayerData']["Elite Hunted"] >= 30 then  
+            if GetDistance(game.Workspace.Map.Waterfall.SealedKatana.Handle.CFrame) > 50 then
+                Tweento(game.Workspace.Map.Waterfall.SealedKatana.Handle.CFrame * CFrame.new(0, 20, 0))
+            else
+                repeat task.wait()
+                    for i,v in pairs(workspace:Enemies:GetChildren()) do 
+                        if v:FindFirstChildOfClass('Humanoid') then 
+                            v:FindFirstChildOfClass('Humanoid').Health = 0 
+                        end 
+                    end  
+                until not game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]")
+                if not game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]") then
+                    fireclickdetector(game.Workspace.Map.Waterfall.SealedKatana.Handle.ClickDetector)
+                end
+            end 
+        else 
+            
+            HopServer(9,true)
+        end
+    end
+end
 AutoElite = function() 
     if getgenv().CurrentElite then  
         if
@@ -188,11 +216,15 @@ AutoRaid = function()
         end
         wait(10)
     end
-    SetContent('Doing raid')
-    for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
-        if v:FindFirstChildOfClass('Humanoid') and v.Humanoid.Health >0 then 
-            v.Humanoid.Health = 0 
-        end 
+    SetContent('Doing raid') 
+    if not getgenv().KillAuraConnection then 
+        getgenv().KillAuraConnection = workspace.Enemies.ChildAdded:Connect(function(v) 
+            local V5Hum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid')
+            if V5Hum then 
+                V5Hum.Health = 0 
+                V5Hum.Health = 0 
+            end
+        end) 
     end
 end
 Auto3rdEvent = function() 
