@@ -832,7 +832,7 @@ AutoMeleeCheck = function()
                 if not getgenv().DoneMaterial then 
                     getgenv().MeleeTask = 'Farm Godhuman' 
                 else  
-                    getgenv().MeleeTask = ''
+                    getgenv().MeleeTask = ''    
                 end
             else   
                 getgenv().Config.FarmmingForGodhuman = false
