@@ -652,10 +652,10 @@ AutoMeleeFunc = function()
             })
         end
     elseif getgenv().MeleeTask == 'Farm Godhuman' or getgenv().Config.FarmmingForGodhuman then 
-        local FishTails = getgenv().ServerData['Inventory Items']['Fish Tail'] or 0
-        local MagmaOre = getgenv().ServerData['Inventory Items']['Magma Ore'] or 0
-        local MysticDroplet = getgenv().ServerData['Inventory Items']['Mystic Droplet'] or 0
-        local DragonScale = getgenv().ServerData['Inventory Items']['Dragon Scale'] or 0
+        local FishTails = (getgenv().ServerData['Inventory Items']['Fish Tail'] and getgenv().ServerData['Inventory Items']['Fish Tail'].Count) or 0
+        local MagmaOre = (getgenv().ServerData['Inventory Items']['Magma Ore'] and getgenv().ServerData['Inventory Items']['Magma Ore'].Count) or 0
+        local MysticDroplet = (getgenv().ServerData['Inventory Items']['Mystic Droplet'] and getgenv().ServerData['Inventory Items']['Mystic Droplet'].Count) or 0
+        local DragonScale = (getgenv().ServerData['Inventory Items']['Dragon Scale'] and getgenv().ServerData['Inventory Items']['Dragon Scale'].Count) or 0
         if FishTails < 20 then 
             if not Sea1 then 
                 TeleportWorld(1)
