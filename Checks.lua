@@ -656,7 +656,8 @@ AutoMeleeFunc = function()
         local FishTails = CheckMaterialCount('Fish Tail')
         local MagmaOre = CheckMaterialCount('Magma Ore')
         local MysticDroplet = CheckMaterialCount('Mystic Droplet') 
-        local DragonScale = CheckMaterialCount('Dragon Scale')
+        local DragonScale = CheckMaterialCount('Dragon Scale') 
+        print(FishTails,MagmaOre,MysticDroplet,DragonScale)
         if FishTails < 20 then 
             if not Sea1 then 
                 TeleportWorld(1)

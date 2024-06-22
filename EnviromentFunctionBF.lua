@@ -827,7 +827,7 @@ function GetWeapon(wptype)
     return s
 end 
 function LoadItem(d)
-    if CheckTool(d) then
+    if getgenv().ServerData["PlayerBackpack"][d] then
         return
     end
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadItem", d)
@@ -1994,9 +1994,7 @@ RunService.Heartbeat:Connect(function()
             AddBodyVelocity(false)
         end
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
-            if not getgenv().ServerData["Inventory Items"][v.Name] or getgenv().ServerData["Inventory Items"][v.Name] ~= v then 
-                getgenv().ServerData["Inventory Items"][v.Name] = v 
-            end 
+            getgenv().ServerData["Inventory Items"][v.Name] = v 
         end
         for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills:GetChildren()) do 
             if not table.find({'Title','Container','Level','StarContainer','Rage'},v.Name) then 
