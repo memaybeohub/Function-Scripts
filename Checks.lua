@@ -88,7 +88,8 @@ AutoNiggaBeard = function()
         end
     end
 end
-AutoSoulGuitar = function()
+AutoSoulGuitar = function() 
+    if Sea1 then return end
     local BlankTablets = {
         "Segment6",
         "Segment2",
@@ -119,7 +120,7 @@ AutoSoulGuitar = function()
     if not getgenv().SoulGuitarPuzzlePassed then 
         getgenv().SoulGuitarPuzzlePassed = (function()
             local LLL = CurrnetPuzzle
-            return LLL.Trophies and LLL.Ghost and LLL.Gravestones and LLL.Swamp and LLL.Pipes 
+            return LLL and LLL.Trophies and LLL.Ghost and LLL.Gravestones and LLL.Swamp and LLL.Pipes 
         end)()
     end 
     if not getgenv().SoulGuitarPuzzlePassed then 
