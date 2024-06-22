@@ -686,7 +686,6 @@ AutoMeleeFunc = function()
         end
     end
 end    
-getgenv().Config.AllV2MeleeStyles400Mastery = false
 AutoMeleeMasteryCheck = function() 
     task.spawn(function()
         getgenv().FragmentNeeded = false
