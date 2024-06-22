@@ -1718,7 +1718,8 @@ function BuyMelee(MeleeN)
         local RemoteArg = Melee_and_RemoteBuy[MeleeN]
         if type(RemoteArg) == "string" then
             local Loser = game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg, true)
-            if Loser and typeof(Loser) == 'number' and Loser ~= 3 then 
+            if Loser and typeof(Loser) == 'number' and Loser ~= 3 then  
+                print('Buy Melee:',MeleeN)
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg) 
             end
         else
