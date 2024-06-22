@@ -825,19 +825,20 @@ function GetWeapon(wptype)
         end
     end
     return s
-end
-function EquipWeapon(ToolSe)
-    if TickBuyMelee and tick() - TickBuyMelee < 5 then
-        MMBStatus = "Waitting times to equipweapon"
-        return MMBStatus
-    end
-    if gggggg then
+end 
+function LoadItem(d)
+    if CheckTool(d) then
         return
     end
-    if lonmemayto == "" or lonmemayto == nil then
-        lonmemayto = "Melee"
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadItem", d)
+end 
+function EquipWeapon(ToolSe)
+    if getgenv().WeaponType == "" or getgenv().WeaponType == nil then
+        getgenv().WeaponType = "Melee"
     end
-    ToolSe = GetWeapon(lonmemayto)
+    if not ToolSe then 
+        ToolSe = GetWeapon(getgenv().WeaponType) 
+    end
     if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
         local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
         wait(.4)
@@ -1993,7 +1994,7 @@ RunService.Heartbeat:Connect(function()
             AddBodyVelocity(false)
         end
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
-            if not getgenv().ServerData["Inventory Items"][v.Name] then 
+            if not getgenv().ServerData["Inventory Items"][v.Name] or getgenv().ServerData["Inventory Items"][v.Name] ~= v then 
                 getgenv().ServerData["Inventory Items"][v.Name] = v 
             end 
         end
@@ -2073,6 +2074,7 @@ if GC then
         end
     )
 end
+SetContent('Loaded Enviroment Functions MFS🖕')
 warn('Loaded Success Full!')
 getgenv().EnLoaded = true   
 LoadPlayer()
