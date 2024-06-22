@@ -21,6 +21,8 @@ function refreshTask()
             getgenv().CurrentTask = 'Getting Yama' 
         elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
             getgenv().CurrentTask = 'Saber Quest'
+        elseif getgenv().ServerData['PlayerData'].Level >= 2300 and not getgenv().ServerData["Inventory Items"]["Soul Guitar"] then 
+            getgenv().CurrentTask = 'Getting Soul Guitar'
         elseif getgenv().ServerData['PlayerData'].Level > 150 
         and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
         and (getgenv().ServerData['Server Bosses']['Thunder God']) then 
@@ -344,7 +346,8 @@ AutoSoulGuitar = function()
         end
     elseif getgenv().ServerData['PlayerData'].Fragments < 5000 then  
         if not getgenv().ServerData['Nearest Raid Island'] then 
-            buyRaidingChip()
+            buyRaidingChip() 
+        else 
             AutoRaid() 
         end
     end
@@ -648,8 +651,42 @@ AutoMeleeFunc = function()
                 "Posessed Mummy [Lv. 2050]"
             })
         end
+    elseif getgenv().MeleeTask == 'Farm Godhuman' or getgenv().Config.FarmmingForGodhuman then 
+        local FishTails = getgenv().ServerData['Inventory Items']['Fish Tail'] or 0
+        local MagmaOre = getgenv().ServerData['Inventory Items']['Magma Ore'] or 0
+        local MysticDroplet = getgenv().ServerData['Inventory Items']['Mystic Droplet'] or 0
+        local DragonScale = getgenv().ServerData['Inventory Items']['Dragon Scale'] or 0
+        if FishTails < 20 then 
+            if not Sea1 then 
+                TeleportWorld(1)
+            else
+                KillMobList({"Fishman Warrior","Fishman Commando"})
+            end
+        elseif MagmaOre < 20 then 
+            if not Sea1 then 
+                TeleportWorld(1)
+            else
+                KillMobList({"Military Spy","Military Soldier"})
+            end
+        elseif MysticDroplet < 20 then 
+            if not Sea2 then 
+                TeleportWorld(1)
+            else
+                KillMobList({"Sea Soldier","Water Fighter"})
+            end
+        elseif DragonScale < 20 then 
+            if not Sea3 then 
+                TeleportWorld(1)
+            else
+                KillMobList({"Dragon Crew Archer","Dragon Crew Warrior"})
+            end 
+        else
+            getgenv().DoneMaterial = true   
+            TeleportWorld(3) 
+        end
     end
-end   
+end    
+getgenv().Config.AllV2MeleeStyles400Mastery = false
 AutoMeleeMasteryCheck = function() 
     task.spawn(function()
         getgenv().FragmentNeeded = false
@@ -735,7 +772,14 @@ AutoMeleeMasteryCheck = function()
                 SetMeleeWait('Electric Claw',400)
             elseif MLLV['Dragon Talon'] < 400 then 
                 SetMeleeWait('Dragon Talon',400)
-                BuyMelee('Dragon Talon')
+                BuyMelee('Dragon Talon') 
+            elseif MLLV['Godhuman'] == 0 then 
+                if not getgenv().Config.AllV2MeleeStyles400Mastery then 
+                    getgenv().Config.AllV2MeleeStyles400Mastery = true 
+                end
+                if getgenv().DoneMaterial and getgenv().ServerData['PlayerData'].Fragments >= 5000 and getgenv().ServerData['PlayerData'].Beli >= 5000000 then 
+                    BuyMelee('Godhuman')
+                end
             end  
         end
     end)
@@ -782,8 +826,16 @@ AutoMeleeCheck = function()
                     else
                         getgenv().MeleeTask = ''
                     end
-                end 
-            else  
+                end  
+            elseif getgenv().Config.AllV2MeleeStyles400Mastery and MLLV['Godhuman'] == 0 then 
+                getgenv().Config.FarmmingForGodhuman = true  
+                if not getgenv().DoneMaterial then 
+                    getgenv().MeleeTask = 'Farm Godhuman' 
+                else  
+                    getgenv().MeleeTask = ''
+                end
+            else   
+                getgenv().Config.FarmmingForGodhuman = false
                 getgenv().MeleeTask = ''
             end
         end
