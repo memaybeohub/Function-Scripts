@@ -73,7 +73,8 @@ function GetDistance(target1, taget2)
         a2 = taget2.Position
         return (a - a2).Magnitude
     end
-end
+end 
+
 local MobSpawnsFolder = Instance.new("Folder")
 MobSpawnsFolder.Parent = game.Workspace
 MobSpawnsFolder.Name = "MobSpawns"
@@ -657,7 +658,8 @@ function AddNoknockback(enemy)
             child.MaxTorque = Vector3.new(0, 0, 0) -- Sửa thành MaxTorque
         end
     end)
-end
+end 
+
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
 getgenv().Ticktp = tick() 
 local tween_s = game:service "TweenService"
@@ -1772,6 +1774,22 @@ function ReloadFrutis()
             end)
         end 
     end
+end  
+function CheckAnyPlayersInCFrame(CFrameCheck, MinDistance)
+    local CurrentFound
+    for i, v in pairs(game.Players:GetChildren()) do
+        pcall(
+            function()
+                if
+                    v.Name ~= game.Players.LocalPlayer.Name and
+                        GetDistance(v.Character.HumanoidRootPart, CFrameCheck) < MinDistance
+                 then
+                    CurrentFound = GetDistance(v.Character.HumanoidRootPart, gggggggggggggg)
+                end
+            end
+        )
+    end
+    return CurrentFound
 end 
 ReloadFrutis() 
 game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(function(v)
@@ -1819,6 +1837,24 @@ function CheckX2Exp()
     if a2 then
         return b2
     end
+end 
+function PickChest(Chest)
+    if not getgenv().ChestCollect or typeof(getgenv().ChestCollect) ~= 'number' then 
+        getgenv().ChestCollect = 0 
+    end
+    if not Chest then 
+        return 
+    elseif not getgenv().ChestConnection then 
+        getgenv().ChestConnection = Chest:GetPropertyChangedSignal('Parent'):Connect(function()
+            getgenv().ChestCollect +=1 
+            Warn('Picked 1 more chest. Total: |',getgenv().ChestCollect)
+            getgenv().ChestConnection:Disconnect()
+            getgenv().ChestConnection = nil
+        end)
+        repeat 
+            Tweento(Chest.CFrame)
+        until not Chest or not Chest.Parent
+    end
 end
 local Raids = require(game:GetService("ReplicatedStorage").Raids).raids
 local AdvancedRaids = require(game:GetService("ReplicatedStorage").Raids).advancedRaids
@@ -1859,6 +1895,63 @@ function buyRaidingChip()
         end
     end 
     getgenv().LastBuyChipTick = tick()
+end 
+getgenv().ServerData['Chest'] = {}
+getgenv().ChestsConnection = {}
+function SortChest()
+    local LOROOT = game.Players.LocalPlayer.Character.PrimaryPart or game.Players.LocalPlayer.Character:WaitForChild('HumanoidRootPart')
+    if LOROOT then
+        table.sort(getgenv().ServerData['Chest'], function(chestA, chestB)  
+            local distanceA
+            local distanceB
+            if chestA:IsA('Model') then 
+                distanceA = (Vector3.new(chestA:GetModelCFrame()) - LOROOT.Position).Magnitude
+            end 
+            if chestB:IsA('Model') then 
+                distanceB = (Vector3.new(chestB:GetModelCFrame()) - LOROOT.Position).Magnitude 
+            end
+            if not distanceA then  distanceA = (chestA.Position - LOROOT.Position).Magnitude end
+            if not distanceB then  distanceB = (chestB.Position - LOROOT.Position).Magnitude end
+            return distanceA < distanceB -- Sắp xếp giảm dần
+        end)
+    end
+end
+function AddChest(chest)
+    if table.find(getgenv().ServerData['Chest'], chest) or not chest.Parent then return end 
+    if not string.find(chest.Name,'Chest') then return end
+    local CallSuccess,Returned = pcall(function()
+        return GetDistance(chest)
+    end)
+    if not CallSuccess or not Returned then return end
+    table.insert(getgenv().ServerData['Chest'], chest)  
+    local parentChangedConnection
+    parentChangedConnection = chest:GetPropertyChangedSignal('Parent'):Connect(function()
+        local index = table.find(getgenv().ServerData['Chest'], chest)
+        table.remove(getgenv().ServerData['Chest'], index)
+        parentChangedConnection:Disconnect()
+        SortChest()
+    end)
+end
+
+function LoadChest()
+    for _, v in pairs(workspace:GetDescendants()) do
+        if string.find(v.Name, 'Chest') then
+            AddChest(v)
+            local parentFullName = tostring(v.Parent:GetFullName())
+            if not getgenv().ChestsConnection[parentFullName] then
+                getgenv().ChestsConnection[parentFullName] = v.Parent.ChildAdded:Connect(AddChest)
+            end
+        end
+    end 
+    warn('Loaded total',#getgenv().ServerData['Chest'],'chests') 
+    SortChest()
+end
+
+LoadChest() 
+function getNearestChest()
+    for i,v in pairs(getgenv().ServerData['Chest']) do
+        return v 
+    end
 end
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
