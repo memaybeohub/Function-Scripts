@@ -92,14 +92,14 @@ AutoTushita = function()
                 if (function() 
                     for i = 1,5,1 do 
                         if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
-                            return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled
+                            return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)]
                         end 
                     end
                 end)() then
                     Tweento((function() 
                         for i = 1,5,1 do 
                             if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
-                                return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled
+                                return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)]
                             end 
                         end
                     end)().CFrame)
