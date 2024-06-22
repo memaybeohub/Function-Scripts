@@ -76,7 +76,279 @@ task.delay(.1,function()
         end
     end
 end)
-
+AutoNiggaBeard = function()
+    if Sea2 then 
+        if not getgenv().ChestCollect or typeof(getgenv().ChestCollect) ~= 'number' then 
+            getgenv().ChestCollect = 0 
+        else 
+            if getgenv().ChestCollect > 17.5 then 
+            end
+        end
+    end
+end
+AutoSoulGuitar = function()
+    local BlankTablets = {
+        "Segment6",
+        "Segment2",
+        "Segment8",
+        "Segment9",
+        "Segment5"
+    }
+    local Trophy = {
+        ["Segment1"] = "Trophy1",
+        ["Segment3"] = "Trophy2",
+        ["Segment4"] = "Trophy3",
+        ["Segment7"] = "Trophy4",
+        ["Segment10"] = "Trophy5",
+    }
+    local Pipes = {
+        ["Part1"] = "Really black",
+        ["Part2"] = "Really black",
+        ["Part3"] = "Dusty Rose",
+        ["Part4"] = "Storm blue",
+        ["Part5"] = "Really black",
+        ["Part6"] = "Parsley green",
+        ["Part7"] = "Really black",
+        ["Part8"] = "Dusty Rose",
+        ["Part9"] = "Really black",
+        ["Part10"] = "Storm blue",
+    }
+    local CurrnetPuzzle = game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("GuitarPuzzleProgress", "Check")
+    if not getgenv().SoulGuitarPuzzlePassed then 
+        getgenv().SoulGuitarPuzzlePassed = (function()
+            local LLL = CurrnetPuzzle
+            return LLL.Trophies and LLL.Ghost and LLL.Gravestones and LLL.Swamp and LLL.Pipes 
+        end)()
+    end 
+    if not getgenv().SoulGuitarPuzzlePassed then 
+        if not CurrnetPuzzle then  
+            SetContent("Unlocking Soul Guitar's Puzzle (Praying Grave Stone)")
+            if not Sea3 then 
+                TeleportWorld(3)
+            elseif game.Lighting.Sky.MoonTextureId == "http://www.roblox.com/asset/?id=9709149431" and (game.Lighting.ClockTime > 15 or game.Lighting.ClockTime < 5) then  
+                Tweento(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) 
+                if GetDistance(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) < 10 then
+                    CheckRemote = game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("gravestoneEvent", 2) 
+                    if CheckRemote ~= true then return end 
+                    require(game.ReplicatedStorage.Effect).new("BlindCam"):replicate({
+                        Color = Color3.new(0.03, 0.03, 0.03), 
+                        Duration = 2, 
+                        Fade = 0.25, 
+                        ZIndex = -10
+                    });
+                    require(game.ReplicatedStorage.Util.Sound):Play("Thunder", workspace.CurrentCamera.CFrame.p);
+                    SetContent('Completed')
+                end 
+            else 
+                HopServer(10,true)
+            end 
+        elseif not CurrnetPuzzle.Swamp then  
+            SetContent("Unlocking Soul Guitar's Puzzle (Swamp: Kill 6 Zombie at same time)")
+            if not Sea3 then 
+                TeleportWorld(3)
+            elseif GetDistance(CFrame.new(-10171.7607421875, 138.62667846679688, 6008.0654296875)) > 300 then
+                Tweento(CFrame.new(-10171.7607421875, 138.62667846679688, 6008.0654296875) * CFrame.new(0,25,-20))
+            else
+                if CheckAnyPlayersInCFrame(CFrame.new(-10171.7607421875, 138.62667846679688, 6008.0654296875), 500) then
+                    HopServer(10,true)
+                else
+                    if (function() 
+                        local Cos = 0   
+                        for i ,v in pairs(game.workspace.Enemies:GetChildren()) do 
+                            if RemoveLevelTitle(v.Name) == "Living Zombie" and v.Humanoid.Health > 0 then
+                                if GetDistance(CFrame.new(-10171.7607421875, 138.62667846679688, 6008.0654296875),v.HumanoidRootPart) <= 20 then 
+                                    Cos += 1
+                                end
+                            end
+                        end
+                        return Cos
+                    end)() == 6 then
+                        warn('Zombie Near')
+                        for i, v in pairs(game.workspace.Enemies:GetChildren()) do
+                            if
+                                RemoveLevelTitle(v.Name) == "Living Zombie" and v:FindFirstChild("HumanoidRootPart") and
+                                    v:FindFirstChild("Humanoid") and
+                                    v.Humanoid.Health > 0
+                            then
+                                repeat
+                                    wait()
+                                    KillNigga(v)
+                                until v.Humanoid.Health <= 0 or not v.Parent
+                            end
+                        end
+                    else
+                        warn('Not 6 Zombie');
+                        (function()
+                            for i, v in pairs(game.workspace.Enemies:GetChildren()) do
+                                if RemoveLevelTitle(v.Name) == "Living Zombie" and v:FindFirstChild("Humanoid") and
+                                        v:FindFirstChild("HumanoidRootPart") --and isnetworkowner(v.HumanoidRootPart)
+                                    then
+                                    v.HumanoidRootPart.CFrame = CFrame.new(-10171.7607421875, 138.62667846679688, 6008.0654296875)
+                                    v.Humanoid:ChangeState(14)
+                                    v.PrimaryPart.CanCollide = false
+                                    v.Head.CanCollide = false
+                                    v.Humanoid.WalkSpeed = 0
+                                    v.Humanoid.JumpPower = 0
+                                    if v.Humanoid:FindFirstChild("Animator") then
+                                        v.Humanoid.Animator:Destroy()
+                                    end
+                                end
+                            end
+                        end)()
+                    end
+                end
+            end
+        elseif not CurrnetPuzzle.Gravestones then 
+            SetContent("Unlocking Soul Guitar's Puzzle (Grave Stones: Clicking Signs)")
+            if not Sea3 then 
+                TeleportWorld(3)
+            elseif GetDistance(CFrame.new(-8761.4765625, 142.10487365722656, 6086.07861328125)) > 50 then
+                Tweento(CFrame.new(-8761.4765625, 142.10487365722656, 6086.07861328125))
+            else
+                local ClickSigns = {
+                    game.workspace.Map["Haunted Castle"].Placard1.Right.ClickDetector,
+                    game.workspace.Map["Haunted Castle"].Placard2.Right.ClickDetector,
+                    game.workspace.Map["Haunted Castle"].Placard3.Left.ClickDetector,
+                    game.workspace.Map["Haunted Castle"].Placard4.Right.ClickDetector,
+                    game.workspace.Map["Haunted Castle"].Placard5.Left.ClickDetector,
+                    game.workspace.Map["Haunted Castle"].Placard6.Left.ClickDetector,
+                    game.workspace.Map["Haunted Castle"].Placard7.Left.ClickDetector
+                }
+                for i, v in pairs(ClickSigns) do
+                    fireclickdetector(v)
+                end
+            end  
+        elseif not CurrnetPuzzle.Ghost then 
+            SetContent("Unlocking Soul Guitar's Puzzle (Ghost: Talking to the ghost)") 
+            if not Sea3 then 
+                TeleportWorld(3)
+            elseif GetDistance(CFrame.new(-9755.6591796875, 271.0661315917969, 6290.61474609375)) > 7 then
+                Tweento(CFrame.new(-9755.6591796875, 271.0661315917969, 6290.61474609375))
+                game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("GuitarPuzzleProgress", "Ghost")
+            end 
+        elseif not CurrnetPuzzle.Trophie then 
+            SetContent("Unlocking Soul Guitar's Puzzle (Trophies: Unlock the Trophies's Puzzle)") 
+            if not Sea3 then 
+                TeleportWorld(3)
+            elseif GetDistance(CFrame.new(-9530.0126953125, 6.104853630065918, 6054.83349609375)) > 30 then
+                Tweento(CFrame.new(-9530.0126953125, 6.104853630065918, 6054.83349609375)) 
+            else 
+                local DepTraiv4 = game.workspace.Map["Haunted Castle"].Tablet
+                for i, v in pairs(BlankTablets) do
+                    local x = DepTraiv4[v]
+                    if x.Line.Position.X ~= 0 then
+                        repeat
+                            wait()
+                            fireclickdetector(x.ClickDetector)
+                        until x.Line.Position.X == 0
+                    end
+                end
+                for i, v in pairs(Trophy) do
+                    local x = game.workspace.Map["Haunted Castle"].Trophies.Quest[v].Handle.CFrame
+                    x = tostring(x)
+                    x = x:split(", ")[4]
+                    local c = "180"
+                    if x == "1" or x == "-1" then
+                        c = "90"
+                    end
+                    if not string.find(tostring(DepTraiv4[i].Line.Rotation.Z), c) then
+                        repeat
+                            wait()
+                            fireclickdetector(DepTraiv4[i].ClickDetector)
+                        until string.find(tostring(DepTraiv4[i].Line.Rotation.Z), c)
+                    end
+                end
+            end 
+        elseif not CurrnetPuzzle.Pipes then 
+            SetContent("Unlocking Soul Guitar's Puzzle (Pipes)") 
+            if not Sea3 then 
+                TeleportWorld(3)
+            else
+                for i, v in pairs(Pipes) do
+                    local x = game.workspace.Map["Haunted Castle"]["Lab Puzzle"].ColorFloor.Model[i]
+                    if x.BrickColor.Name ~= v then
+                        repeat
+                            wait()
+                            fireclickdetector(x.ClickDetector)
+                        until x.BrickColor.Name == v
+                    end 
+                end
+            end 
+        end 
+    elseif not getgenv().ServerData["Inventory Items"]['Bones'] or getgenv().ServerData["Inventory Items"]['Bones'].Count < 500 then  
+        SetContent('Farming Bones for soul guitar')
+        if not Sea3 then 
+            TeleportWorld(3) 
+        else
+            KillMobList({
+                "Reborn Skeleton [Lv. 1975]",
+                "Living Zombie [Lv. 2000]",
+                "Demonic Soul [Lv. 2025]",
+                "Posessed Mummy [Lv. 2050]"
+            })
+        end
+    elseif not getgenv().ServerData["Inventory Items"]['Ectoplasm'] or getgenv().ServerData["Inventory Items"]['Ectoplasm'].Count < 250 then 
+        if not Sea2 then 
+            TeleportWorld(2)
+        else
+            KillMobList({
+                "Ship Deckhand [Lv. 1250]",
+                "Ship Engineer [Lv. 1275]",
+                "Ship Steward [Lv. 1300]"
+            }) 
+        end
+    elseif not getgenv().ServerData["Inventory Items"]['Dark Fragment'] or getgenv().ServerData["Inventory Items"]['Dark Fragment'].Count < 1 then   
+        if not Sea2 then 
+            TeleportWorld(2)
+        else
+            if getgenv().ServerData['Server Bosses']['Darkbeard'] then
+                KillBoss(getgenv().ServerData['Server Bosses']['Darkbeard'])
+            elseif getgenv().ServerData["PlayerBackpack"]['Fist of Darkness'] then 
+                if GetDistance(game:GetService("Workspace").Map.DarkbeardArena.Summoner.Detection) <= 5 then 
+                    EquipWeaponName("Fist of Darkness")
+                    pcall(
+                        function()
+                            firetouchinterest(
+                                game.Players.LocalPlayer.Character["Fist of Darkness"].Handle,
+                                game:GetService("Workspace").Map.DarkbeardArena.Summoner.Detection,
+                                0
+                            )
+                            firetouchinterest(
+                                game.Players.LocalPlayer.Character["Fist of Darkness"].Handle,
+                                game:GetService("Workspace").Map.DarkbeardArena.Summoner.Detection,
+                                1
+                            )
+                            firetouchinterest(
+                                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                                game:GetService("Workspace").Map.DarkbeardArena.Summoner.Detection,
+                                0
+                            )
+                            firetouchinterest(
+                                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                                game:GetService("Workspace").Map.DarkbeardArena.Summoner.Detection,
+                                1
+                            )
+                        end
+                    )
+                else 
+                    Tweento(game:GetService("Workspace").Map.DarkbeardArena.Summoner.Detection.CFrame)
+                end
+            elseif getgenv().ChestCollect >= 17.5 then 
+                HopServer(9,true)
+            else 
+                local NearestChest = getNearestChest() 
+                if NearestChest then 
+                    PickChest(NearestChest)
+                end
+            end
+        end
+    elseif getgenv().ServerData['PlayerData'].Fragments < 5000 then  
+        if not getgenv().ServerData['Nearest Raid Island'] then 
+            buyRaidingChip()
+            AutoRaid() 
+        end
+    end
+end
 AutoTushita = function()
     if not getgenv().ServerData["Inventory Items"]["Tushita"] then
         if not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then 
@@ -86,9 +358,10 @@ AutoTushita = function()
             else
                 HopServer(9,true)
             end
-        elseif getgenv().ServerData['Server Bosses']['rip_indra'] then  
+        elseif getgenv().ServerData['Server Bosses']['rip_indra'] then   
             if getgenv().ServerData["PlayerBackpack"]['Holy Torch'] then
-                EquipWeaponName("Holy Torch")
+                EquipWeaponName("Holy Torch") 
+                SetContent('Finding new torch touching template...')
                 if (function() 
                     for i = 1,5,1 do 
                         if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
@@ -96,6 +369,7 @@ AutoTushita = function()
                         end 
                     end
                 end)() then
+                    SetContent('Tweening to torch touching template')
                     Tweento((function() 
                         for i = 1,5,1 do 
                             if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
@@ -103,12 +377,18 @@ AutoTushita = function()
                             end 
                         end
                     end)().CFrame)
+                    SetContent('Uhm') 
+                    if not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then  
+                        getgenv().CurrentTask = ''  
+                    end
                 end
             else
+                SetContent('Getting Holy Torch...')
                 repeat 
                     Tweento(game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame)
                     task.wait(1)
                 until getgenv().ServerData["PlayerBackpack"]['Holy Torch']
+                SetContent('Got Holy Torch.')
             end
         end 
     end
@@ -116,7 +396,8 @@ end
 AutoYama = function()
     if Sea3 then 
         if getgenv().ServerData['PlayerData']["Elite Hunted"] >= 30 then  
-            if GetDistance(game.Workspace.Map.Waterfall.SealedKatana.Handle.CFrame) > 50 then
+            if GetDistance(game.Workspace.Map.Waterfall.SealedKatana.Handle.CFrame) > 50 then 
+                SetContent('Tweening to temple to get yama...')
                 Tweento(game.Workspace.Map.Waterfall.SealedKatana.Handle.CFrame * CFrame.new(0, 20, 0))
             else
                 repeat 
@@ -130,9 +411,11 @@ AutoYama = function()
                         end  
                     until not game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]")
                     if not game.Workspace.Enemies:FindFirstChild("Ghost [Lv. 1500]") then
+                        SetContent('Getting Yama')
                         fireclickdetector(game.Workspace.Map.Waterfall.SealedKatana.Handle.ClickDetector)
                     end
-                until getgenv().ServerData["Inventory Items"]["Yama"]
+                until getgenv().ServerData["Inventory Items"]["Yama"] 
+                getgenv().CurrentTask = '' 
             end 
         else 
             
