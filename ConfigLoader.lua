@@ -21,5 +21,6 @@ task.delay(1,function()
     while task.wait(.5) do 
         SaveConfig()
     end
-end) 
+end)  
+getgenv().LoadedData = true
 warn('Loaded Data!')
