@@ -788,6 +788,17 @@ AutoMeleeMasteryCheck = function()
                 end
                 if getgenv().DoneMaterial and getgenv().ServerData['PlayerData'].Fragments >= 5000 and getgenv().ServerData['PlayerData'].Beli >= 5000000 then 
                     BuyMelee('Godhuman')
+                end 
+            else
+                if (getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350) or (getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350) then 
+                    getgenv().WeaponType = 'Sword'
+                    if getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350 then 
+                        LoadItem('Yama')
+                    elseif getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350 then 
+                        LoadItem('Tushita')
+                    end 
+                else
+                    getgenv().WeaponType = 'Melee'
                 end
             end  
         end
