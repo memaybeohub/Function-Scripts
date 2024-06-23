@@ -128,7 +128,8 @@ AutoSoulGuitar = function()
             SetContent("Unlocking Soul Guitar's Puzzle (Praying Grave Stone)",5)
             if not Sea3 then 
                 TeleportWorld(3)
-            elseif game.Lighting.Sky.MoonTextureId == "http://www.roblox.com/asset/?id=9709149431" and (game.Lighting.ClockTime > 15 or game.Lighting.ClockTime < 5) then  
+            elseif game.Lighting.Sky.MoonTextureId == "http://www.roblox.com/asset/?id=9709149431" and (game.Lighting.ClockTime > 15 or game.Lighting.ClockTime < 5) then   
+                if game.Lighting.ClockTime > 18 or game.Lighting.ClockTime < 5 then
                 Tweento(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) 
                 if GetDistance(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) < 10 then
                     CheckRemote = game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("gravestoneEvent", 2) 
@@ -225,15 +226,15 @@ AutoSoulGuitar = function()
                 end
             end  
         elseif not CurrnetPuzzle.Ghost then 
-            SetContent("Unlocking Soul Guitar's Puzzle (Ghost: Talking to the ghost)",3) 
+            SetContent("Unlocking Soul Guitar's Puzzle (Ghost: Talking to the ghost)") 
             if not Sea3 then 
                 TeleportWorld(3)
             elseif GetDistance(CFrame.new(-9755.6591796875, 271.0661315917969, 6290.61474609375)) > 7 then
                 Tweento(CFrame.new(-9755.6591796875, 271.0661315917969, 6290.61474609375))
                 game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("GuitarPuzzleProgress", "Ghost")
             end 
-        elseif not CurrnetPuzzle.Trophie then 
-            SetContent("Unlocking Soul Guitar's Puzzle (Trophies: Unlock the Trophies's Puzzle)",3) 
+        elseif not CurrnetPuzzle.Trophies then 
+            SetContent("Unlocking Soul Guitar's Puzzle (Trophies: Unlock the Trophies's Puzzle)") 
             if not Sea3 then 
                 TeleportWorld(3)
             elseif GetDistance(CFrame.new(-9530.0126953125, 6.104853630065918, 6054.83349609375)) > 30 then
@@ -266,7 +267,7 @@ AutoSoulGuitar = function()
                 end
             end 
         elseif not CurrnetPuzzle.Pipes then 
-            SetContent("Unlocking Soul Guitar's Puzzle (Pipes)",3) 
+            SetContent("Unlocking Soul Guitar's Puzzle (Pipes)") 
             if not Sea3 then 
                 TeleportWorld(3)
             else
@@ -281,7 +282,7 @@ AutoSoulGuitar = function()
                 end
             end 
         end 
-    elseif not getgenv().ServerData["Inventory Items"]['Bones'] or getgenv().ServerData["Inventory Items"]['Bones'].Count < 500 then  
+    elseif CheckMaterialCount('Bones') < 500 then  
         SetContent('Farming Bones for soul guitar')
         if not Sea3 then 
             TeleportWorld(3) 
@@ -293,7 +294,7 @@ AutoSoulGuitar = function()
                 "Posessed Mummy [Lv. 2050]"
             })
         end
-    elseif not getgenv().ServerData["Inventory Items"]['Ectoplasm'] or getgenv().ServerData["Inventory Items"]['Ectoplasm'].Count < 250 then 
+    elseif CheckMaterialCount('Ectoplasm') < 250 then 
         if not Sea2 then 
             TeleportWorld(2)
         else
@@ -303,7 +304,7 @@ AutoSoulGuitar = function()
                 "Ship Steward [Lv. 1300]"
             }) 
         end
-    elseif not getgenv().ServerData["Inventory Items"]['Dark Fragment'] or getgenv().ServerData["Inventory Items"]['Dark Fragment'].Count < 1 then   
+    elseif CheckMaterialCount('Dark Fragment') < 1 then   
         if not Sea2 then 
             TeleportWorld(2)
         else
