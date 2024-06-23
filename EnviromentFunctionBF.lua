@@ -988,7 +988,7 @@ function getMobSpawnbyList(MobList)
         if MobSpawnClone[v] then 
             table.insert(Returner,MobSpawnClone[v]) 
             for i2,v2 in pairs(game.Workspace.MobSpawns:GetChildren()) do 
-                if GetDistance(v2,MobSpawnClone[v]) > 300 then 
+                if v2.Name == v and GetDistance(v2,MobSpawnClone[v]) > 300 then 
                     table.insert(Returner,v2.CFrame)
                 end 
             end 
@@ -1605,7 +1605,7 @@ function LoadBoss(v)
     else
         return
     end 
-    if RemoveLevelTitle(v.Name) == 'rip_indra' then 
+    if RemoveLevelTitle(v.Name) == 'rip_indra True Form' then 
         repeat task.wait() until getgenv().ServerData['PlayerData'] and getgenv().ServerData['PlayerData'].Level
         if getgenv().ServerData['PlayerData'].Level >= 2000 and not getgenv().ServerData["Inventory Items"]["Tushita"] then 
             getgenv().CurrentTask = 'Getting Tushita'

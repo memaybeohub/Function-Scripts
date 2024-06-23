@@ -15,7 +15,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Collect Fruit' 
         elseif Sea3 and getgenv().CurrentElite then 
             getgenv().CurrentTask = 'Hunting Elite'  
-        elseif Sea3 and getgenv().ServerData['PlayerData'].Level >= 2000 and not getgenv().ServerData["Inventory Items"]["Tushita"] and (getgenv().ServerData['Server Bosses']['rip_indra'] or (not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate"))) then 
+        elseif Sea3 and getgenv().ServerData['PlayerData'].Level >= 2000 and not getgenv().ServerData["Inventory Items"]["Tushita"] and (getgenv().ServerData['Server Bosses']['rip_indra True Form'] or (not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate"))) then 
             getgenv().CurrentTask = 'Getting Tushita'
         elseif Sea3 and not getgenv().ServerData["Inventory Items"]["Yama"] and (getgenv().ServerData['PlayerData']["Elite Hunted"] >= 30 or getgenv().ServerData['PlayerData'].Level >= 2100) then 
             getgenv().CurrentTask = 'Getting Yama' 
@@ -367,7 +367,7 @@ AutoTushita = function()
             else
                 HopServer(9,true)
             end
-        elseif getgenv().ServerData['Server Bosses']['rip_indra'] then   
+        elseif getgenv().ServerData['Server Bosses']['rip_indra True Form'] then   
             if getgenv().ServerData["PlayerBackpack"]['Holy Torch'] then
                 EquipWeaponName("Holy Torch") 
                 SetContent('Finding new torch touching template...')
