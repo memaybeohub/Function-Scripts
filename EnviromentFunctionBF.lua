@@ -1864,7 +1864,7 @@ function PickChest(Chest)
     elseif not getgenv().ChestConnection then 
         getgenv().ChestConnection = Chest:GetPropertyChangedSignal('Parent'):Connect(function()
             getgenv().ChestCollect +=1 
-            Warn('Picked 1 more chest. Total: |',getgenv().ChestCollect)
+            warn('Picked 1 more chest. Total: |',getgenv().ChestCollect)
             getgenv().ChestConnection:Disconnect()
             getgenv().ChestConnection = nil
         end)
