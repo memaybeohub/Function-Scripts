@@ -1862,14 +1862,15 @@ function PickChest(Chest)
     if not Chest then 
         return 
     elseif not getgenv().ChestConnection then 
+        SetContent('Picking up chest | '..tostring(getgenv().ChestCollect))
         getgenv().ChestConnection = Chest:GetPropertyChangedSignal('Parent'):Connect(function()
             getgenv().ChestCollect +=1 
-            warn('Picked 1 more chest. Total: |',getgenv().ChestCollect)
             getgenv().ChestConnection:Disconnect()
             getgenv().ChestConnection = nil
         end)
         repeat 
             Tweento(Chest.CFrame)
+            SendKey('Space',.5)
         until not Chest or not Chest.Parent
     end
 end
