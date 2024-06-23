@@ -359,6 +359,13 @@ AutoSoulGuitar = function()
             buyRaidingChip() 
         else 
             AutoRaid() 
+        end 
+    else
+        if not Sea3 then 
+            TeleportWorld(3)
+        else
+            game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("soulGuitarBuy", true)
+            SetContent(tostring(game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("soulGuitarBuy")))
         end
     end
 end
