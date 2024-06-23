@@ -988,7 +988,7 @@ function getMobSpawnbyList(MobList)
         if MobSpawnClone[v] then 
             table.insert(Returner,MobSpawnClone[v]) 
             for i2,v2 in pairs(game.Workspace.MobSpawns:GetChildren()) do 
-                if GetDistance(v2,v) > 300 then 
+                if GetDistance(v2,MobSpawnClone[v]) > 300 then 
                     table.insert(Returner,v2.CFrame)
                 end 
             end 
