@@ -17,6 +17,7 @@ task.delay(15,function()
         end)
         hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
         hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
+        hookfunction(require(ReplicatedStorage:WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end)
         task.spawn(function()
             repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee'
             for i,v in pairs(getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data) do  
