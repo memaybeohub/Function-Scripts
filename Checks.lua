@@ -125,7 +125,7 @@ AutoSoulGuitar = function()
     end 
     if not getgenv().SoulGuitarPuzzlePassed then 
         if not CurrnetPuzzle then  
-            SetContent("Unlocking Soul Guitar's Puzzle (Praying Grave Stone)")
+            SetContent("Unlocking Soul Guitar's Puzzle (Praying Grave Stone)",5)
             if not Sea3 then 
                 TeleportWorld(3)
             elseif game.Lighting.Sky.MoonTextureId == "http://www.roblox.com/asset/?id=9709149431" and (game.Lighting.ClockTime > 15 or game.Lighting.ClockTime < 5) then  
@@ -139,14 +139,17 @@ AutoSoulGuitar = function()
                         Fade = 0.25, 
                         ZIndex = -10
                     });
-                    require(game.ReplicatedStorage.Util.Sound):Play("Thunder", workspace.CurrentCamera.CFrame.p);
-                    SetContent('Completed')
+                    require(game.ReplicatedStorage.Util.Sound):Play("Thunder", workspace.CurrentCamera.CFrame.p); 
+                    game.ReplicatedStorage.Remotes.CommF_:InvokeServer("gravestoneEvent", 2, true)
+                    SetContent('Completed')  
+                    getgenv().CurrentTask = ''
+                    return
                 end 
             else 
                 HopServer(10,true)
             end 
         elseif not CurrnetPuzzle.Swamp then  
-            SetContent("Unlocking Soul Guitar's Puzzle (Swamp: Kill 6 Zombie at same time)")
+            SetContent("Unlocking Soul Guitar's Puzzle (Swamp: Kill 6 Zombie at same time)",5)
             if not Sea3 then 
                 TeleportWorld(3)
             elseif GetDistance(CFrame.new(-10171.7607421875, 138.62667846679688, 6008.0654296875)) > 300 then
@@ -222,7 +225,7 @@ AutoSoulGuitar = function()
                 end
             end  
         elseif not CurrnetPuzzle.Ghost then 
-            SetContent("Unlocking Soul Guitar's Puzzle (Ghost: Talking to the ghost)") 
+            SetContent("Unlocking Soul Guitar's Puzzle (Ghost: Talking to the ghost)",3) 
             if not Sea3 then 
                 TeleportWorld(3)
             elseif GetDistance(CFrame.new(-9755.6591796875, 271.0661315917969, 6290.61474609375)) > 7 then
@@ -230,7 +233,7 @@ AutoSoulGuitar = function()
                 game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("GuitarPuzzleProgress", "Ghost")
             end 
         elseif not CurrnetPuzzle.Trophie then 
-            SetContent("Unlocking Soul Guitar's Puzzle (Trophies: Unlock the Trophies's Puzzle)") 
+            SetContent("Unlocking Soul Guitar's Puzzle (Trophies: Unlock the Trophies's Puzzle)",3) 
             if not Sea3 then 
                 TeleportWorld(3)
             elseif GetDistance(CFrame.new(-9530.0126953125, 6.104853630065918, 6054.83349609375)) > 30 then
@@ -263,7 +266,7 @@ AutoSoulGuitar = function()
                 end
             end 
         elseif not CurrnetPuzzle.Pipes then 
-            SetContent("Unlocking Soul Guitar's Puzzle (Pipes)") 
+            SetContent("Unlocking Soul Guitar's Puzzle (Pipes)",3) 
             if not Sea3 then 
                 TeleportWorld(3)
             else
