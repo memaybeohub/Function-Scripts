@@ -659,7 +659,6 @@ AutoMeleeFunc = function()
         local DragonScale = CheckMaterialCount('Dragon Scale') 
         print(FishTails,MagmaOre,MysticDroplet,DragonScale)
         if FishTails < 20 then 
-
             if not Sea1 then 
                 TeleportWorld(1)
             else
@@ -677,7 +676,7 @@ AutoMeleeFunc = function()
             else
                 KillMobList({"Sea Soldier","Water Fighter"})
             end
-        elseif DragonScale < 20 then 
+        elseif DragonScale < 10 then 
             if not Sea3 then 
                 TeleportWorld(3)
             else
