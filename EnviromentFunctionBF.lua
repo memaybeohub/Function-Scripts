@@ -1605,6 +1605,12 @@ function LoadBoss(v)
     else
         return
     end 
+    if RemoveLevelTitle(v.Name) == 'rip_indra' then 
+        repeat task.wait() until getgenv().ServerData['PlayerData'] and getgenv().ServerData['PlayerData'].Level
+        if getgenv().ServerData['PlayerData'].Level >= 2000 and not getgenv().ServerData["Inventory Items"]["Tushita"] then 
+            getgenv().CurrentTask = 'Getting Tushita'
+        end
+    end
     if table.find(Elites,RemoveLevelTitle(v.Name)) then 
         getgenv().CurrentElite = v 
     end 
