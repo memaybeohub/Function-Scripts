@@ -366,6 +366,8 @@ AutoSoulGuitar = function()
         else
             game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("soulGuitarBuy", true)
             SetContent(tostring(game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("soulGuitarBuy")))
+            wait(10)
+            getgenv().CurrentTask = ''
         end
     end
 end
@@ -574,6 +576,7 @@ end
 Auto3rdEvent = function() 
     if Sea2 then
         KillBoss(getgenv().ServerData['Server Bosses']['Core']) 
+        getgenv().CurrentTask = ''
     else 
         local CastleCFrame = CFrame.new(-5543.5327148438, 313.80062866211, -2964.2585449219)
         if GetDistance(CastleCFrame) > 1500 then 
