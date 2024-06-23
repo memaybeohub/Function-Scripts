@@ -130,22 +130,23 @@ AutoSoulGuitar = function()
                 TeleportWorld(3)
             elseif game.Lighting.Sky.MoonTextureId == "http://www.roblox.com/asset/?id=9709149431" and (game.Lighting.ClockTime > 15 or game.Lighting.ClockTime < 5) then   
                 if game.Lighting.ClockTime > 18 or game.Lighting.ClockTime < 5 then
-                Tweento(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) 
-                if GetDistance(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) < 10 then
-                    CheckRemote = game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("gravestoneEvent", 2) 
-                    if CheckRemote ~= true then return end 
-                    require(game.ReplicatedStorage.Effect).new("BlindCam"):replicate({
-                        Color = Color3.new(0.03, 0.03, 0.03), 
-                        Duration = 2, 
-                        Fade = 0.25, 
-                        ZIndex = -10
-                    });
-                    require(game.ReplicatedStorage.Util.Sound):Play("Thunder", workspace.CurrentCamera.CFrame.p); 
-                    game.ReplicatedStorage.Remotes.CommF_:InvokeServer("gravestoneEvent", 2, true)
-                    SetContent('Completed')  
-                    getgenv().CurrentTask = ''
-                    return
-                end 
+                    Tweento(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) 
+                    if GetDistance(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) < 10 then
+                        CheckRemote = game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("gravestoneEvent", 2) 
+                        if CheckRemote ~= true then return end 
+                        require(game.ReplicatedStorage.Effect).new("BlindCam"):replicate({
+                            Color = Color3.new(0.03, 0.03, 0.03), 
+                            Duration = 2, 
+                            Fade = 0.25, 
+                            ZIndex = -10
+                        });
+                        require(game.ReplicatedStorage.Util.Sound):Play("Thunder", workspace.CurrentCamera.CFrame.p); 
+                        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("gravestoneEvent", 2, true)
+                        SetContent('Completed')  
+                        getgenv().CurrentTask = ''
+                        return
+                    end  
+                end
             else 
                 HopServer(10,true)
             end 
