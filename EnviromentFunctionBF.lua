@@ -69,8 +69,6 @@ function GetDistance(target1, taget2)
         end
     )
     if bbos then
-        a = target1.Position
-        a2 = taget2.Position
         return (a - a2).Magnitude
     end
 end 
