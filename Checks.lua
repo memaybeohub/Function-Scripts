@@ -348,7 +348,9 @@ AutoSoulGuitar = function()
             else 
                 local NearestChest = getNearestChest() 
                 if NearestChest then 
-                    PickChest(NearestChest)
+                    PickChest(NearestChest) 
+                elseif #getgenv().ServerData['Chest'] <= 0 then 
+                    HopServer(9,true) 
                 end
             end
         end
