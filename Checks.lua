@@ -693,7 +693,7 @@ AutoMeleeMasteryCheck = function()
         getgenv().FragmentNeeded = false
         getgenv().MeleeTask = 'None' 
         getgenv().MeleeWait = ''
-        repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"] 
+        repeat task.wait() until getgenv().CheckAllMelee and getgenv().Config and getgenv().Config["Melee Level Values"] 
         while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"]
             if MLLV["Superhuman"] == 0 then 
@@ -798,7 +798,7 @@ AutoMeleeCheck = function()
     task.spawn(function()
         getgenv().FragmentNeeded = false
         getgenv().MeleeTask = 'None'
-        repeat task.wait() until getgenv().Config and getgenv().Config["Melee Level Values"] 
+        repeat task.wait() until getgenv().CheckAllMelee and getgenv().Config and getgenv().Config["Melee Level Values"] 
         while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"] 
             local v316, v317, v318, v319 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Check")

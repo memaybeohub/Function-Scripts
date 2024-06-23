@@ -1750,7 +1750,7 @@ function getMeleeLevelValues()
                 getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][i].Level.Value 
             end
         end
-    end)
+    end) 
 end 
 function getFruitBelow1M()
     local minValue = 1000000
@@ -1763,7 +1763,8 @@ function getFruitBelow1M()
     end
     return fruitName 
 end
-getMeleeLevelValues()
+getMeleeLevelValues() 
+getgenv().CheckAllMelee = true
 function ReloadFrutis()    
     SetContent('Checking Server Fruits...')
     for i,v in pairs(game.workspace:GetChildren()) do 

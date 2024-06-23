@@ -14,9 +14,6 @@ task.delay(15,function()
             if v.Name =='DamageCounter' then 
                 v.Enabled  = false 
             end
-            if v:IsA('Part') or v:IsA('MeshPart') then 
-                v.Transparency = 1 
-            end
         end)
         hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
         hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
@@ -56,15 +53,17 @@ task.delay(15,function()
                 end)
             end
         end)
-        task.delay(math.random(30,60),function()
-            for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
-                pcall(function()
-                    if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
-                        hookfunction(require(v2),function()end)
-                    end
-                end)
-            end
-        end)
+        --[[
+            task.delay(math.random(30,60),function()
+                for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
+                    pcall(function()
+                        if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
+                            hookfunction(require(v2),function()end)
+                        end
+                    end)
+                end
+            end)
+        ]]
     end
 end)
 
