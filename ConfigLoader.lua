@@ -17,7 +17,7 @@ function LoadConfig()
     end
 end
 LoadConfig()
-task.delay(1,function()
+task.delay(.1,function()
     while task.wait(.5) do 
         SaveConfig()
     end
