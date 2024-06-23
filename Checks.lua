@@ -302,10 +302,12 @@ AutoSoulGuitar = function()
             KillMobList({
                 "Ship Deckhand [Lv. 1250]",
                 "Ship Engineer [Lv. 1275]",
-                "Ship Steward [Lv. 1300]"
+                "Ship Steward [Lv. 1300]",
+                'Ship Officer'
             }) 
         end
     elseif CheckMaterialCount('Dark Fragment') < 1 then   
+        if not getgenv().ChestCollect then getgenv().ChestCollect = 0 end
         if not Sea2 then 
             TeleportWorld(2)
         else
