@@ -537,7 +537,8 @@ local function LoadPlayer()
             vector3Value.Value = Vector3.new(1, 2, 3)
         end
         getgenv().ServerData["PlayerBackpackFruits"] = {}
-        getgenv().ServerData["PlayerBackpack"] = {}
+        getgenv().ServerData["PlayerBackpack"] = {} 
+        loadSkills()
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v  
@@ -870,7 +871,12 @@ local Elites = {
 }
 local KillingBoss
 local KillingMobTick = tick()-10
-local MobUsingSkill = false
+local MobUsingSkill = false 
+function CanMasteryFarm(v)
+    if v and v.Humanoid and v.Humanoid.Health < (v.Humanoid.MaxHealth * 40/100) then 
+        return true 
+    end
+end
 function KillNigga(MobInstance) 
     local LS,LS2 = pcall(function()
         if IsPlayerAlive() and
@@ -930,7 +936,28 @@ function KillNigga(MobInstance)
                     AddBodyVelocity(true)
                     EquipWeapon()
                     TweenKill(MobInstance)
-                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true 
+                    if getgenv().MasteryFarm then 
+                        if CanMasteryFarm(MobInstance) then 
+                            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
+                            repeat 
+                                task.wait()
+                                if IsPlayerAlive() then 
+                                    TweenKill(MobInstance)
+                                    for skill,already in pairs(getgenv().ServerData['Skill Loaded'][getgenv().ServerData['PlayerData'].DevilFruit]) do 
+                                        if already then 
+                                            EquipWeapon(getgenv().ServerData['PlayerData'].DevilFruit) 
+                                            SendKey(skill,1)
+                                            wait()
+                                        end 
+                                    end
+                                end
+                            until not MobInstance or not CanMasteryFarm(MobInstance)
+                        else 
+                            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true  
+                        end
+                    else
+                        game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true  
+                    end
                 else 
                     game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
                     wait(1)
@@ -1824,7 +1851,8 @@ game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(functi
         if v.Name:find('Island') then 
             v:GetPropertyChangedSignal('Parent'):Connect(function()
                 if not v.Parent or v.Parent ~= game:GetService("Workspace")["_WorldOrigin"].Locations then  
-                    if getgenv().CurrentTask == 'Auto Raid' then 
+                    if getgenv().CurrentTask == 'Auto Raid'  then 
+                        repeat task.wait(1) until not game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible
                         getgenv().CurrentTask = '' 
                         warn('Clearing',getgenv().ServerData['Nearest Raid Island'])
                         getgenv().ServerData['Nearest Raid Island'] = nil
@@ -1979,6 +2007,37 @@ function getNearestChest()
     for i,v in pairs(getgenv().ServerData['Chest']) do
         return v 
     end
+end 
+function advancedSkills(v2) 
+    if v2:IsA("Frame") then 
+        if v2.Name ~= 'Template' then 
+            v2.Cooldown:GetPropertyChangedSignal('Size'):Connect(function()
+                if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1))then
+                    getgenv().ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true  
+                elseif v2.Name ~= 'Template' then 
+                    getgenv().ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = false  
+                end 
+            end) 
+        end
+        if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1))
+         then
+            getgenv().ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true 
+        end 
+    end
+end
+function addSkills(v) 
+    if not table.find({'Title','Container','Level','StarContainer','Rage'},v.Name) then 
+        if not getgenv().ServerData['Skill Loaded'][v.Name] then 
+            getgenv().ServerData['Skill Loaded'][v.Name] = {}
+        end 
+        v.ChildAdded:Connect(advancedSkills)
+    end
+end
+function loadSkills()
+    for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills:GetChildren()) do 
+        addSkills(v)
+    end
+    game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills.ChildAdded:Connect(addSkills) 
 end
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
@@ -2015,24 +2074,13 @@ RunService.Heartbeat:Connect(function()
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
             getgenv().ServerData["Inventory Items"][v.Name] = v 
         end
-        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills:GetChildren()) do 
-            if not table.find({'Title','Container','Level','StarContainer','Rage'},v.Name) then 
-                if not getgenv().ServerData['Skill Loaded'][v.Name] then 
-                    getgenv().ServerData['Skill Loaded'][v.Name] = {}
-                end 
-                for i2,v2 in pairs(v:GetChildren()) do 
-                    if v2:IsA("Frame") then
-                        if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1))
-                         then
-                            getgenv().ServerData['Skill Loaded'][v2.Name] = true 
-                        end
-                    end
-                end
-            end
-        end 
         getgenv().ServerData['PlayerData']["Elite Hunted"] = tonumber(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("EliteHunter", "Progress")) or 0
         getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer() 
-        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Cousin", "Buy")
+        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Cousin", "Buy") 
+        local v141, v142 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ColorsDealer", "1")
+        if v141 and v142 and v142 > 5000 then 
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ColorsDealer", "2")
+        end
     end
 end)
 loadstring([[
