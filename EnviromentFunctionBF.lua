@@ -876,6 +876,16 @@ function CanMasteryFarm(v)
     if v and v.Humanoid and v.Humanoid.Health < (v.Humanoid.MaxHealth * 40/100) then 
         return true 
     end
+end 
+function CheckSkill(skillstable,blacklistedskills)
+    if not blacklistedskills then 
+        blacklistedskills = {}
+    end 
+    for i,v in pairs(skillstable) do 
+        if v and not table.find(skillstable,i) then 
+            return i 
+        end 
+    end
 end
 function KillNigga(MobInstance) 
     local LS,LS2 = pcall(function()
@@ -942,16 +952,18 @@ function KillNigga(MobInstance)
                             repeat 
                                 task.wait()
                                 if IsPlayerAlive() then 
-                                    TweenKill(MobInstance)
-                                    for skill,already in pairs(getgenv().ServerData['Skill Loaded'][getgenv().ServerData['PlayerData'].DevilFruit]) do 
-                                        if already then 
-                                            EquipWeapon(getgenv().ServerData['PlayerData'].DevilFruit) 
-                                            SendKey(skill,1)
-                                            wait()
-                                        end 
+                                    TweenKill(MobInstance) 
+                                    game.Players.LocalPlayer.Character['Fast Attack'].Value = true
+                                    game.Players.LocalPlayer.Character['Aimbot Position'].Value = MobInstance.PrimaryPart.Position 
+                                    EquipWeapon(getgenv().ServerData['PlayerData'].DevilFruit) 
+                                    local Skilled = CheckSkill(getgenv().ServerData['Skill Loaded'][getgenv().ServerData['PlayerData'].DevilFruit],{'F'})
+                                    if Skilled then 
+                                        SendKey(Skilled,1)
+                                        wait()
                                     end
                                 end
-                            until not MobInstance or not CanMasteryFarm(MobInstance)
+                            until not MobInstance or not MobInstance.Parent or not MobInstance.PrimaryPart or not MobInstance:FindFirstChild('Humanoid') or MobInstance.Humanoid.Health <= 0 or not CanMasteryFarm(MobInstance)
+                            game.Players.LocalPlayer.Character['Fast Attack'].Value = false
                         else 
                             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true  
                         end
@@ -970,6 +982,7 @@ function KillNigga(MobInstance)
             KillingMob = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
             game.Players.LocalPlayer.Character['Aimbot'].Value = false
+            game.Players.LocalPlayer.Character['Aimbot Position'].Value
             AddBodyVelocity(false)
             return true
         end
