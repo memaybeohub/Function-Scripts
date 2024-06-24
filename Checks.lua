@@ -817,7 +817,7 @@ AutoMeleeMasteryCheck = function()
                         LoadItem('Tushita')
                     end 
                 elseif getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit] and getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit]:WaitForChild('Level').Value < 350 then 
-                    getgenv().MasteryFarm = true 
+                    --  getgenv().MasteryFarm = true 
                 else
                     getgenv().MasteryFarm = false
                     getgenv().WeaponType = 'Melee'
