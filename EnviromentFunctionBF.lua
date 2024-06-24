@@ -2118,7 +2118,8 @@ getrawgame.__namecall = newcclosure(function(...)
 		end
 	end
 	return oldraw(...)
-end)]]
+end)
+]]
 SetContent('Loaded Enviroment Functions MFS🖕')
 warn('Loaded Success Full!')
 getgenv().EnLoaded = true   

@@ -19,12 +19,17 @@ task.delay(15,function()
         hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
         hookfunction(require(game:GetService("ReplicatedStorage"):WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end)
         task.spawn(function()
-            repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee'
-            for i,v in pairs(getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data) do  
-                if typeof(v) == 'function' then 
-                    hookfunction(v,function() end )
-                end
-            end 
+            local NGU,NGUVL
+            repeat 
+                NGU,NGUVL = pcall(function()
+                    for i,v in pairs(getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data) do  
+                        if typeof(v) == 'function' then 
+                            hookfunction(v,function() end )
+                        end
+                    end
+                end)
+                task.wait(1.5)
+            until NGU 
         end) 
         abc = true
         task.spawn(function()
@@ -134,26 +139,19 @@ FastAttack = function()
     end
 end
 
-local bs = tick()
+local bs
 task.spawn(function()
     while task.wait(_G.Fast_Delay) do
         if getgenv().FastAttackSpeed then
             _G.Fast = true
-            if bs - tick() > 0.75 then
-                task.wait()
-                bs = tick()
+            bs = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
+                game.Players.LocalPlayer.Character,
+                {game.Players.LocalPlayer.Character.HumanoidRootPart},
+                60
+            )
+            if bs and #bs > 0 then 
+                FastAttack()
             end
-            pcall(function()
-                for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
-                    if v.Humanoid.Health > 0 then
-                        if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 100 then
-                            FastAttack()
-                            task.wait()
-                            Boost()
-                        end
-                    end
-                end
-            end)
         else
             _G.Fast = false
         end
@@ -173,7 +171,7 @@ task.spawn(function()
                     if v.Humanoid.Health > 0 then
                         if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 100 then
                             task.wait(.000025)
-                            Unboost()
+                            --Unboost()
                         end
                     end
                 end
