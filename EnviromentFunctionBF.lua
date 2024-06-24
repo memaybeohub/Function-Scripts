@@ -524,18 +524,6 @@ local function LoadPlayer()
             FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
             FastAttackDelayIn.Value = 0.35
         end
-        if not game.Players.LocalPlayer.Character:FindFirstChild("Aimbot") then 
-            getgenv().AimbotToggle = Instance.new("BoolValue")
-            getgenv().AimbotToggle.Parent = game.Players.LocalPlayer.Character
-            getgenv().AimbotToggle.Value = false
-            getgenv().AimbotToggle.Name = 'Aimbot'
-        end
-        if not game.Players.LocalPlayer.Character:FindFirstChild("Aimbot Position") then
-            getgenv().AimbotPosition = Instance.new("Vector3Value")
-            getgenv().AimbotPosition.Name = "Aimbot Position"
-            getgenv().AimbotPosition.Parent = game.Players.LocalPlayer.Character
-            getgenv().AimbotPosition.Value = Vector3.new(1, 2, 3)
-        end
         getgenv().ServerData["PlayerBackpackFruits"] = {}
         getgenv().ServerData["PlayerBackpack"] = {} 
         task.spawn(function()
@@ -884,10 +872,12 @@ function CheckSkill(skillstable,blacklistedskills)
     if not blacklistedskills then 
         blacklistedskills = {}
     end 
-    for i,v in pairs(skillstable) do 
-        if v and not table.find(skillstable,i) then 
-            return i 
-        end 
+    if skillstable['Z'] then 
+        return "Z"
+    elseif skillstable['X'] then 
+        return "X"
+    elseif skillstable["C"] then 
+        return "C"
     end
 end
 function KillNigga(MobInstance) 
@@ -957,7 +947,8 @@ function KillNigga(MobInstance)
                                 if IsPlayerAlive() then 
                                     TweenKill(MobInstance) 
                                     game.Players.LocalPlayer.Character['Fast Attack'].Value = true
-                                    game.Players.LocalPlayer.Character['Aimbot Position'].Value = MobInstance.PrimaryPart.Position 
+                                    getgenv().AimbotToggle = true 
+                                    getgenv().AimbotPosition = MobInstance.PrimaryPart.Position 
                                     EquipWeapon(getgenv().ServerData['PlayerData'].DevilFruit) 
                                     local Skilled = CheckSkill(getgenv().ServerData['Skill Loaded'][getgenv().ServerData['PlayerData'].DevilFruit],{'F'})
                                     if Skilled then 
@@ -984,8 +975,8 @@ function KillNigga(MobInstance)
             KillingMobTick = 0
             KillingMob = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
-            game.Players.LocalPlayer.Character['Aimbot'].Value = false
-            game.Players.LocalPlayer.Character['Aimbot Position'].Value = Vector3.new(0,0,0)
+            getgenv().AimbotToggle = false  
+            getgenv().AimbotPosition = nil
             AddBodyVelocity(false)
             return true
         end
@@ -2108,7 +2099,25 @@ if GC then
             end
         end
     )
-end
+end 
+local getrawgame = getrawmetatable(game)
+local oldraw = getrawgame.__namecall
+setreadonly(getrawgame,false)
+getrawgame.__namecall = newcclosure(function(...)
+	local method = getnamecallmethod()
+	local args = {...}
+	if tostring(method) == "FireServer" then
+		if tostring(args[1]) == "RemoteEvent" then
+			if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
+				if getgenv().AimbotToggle and getgenv().AimbotPosition then
+					args[2] = getgenv().AimbotPosition
+					return oldraw(unpack(args))
+				end
+			end
+		end
+	end
+	return oldraw(...)
+end)
 SetContent('Loaded Enviroment Functions MFS🖕')
 warn('Loaded Success Full!')
 getgenv().EnLoaded = true   
