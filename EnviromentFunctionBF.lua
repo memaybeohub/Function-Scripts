@@ -2099,49 +2099,6 @@ RunService.Heartbeat:Connect(function()
         end
     end
 end) 
-loadstring(
-    [[
-    local gg = getrawmetatable(game)
-    local old = gg.__namecall
-    setreadonly(gg, false)
-    gg.__namecall =
-        newcclosure(
-        function(...)
-            local method = getnamecallmethod()
-            local args = {...}
-            if tostring(method) == "FireServer" then
-                if tostring(args[1]) == "RemoteEvent" then
-                    if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
-                        if (getgenv().AimbotToggle and getgenv().AimbotToggle.Value) and (getgenv().AimbotPosition and getgenv().AimbotPosition.Value) then
-                            args[2] = getgenv().AimbotPosition.Value
-                        end
-                        return old(unpack(args))
-                    end
-                end
-            end
-            return old(...)
-        end
-    )
-]]
-)()
-loadstring(
-    [[
-    local gt = getrawmetatable(game)
-    local old = gt.__namecall
-    setreadonly(gt,false)
-    gt.__namecall = newcclosure(function(...)
-        local args = {...}
-        if getnamecallmethod() == "InvokeServer" then 
-            if tostring(args[2]) == "TAP" then
-                if (getgenv().AimbotToggle and getgenv().AimbotToggle.Value) and (getgenv().AimbotPosition and getgenv().AimbotPosition.Value) then
-                    args[3] = getgenv().AimbotPosition.Value 
-                end
-            end
-        end
-        return old(unpack(args))
-    end)
-]]
-)()
 local GC = getconnections or get_signal_cons
 if GC then
     game.Players.LocalPlayer.Idled:Connect(
