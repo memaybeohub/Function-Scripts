@@ -982,7 +982,7 @@ function KillNigga(MobInstance)
             KillingMob = false
             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
             game.Players.LocalPlayer.Character['Aimbot'].Value = false
-            game.Players.LocalPlayer.Character['Aimbot Position'].Value
+            game.Players.LocalPlayer.Character['Aimbot Position'].Value = Vector3.new(0,0,0)
             AddBodyVelocity(false)
             return true
         end
