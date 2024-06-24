@@ -538,7 +538,10 @@ local function LoadPlayer()
         end
         getgenv().ServerData["PlayerBackpackFruits"] = {}
         getgenv().ServerData["PlayerBackpack"] = {} 
-        loadSkills()
+        task.spawn(function()
+            repeat task.wait() until loadSkills
+            loadSkills()
+        end)
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v  
