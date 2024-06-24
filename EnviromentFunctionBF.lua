@@ -525,16 +525,16 @@ local function LoadPlayer()
             FastAttackDelayIn.Value = 0.35
         end
         if not game.Players.LocalPlayer.Character:FindFirstChild("Aimbot") then 
-            local AimBot_Togg = Instance.new("BoolValue")
-            AimBot_Togg.Parent = game.Players.LocalPlayer.Character
-            AimBot_Togg.Value = false
-            AimBot_Togg.Name = 'Aimbot'
+            getgenv().AimbotToggle = Instance.new("BoolValue")
+            getgenv().AimbotToggle.Parent = game.Players.LocalPlayer.Character
+            getgenv().AimbotToggle.Value = false
+            getgenv().AimbotToggle.Name = 'Aimbot'
         end
         if not game.Players.LocalPlayer.Character:FindFirstChild("Aimbot Position") then
-            local vector3Value = Instance.new("Vector3Value")
-            vector3Value.Name = "Aimbot Position"
-            vector3Value.Parent = game.Players.LocalPlayer.Character
-            vector3Value.Value = Vector3.new(1, 2, 3)
+            getgenv().AimbotPosition = Instance.new("Vector3Value")
+            getgenv().AimbotPosition.Name = "Aimbot Position"
+            getgenv().AimbotPosition.Parent = game.Players.LocalPlayer.Character
+            getgenv().AimbotPosition.Value = Vector3.new(1, 2, 3)
         end
         getgenv().ServerData["PlayerBackpackFruits"] = {}
         getgenv().ServerData["PlayerBackpack"] = {} 
@@ -2098,8 +2098,9 @@ RunService.Heartbeat:Connect(function()
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ColorsDealer", "2")
         end
     end
-end)
-loadstring([[
+end) 
+loadstring(
+    [[
     local gg = getrawmetatable(game)
     local old = gg.__namecall
     setreadonly(gg, false)
@@ -2108,14 +2109,11 @@ loadstring([[
         function(...)
             local method = getnamecallmethod()
             local args = {...}
-            if not game.Players.LocalPlayer.Character['Aimbot'].Value then return end
             if tostring(method) == "FireServer" then
                 if tostring(args[1]) == "RemoteEvent" then
                     if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
-                        if (game.Players.LocalPlayer.Character['Aimbot'].Value) and (game.Players.LocalPlayer.Character['Aimbot Position'].Value) then
-                            if game.Players.LocalPlayer.Character['Aimbot Position'].Value then 
-                                args[2] = game.Players.LocalPlayer.Character['Aimbot Position'].Value
-                            end
+                        if (getgenv().AimbotToggle and getgenv().AimbotToggle.Value) and (getgenv().AimbotPosition and getgenv().AimbotPosition.Value) then
+                            args[2] = getgenv().AimbotPosition.Value
                         end
                         return old(unpack(args))
                     end
@@ -2124,27 +2122,26 @@ loadstring([[
             return old(...)
         end
     )
-
-]]) 
-loadstring([[
+]]
+)()
+loadstring(
+    [[
     local gt = getrawmetatable(game)
     local old = gt.__namecall
     setreadonly(gt,false)
     gt.__namecall = newcclosure(function(...)
         local args = {...}
-        if not game.Players.LocalPlayer.Character['Aimbot'].Value or not game.Players.LocalPlayer.Character['Aimbot Position'].Value then return end
         if getnamecallmethod() == "InvokeServer" then 
             if tostring(args[2]) == "TAP" then
-                if (game.Players.LocalPlayer.Character['Aimbot'].Value) and (game.Players.LocalPlayer.Character['Aimbot Position'].Value) then
-                    if game.Players.LocalPlayer.Character['Aimbot Position'].Value then 
-                        args[3] = game.Players.LocalPlayer.Character['Aimbot Position'].Value 
-                    end
+                if (getgenv().AimbotToggle and getgenv().AimbotToggle.Value) and (getgenv().AimbotPosition and getgenv().AimbotPosition.Value) then
+                    args[3] = getgenv().AimbotPosition.Value 
                 end
             end
         end
         return old(unpack(args))
     end)
-]])
+]]
+)()
 local GC = getconnections or get_signal_cons
 if GC then
     game.Players.LocalPlayer.Idled:Connect(
