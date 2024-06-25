@@ -49,7 +49,7 @@ task.delay(15,function()
                         if i then
                             b.play = function()
                             end
-                            d:Play(1, 1, 0.001)
+                            d:Play(0.001, 0.001, 0.001)
                             h(i)
                             b.play = shared.cpc
                             wait(.5)
@@ -111,7 +111,7 @@ FastAttack = function()
                 cdnormal = tick()
             else
                 Animation.AnimationId = ac.anims.basic[2]
-                ac.humanoid:LoadAnimation(Animation):Play(1,1,0.001) 
+                ac.humanoid:LoadAnimation(Animation):Play(0.001,0.001,0.001) 
                 game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
                     game.Players.LocalPlayer.Character,
                     {game.Players.LocalPlayer.Character.HumanoidRootPart},
