@@ -53,9 +53,17 @@ if hookfunction then
         elseif v1:find('attack') then 
             getgenv().AttackedSafe = true 
         elseif v1:find('rare item') then 
-            getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string' 
-        elseif v1:find('legendary item') then 
+            getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string'  
+        elseif v1:find('unleashed') then 
+            getgenv().DarkBeard = true  
+        elseif v1:find('barrier') then 
+            getgenv().RipIndra = true 
+        elseif v1:find('dimension') then 
+            getgenv().CakePrince = true
+        elseif v1:find('legendary item') then  
             getgenv().HallowEssence = true
+        elseif v1:find("entered this world") then 
+            getgenv().SoulReaper = true
         end
         local FakeLOL = {}
         function FakeLOL.Display(p18)

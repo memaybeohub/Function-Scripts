@@ -1084,7 +1084,7 @@ function BringMob(TAR,V5)
                     v.Humanoid.MaxHealth < 100000
             then
                 task.spawn(function()
-                    TweenObject(V6,v.PrimaryPart,10000)
+                    TweenObject(V6,v.PrimaryPart,1000)
                     v.HumanoidRootPart.CanCollide = false
                     v.PrimaryPart.CanCollide = false
                     v.Head.CanCollide = false
