@@ -551,7 +551,6 @@ AutoRaid = function()
         local RaidDis = GetDistance(getgenv().ServerData['Nearest Raid Island'])
         if RaidDis < 5000 then
             Tweento(getgenv().ServerData['Nearest Raid Island'].CFrame  *CFrame.new(0,60,0)) 
-            task.wait(.1)
         end
     elseif getgenv().ServerData["PlayerBackpack"]['Special Microchip'] then
         SetContent('Firing raid remote...',3)
@@ -560,7 +559,7 @@ AutoRaid = function()
         elseif Sea3 then
             fireclickdetector(Workspace.Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector)
         end
-        wait(10)
+        wait(12)
     end
     SetContent('Doing raid') 
     if not getgenv().KillAuraConnection then 
