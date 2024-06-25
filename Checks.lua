@@ -97,7 +97,8 @@ AutoRaidBoss = function()
         if not getgenv().ServerData['Server Bosses']['Dark Beard'] then 
             getgenv().CurrentTask = ''
             getgenv().DarkBeard = false 
-        else
+        else 
+            SetContent('Start Killing Nigga Beard',5)
             KillBoss(getgenv().ServerData['Server Bosses']['Dark Beard']) 
         end
     elseif Sea3 then  
@@ -916,7 +917,7 @@ AutoMeleeCheck = function()
                     getgenv().MeleeTask = 'Find Waterkey' 
                 elseif Sea3 and not getgenv().Config.PreviousHeroPassed then  
                     getgenv().MeleeTask = 'Previous Hero Puzzle' 
-                elseif Sea3 and v318 and v318 > 0 then  
+                elseif Sea3 and v318 and v318 > 0 and not getgenv().Config.FireEssencePassed then  
                     game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1)
                     if v316 and v316 < v318*50 then 
                         getgenv().MeleeTask = 'Find Fire Essence' 
