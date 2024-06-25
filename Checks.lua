@@ -23,20 +23,26 @@ function refreshTask()
             getgenv().CurrentTask = 'Saber Quest'
         elseif getgenv().ServerData['PlayerData'].Level >= 2300 and not getgenv().ServerData["Inventory Items"]["Soul Guitar"] then 
             getgenv().CurrentTask = 'Getting Soul Guitar'
+        elseif Sea3 and getgenv().HallowEssence or getgenv().SoulReaper then 
+            getgenv().CurrentTask = 'Getting Hallow Scythe'
         elseif getgenv().ServerData['PlayerData'].Level > 150 
         and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
         and (getgenv().ServerData['Server Bosses']['Thunder God']) then 
             getgenv().CurrentTask = 'Pole Quest'
         elseif Sea1 and getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
             getgenv().CurrentTask = 'Sea 2 Quest'
+        elseif Sea3 and getgenv().CakePrince then 
+            getgenv().CurrentTask = 'Cake Prince Raid Boss Event'
         elseif (Sea2 or Sea3) and (getgenv().ServerData['Server Bosses']['Core'] or (Sea3 and getgenv().PirateRaidTick and tick()-getgenv().PirateRaidTick < 60)) then 
             getgenv().CurrentTask = '3rd Sea Event'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
             getgenv().CurrentTask = 'Bartilo Quest'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 1500 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") ~= 0 then 
-            getgenv().CurrentTask = 'Auto Sea 3'
+            getgenv().CurrentTask = 'Auto Sea 3' 
+        elseif (Sea2 or Sea3) and (getgenv().RipIndra or getgenv().DarkBeard) then 
+            getgenv().CurrentTask = 'Auto Raid Boss' 
         elseif Sea2 and getgenv().ServerData['PlayerData'].Beli >= 500000 and getgenv().ServerData["Inventory Items"]["Warrior Helmet"] and getgenv().ServerData['PlayerData'].RaceVer == 'V1' then 
-            getgenv().CurrentTask = 'Race V2 Quest'
+            getgenv().CurrentTask = 'Race V2 Quest' 
         end  
         getgenv().TaskUpdateTick = tick()
     end
@@ -85,14 +91,56 @@ task.delay(.1,function()
             warn('Refreshing task error:',rF2)
         end
     end
-end)
-AutoNiggaBeard = function()
+end) 
+AutoRaidBoss = function()
     if Sea2 then 
-        if not getgenv().ChestCollect or typeof(getgenv().ChestCollect) ~= 'number' then 
-            getgenv().ChestCollect = 0 
-        else 
-            if getgenv().ChestCollect > 17.5 then 
-            end
+        if not getgenv().ServerData['Server Bosses']['Dark Beard'] then 
+            getgenv().CurrentTask = ''
+            getgenv().DarkBeard = false 
+        else
+            KillBoss(getgenv().ServerData['Server Bosses']['Dark Beard']) 
+        end
+    elseif Sea3 then  
+        if not getgenv().ServerData['Server Bosses']['rip_indra True Form'] then 
+            getgenv().CurrentTask = ''
+            getgenv().RipIndra = false 
+        else
+            KillBoss(getgenv().ServerData['Server Bosses']['rip_indra True Form']) 
+        end
+    else
+        getgenv().DarkBeard = false 
+        getgenv().RipIndra = false 
+    end
+end
+AutoCakePrince = function()
+    if getgenv().CakePrince then
+        local CP = getgenv().ServerData['Server Bosses']['Cake Prince'] or getgenv().ServerData['Server Bosses']['Dough King'] 
+        if not CP or not CP:FindFirstChildOfClass('Humanoid') or not CP:FindFirstChildOfClass('Humanoid').Health <= 0 then 
+            getgenv().CakePrince = false 
+            getgenv().CurrentTask ='' 
+        else  
+            KillBoss(CP)
+            getgenv().CurrentTask ='' 
+        end
+    end
+end
+AutoHallowScythe = function()
+    if getgenv().SoulReaper then 
+        if not getgenv().ServerData['Server Bosses']['Soul Reaper'] then 
+            getgenv().SoulReaper = false 
+        end 
+        if getgenv().SoulReaper then 
+            KillBoss(getgenv().ServerData['Server Bosses']['Soul Reaper'] )
+            getgenv().SoulReaper = false 
+            getgenv().CurrentTask =''
+        end
+    elseif getgenv().HallowEssence then 
+        if not getgenv().ServerData["PlayerBackpack"]['Hallow Essence'] then 
+            getgenv().SoulReaper = false 
+        end
+        if getgenv().SoulReaper then 
+            EquipWeapon('Hallow Essence') 
+            Tweento(game:GetService("Workspace").Map["Haunted Castle"].Summoner.Detection.CFrame)
         end
     end
 end
