@@ -59,17 +59,15 @@ task.delay(15,function()
                 end)
             end
         end)
-        --[[
-            task.delay(math.random(30,60),function()
-                for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
-                    pcall(function()
-                        if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
-                            hookfunction(require(v2),function()end)
-                        end
-                    end)
-                end
-            end)
-        ]]
+        task.delay(math.random(30,60),function()
+            for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
+                pcall(function()
+                    if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
+                        hookfunction(require(v2),function()end)
+                    end
+                end)
+            end
+        end)
     end
 end)
 
@@ -93,22 +91,6 @@ function CurveFuckWeapon()
     return wea
 end
 
-function Boost()
-    task.spawn(function()
-        pcall(function()
-            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(CurveFuckWeapon()))
-        end)
-    end)
-end
-
-function Unboost()
-    task.spawn(function()
-        pcall(function()
-            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("unequipWeapon", tostring(CurveFuckWeapon()))
-        end)
-    end)
-end
-
 local cdnormal = 0
 local Animation = Instance.new("Animation")
 local CooldownFastAttack = 0
@@ -128,7 +110,7 @@ FastAttack = function()
                 cdnormal = tick()
             else
                 Animation.AnimationId = ac.anims.basic[2]
-                ac.humanoid:LoadAnimation(Animation):Play(0.1, 0.1)
+                ac.humanoid:LoadAnimation(Animation):Play(0.1, 0.1) 
                 game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
                     game.Players.LocalPlayer.Character,
                     {game.Players.LocalPlayer.Character.HumanoidRootPart},
@@ -143,7 +125,6 @@ local bs
 task.spawn(function()
     while task.wait(_G.Fast_Delay) do
         if getgenv().FastAttackSpeed then
-            _G.Fast = true
             bs = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
                 game.Players.LocalPlayer.Character,
                 {game.Players.LocalPlayer.Character.HumanoidRootPart},
@@ -152,46 +133,6 @@ task.spawn(function()
             if bs and #bs > 0 then 
                 FastAttack()
             end
-        else
-            _G.Fast = false
         end
     end
 end)
-
-local kkt = tick()
-task.spawn(function()
-    if _G.Fast then
-        while task.wait(.2) do
-            if kkt - tick() > 0.75 then
-                task.wait()
-                kkt = tick()
-            end
-            pcall(function()
-                for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
-                    if v.Humanoid.Health > 0 then
-                        if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 100 then
-                            task.wait(.000025)
-                            --Unboost()
-                        end
-                    end
-                end
-            end)
-        end
-    end
-end)
-
---[[
-task.spawn(function()
-    while task.wait() do
-        if _G.Fast then
-            pcall(function()
-                CurveFrame.activeController.timeToNextAttack = -1
-                CurveFrame.activeController.focusStart = 0
-                CurveFrame.activeController.hitboxMagnitude = 40
-                CurveFrame.activeController.humanoid.AutoRotate = true
-                CurveFrame.activeController.increment = 1 + 1 / 1
-            end)
-        end
-    end
-end)
-]]
