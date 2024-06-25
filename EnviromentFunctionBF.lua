@@ -522,7 +522,7 @@ local function LoadPlayer()
             local FastAttackDelayIn = Instance.new("NumberValue")
             FastAttackDelayIn.Name = 'Fast Attack Delay'
             FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
-            FastAttackDelayIn.Value = 0.35
+            FastAttackDelayIn.Value = 0.21
         end
         getgenv().ServerData["PlayerBackpackFruits"] = {}
         getgenv().ServerData["PlayerBackpack"] = {} 
@@ -926,10 +926,11 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
-            ]]
+            ]] 
+            local BringMobSuccess
             task.delay(.1 ,function()
                 repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 100
-                BringMob(MobInstance, LockCFrame) 
+                BringMobSuccess = BringMob(MobInstance, LockCFrame) 
             end)            
             repeat
                 task.wait()
@@ -958,10 +959,10 @@ function KillNigga(MobInstance)
                                 end
                             until not MobInstance or not MobInstance.Parent or not MobInstance.PrimaryPart or not MobInstance:FindFirstChild('Humanoid') or MobInstance.Humanoid.Health <= 0 or not CanMasteryFarm(MobInstance)
                             game.Players.LocalPlayer.Character['Fast Attack'].Value = false
-                        else 
+                        elseif BringMobSuccess then 
                             game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true  
                         end
-                    else
+                    elseif BringMobSuccess then 
                         game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true  
                     end
                 else 
@@ -1095,7 +1096,8 @@ function BringMob(TAR,V5)
                 end)
             end
         end
-    end
+    end 
+    return true
 end  
 function GetNearestPlayer(pos)
     local ner = math.huge
