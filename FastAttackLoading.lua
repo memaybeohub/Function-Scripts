@@ -49,7 +49,7 @@ task.delay(15,function()
                         if i then
                             b.play = function()
                             end
-                            d:Play(0.1, 0.1, 0.1)
+                            d:Play(1, 1, 0.001)
                             h(i)
                             b.play = shared.cpc
                             wait(.5)
@@ -59,13 +59,14 @@ task.delay(15,function()
                 end)
             end
         end)
-        task.delay(math.random(30,60),function()
+        task.delay(5,function()
             for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
                 pcall(function()
                     if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
                         hookfunction(require(v2),function()end)
                     end
                 end)
+                wait(.5)
             end
         end)
     end
@@ -110,7 +111,7 @@ FastAttack = function()
                 cdnormal = tick()
             else
                 Animation.AnimationId = ac.anims.basic[2]
-                ac.humanoid:LoadAnimation(Animation):Play(0.1, 0.1) 
+                ac.humanoid:LoadAnimation(Animation):Play(1,1,0.001) 
                 game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
                     game.Players.LocalPlayer.Character,
                     {game.Players.LocalPlayer.Character.HumanoidRootPart},
