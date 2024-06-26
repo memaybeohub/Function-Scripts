@@ -852,9 +852,14 @@ AutoRaid = function()
         end
         wait(12)
     end
-    SetContent('Doing raid') 
+    SetContent('Doing raid')  
+    for i,v in pairs(workspace.Enemies:GetChildren()) do 
+        if v:FindFirstChildOfClass('Humanoid') then 
+            v:FindFirstChildOfClass('Humanoid').Health = 0 
+        end 
+    end     
     if not getgenv().KillAuraConnection then 
-        getgenv().KillAuraConnection = workspace.Enemies.ChildAdded:Connect(function(v) 
+        getgenv().KillAuraConnection = workspace.Enemies.ChildAdded:Connect(function(v)     
             local V5Hum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid')
             if V5Hum then 
                 V5Hum.Health = 0 
