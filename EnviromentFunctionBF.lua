@@ -2084,7 +2084,9 @@ function loadSkills()
         addSkills(v)
     end
     game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills.ChildAdded:Connect(addSkills) 
-end 
+end  
+if not getgenv().ServerData['PlayerData'] then getgenv().ServerData['PlayerData'] = {} end
+
 getgenv().ServerData['PlayerData']['Colors'] = {} 
 function UnCompleteColor()
     for i, v in next, game:GetService("Workspace").Map["Boat Castle"].Summoner.Circle:GetChildren() do
