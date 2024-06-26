@@ -1544,12 +1544,12 @@ function autoStats()
         if Stats_Melee < MaxLevel then 
             FireAddPoint('Melee',MaxLevel-Stats_Melee)
         elseif Stats_Def < 2550 then 
-            FireAddPoint('Defense',2550-Stats_Def)
+            FireAddPoint('Defense',MaxLevel-Stats_Def)
             --[[
                     elseif Stats_DF < 1750 then 
             FireAddPoint('Demon Fruit',1750-Stats_DF)]]
         else 
-            FireAddPoint('Sword',999)
+            FireAddPoint('Sword',MaxLevel-Stats_Sword)
         end
     end
 end
