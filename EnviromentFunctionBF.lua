@@ -1801,16 +1801,17 @@ function BuyMelee(MeleeN)
         if type(RemoteArg) == "string" then
             local Loser = game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg, true) 
             local BeliPassed = getgenv().ServerData['PlayerData'].Beli >= Melee_and_Price[MeleeN].Beli 
-            local FragmentPassed = getgenv().ServerData['PlayerData'].Fragments >= Melee_and_Price[MeleeN].Fragment  
-            if Loser and typeof(Loser) == 'number' then
+            local FragmentPassed = getgenv().ServerData['PlayerData'].Fragments >= Melee_and_Price[MeleeN].Fragment   
+            print('Buy Melee:',MeleeN,BeliPassed,FragmentPassed)
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg) 
+            --if Loser then
                 --[[
 
                 and (Loser ~= 3 and (Loser ~= 0 or (Loser == 0 and FragmentPassed and BeliPassed ))) 
 and (MeleeN == 'Godhuman' or (MeleeN == 'Godhuman' and CheckMaterialCount('Fish Tail') >= 20 and CheckMaterialCount('Magma Ore') >= 20 and CheckMaterialCount('Mystic Droplet') >= 10 and  CheckMaterialCount('Dragon Scale') >= 10)) then  
                 ]]
-                print('Buy Melee:',MeleeN,BeliPassed,FragmentPassed)
-                game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg) 
-            end
+
+            --end
         else
             pcall(
                 function()
