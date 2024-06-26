@@ -1009,44 +1009,70 @@ AutoMeleeMasteryCheck = function()
         repeat task.wait() until getgenv().CheckAllMelee and getgenv().Config and getgenv().Config["Melee Level Values"] 
         while task.wait(1) do 
             local MLLV = getgenv().Config["Melee Level Values"]
-            if MLLV["Superhuman"] == 0 then 
-                BuyMelee('Superhuman')
-                if MLLV["Black Leg"] < 300 then 
-                    BuyMelee('Black Leg') 
-                    SetMeleeWait('Black Leg',300)
-                elseif MLLV["Fishman Karate"] < 300 then 
-                    BuyMelee('Fishman Karate')  
-                    SetMeleeWait('Fishman Karate',300)
-                elseif MLLV["Electro"] < 300 then 
-                    BuyMelee('Electro')    
-                    SetMeleeWait('Electro',300)
-                elseif MLLV["Dragon Claw"] < 300 then 
-                    if MLLV['Dragon Claw'] == 0 then 
-                        if getgenv().ServerData['PlayerData'].Fragments < 1500 then 
-                            getgenv().FragmentNeeded = true 
-                        else 
-                            getgenv().FragmentNeeded = false 
-                        end
-                    else 
-                        BuyMelee('Dragon Claw') 
-                        SetMeleeWait('Dragon Claw',300)
-                    end 
-                else
+            pcall(function()
+                if MLLV["Superhuman"] == 0 then 
                     BuyMelee('Superhuman')
-                end 
-            elseif MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0 then 
-                if MLLV['Fishman Karate'] < 400 then 
-                    BuyMelee('Fishman Karate')   
-                    SetMeleeWait('Fishman Karate',400)
-                elseif MLLV['Black Leg'] < 400 then 
-                    BuyMelee('Black Leg') 
-                    SetMeleeWait('Black Leg',400)
-                elseif MLLV['Electro'] < 400 then 
-                    BuyMelee('Electro') 
-                    SetMeleeWait('Electro',400)
-                elseif MLLV['Dragon Claw'] < 400 then 
-                    BuyMelee('Dragon Claw')  
-                    SetMeleeWait('Dragon Claw',400)  
+                    if MLLV["Black Leg"] < 300 then 
+                        BuyMelee('Black Leg') 
+                        SetMeleeWait('Black Leg',300)
+                    elseif MLLV["Fishman Karate"] < 300 then 
+                        BuyMelee('Fishman Karate')  
+                        SetMeleeWait('Fishman Karate',300)
+                    elseif MLLV["Electro"] < 300 then 
+                        BuyMelee('Electro')    
+                        SetMeleeWait('Electro',300)
+                    elseif MLLV["Dragon Claw"] < 300 then 
+                        if MLLV['Dragon Claw'] == 0 then 
+                            if getgenv().ServerData['PlayerData'].Fragments < 1500 then 
+                                getgenv().FragmentNeeded = true 
+                            else 
+                                getgenv().FragmentNeeded = false 
+                            end
+                        else 
+                            BuyMelee('Dragon Claw') 
+                            SetMeleeWait('Dragon Claw',300)
+                        end 
+                    else
+                        BuyMelee('Superhuman')
+                    end 
+                elseif MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0 then 
+                    if MLLV['Fishman Karate'] < 400 then 
+                        BuyMelee('Fishman Karate')   
+                        SetMeleeWait('Fishman Karate',400)
+                    elseif MLLV['Black Leg'] < 400 then 
+                        BuyMelee('Black Leg') 
+                        SetMeleeWait('Black Leg',400)
+                    elseif MLLV['Electro'] < 400 then 
+                        BuyMelee('Electro') 
+                        SetMeleeWait('Electro',400)
+                    elseif MLLV['Dragon Claw'] < 400 then 
+                        BuyMelee('Dragon Claw')  
+                        SetMeleeWait('Dragon Claw',400)  
+                    elseif MLLV['Superhuman'] < 400 then
+                        BuyMelee('Superhuman')
+                        SetMeleeWait('Superhuman',400)
+                    elseif MLLV['Sharkman Karate'] < 400 then 
+                        BuyMelee('Sharkman Karate')  
+                        SetMeleeWait('Sharkman Karate',400)
+                    elseif MLLV['Death Step'] < 400 then 
+                        BuyMelee('Death Step')  
+                        SetMeleeWait('Death Step',400)
+                    elseif MLLV['Electric Claw'] < 400 then 
+                        BuyMelee('Electric Claw')  
+                        SetMeleeWait('Electric Claw',400)
+                    elseif MLLV['Dragon Talon'] < 400 then 
+                        SetMeleeWait('Dragon Talon',400)
+                        BuyMelee('Dragon Talon')
+                    end   
+                    if MLLV['Sharkman Karate'] == 0 then 
+                        BuyMelee('Sharkman Karate')  
+                    elseif MLLV['Death Step'] == 0 then 
+                        BuyMelee('Death Step')  
+                    elseif MLLV['Electric Claw'] == 0 then 
+                        BuyMelee('Electric Claw')  
+                    elseif MLLV['Dragon Talon'] == 0 then 
+                        BuyMelee('Dragon Talon')   
+                    end  
                 elseif MLLV['Superhuman'] < 400 then
                     BuyMelee('Superhuman')
                     SetMeleeWait('Superhuman',400)
@@ -1061,62 +1087,38 @@ AutoMeleeMasteryCheck = function()
                     SetMeleeWait('Electric Claw',400)
                 elseif MLLV['Dragon Talon'] < 400 then 
                     SetMeleeWait('Dragon Talon',400)
-                    BuyMelee('Dragon Talon')
-                end   
-                if MLLV['Sharkman Karate'] == 0 then 
-                    BuyMelee('Sharkman Karate')  
-                elseif MLLV['Death Step'] == 0 then 
-                    BuyMelee('Death Step')  
-                elseif MLLV['Electric Claw'] == 0 then 
-                    BuyMelee('Electric Claw')  
-                elseif MLLV['Dragon Talon'] == 0 then 
-                    BuyMelee('Dragon Talon')   
-                end  
-            elseif MLLV['Superhuman'] < 400 then
-                BuyMelee('Superhuman')
-                SetMeleeWait('Superhuman',400)
-            elseif MLLV['Sharkman Karate'] < 400 then 
-                BuyMelee('Sharkman Karate')  
-                SetMeleeWait('Sharkman Karate',400)
-            elseif MLLV['Death Step'] < 400 then 
-                BuyMelee('Death Step')  
-                SetMeleeWait('Death Step',400)
-            elseif MLLV['Electric Claw'] < 400 then 
-                BuyMelee('Electric Claw')  
-                SetMeleeWait('Electric Claw',400)
-            elseif MLLV['Dragon Talon'] < 400 then 
-                SetMeleeWait('Dragon Talon',400)
-                BuyMelee('Dragon Talon') 
-            elseif MLLV['Godhuman'] == 0 then 
-                if not getgenv().Config.AllV2MeleeStyles400Mastery then 
-                    getgenv().Config.AllV2MeleeStyles400Mastery = true 
-                end 
-                if (getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350) or (getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350) then 
-                    getgenv().WeaponType = 'Sword'
-                    if getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350 then 
-                        LoadItem('Yama')
-                    elseif getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350 then 
-                        LoadItem('Tushita')
-                    end
-                end
-                if getgenv().DoneMaterial and getgenv().ServerData['PlayerData'].Fragments >= 5000 and getgenv().ServerData['PlayerData'].Beli >= 5000000 then 
-                    BuyMelee('Godhuman')
-                end 
-            else
-                if (getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350) or (getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350) then 
-                    getgenv().WeaponType = 'Sword'
-                    if getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350 then 
-                        LoadItem('Yama')
-                    elseif getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350 then 
-                        LoadItem('Tushita')
+                    BuyMelee('Dragon Talon') 
+                elseif MLLV['Godhuman'] == 0 then 
+                    if not getgenv().Config.AllV2MeleeStyles400Mastery then 
+                        getgenv().Config.AllV2MeleeStyles400Mastery = true 
                     end 
-                elseif getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit] and getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit]:WaitForChild('Level').Value < 350 then 
-                    --getgenv().MasteryFarm = true 
+                    if (getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350) or (getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350) then 
+                        getgenv().WeaponType = 'Sword'
+                        if getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350 then 
+                            LoadItem('Yama')
+                        elseif getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350 then 
+                            LoadItem('Tushita')
+                        end
+                    end
+                    if getgenv().DoneMaterial and getgenv().ServerData['PlayerData'].Fragments >= 5000 and getgenv().ServerData['PlayerData'].Beli >= 5000000 then 
+                        BuyMelee('Godhuman')
+                    end 
                 else
-                    getgenv().MasteryFarm = false
-                    getgenv().WeaponType = 'Melee'
-                end
-            end  
+                    if (getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350) or (getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350) then 
+                        getgenv().WeaponType = 'Sword'
+                        if getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350 then 
+                            LoadItem('Yama')
+                        elseif getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350 then 
+                            LoadItem('Tushita')
+                        end 
+                    elseif getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit] and getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit]:WaitForChild('Level').Value < 350 then 
+                        --getgenv().MasteryFarm = true 
+                    else
+                        getgenv().MasteryFarm = false
+                        getgenv().WeaponType = 'Melee'
+                    end
+                end  
+            end)
         end
     end)
 end 
