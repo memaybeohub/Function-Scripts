@@ -253,12 +253,10 @@ AutoCDK = function(questTitle)
                 end
             end  
         end
-    elseif questTitle == 'Yama Quest -4' then
-        if CheckHazeMob() then
-            KillBoss(CheckHazeMob()) 
-        else 
-            local MobSP = NearestHazeMob()
-            Tweento(getgenv().MobSpawnClone[NearestHazeMob()] * CFrame.new(0,50,0))
+    elseif questTitle == 'Yama Quest -4' then 
+        local MobSP = NearestHazeMob()
+        if MobSP then 
+            KillMobList(KillMobList)
         end
     elseif questTitle == 'Yama Quest -3' then 
         if FindMobHasHaki() then 
