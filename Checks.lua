@@ -21,7 +21,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Getting Yama' 
         elseif Sea3 and getgenv().CDKQuest and getgenv().CDKQuest ~= '' then 
             getgenv().CurrentTask = 'Getting Cursed Dual Katana' 
-        elseif Sea3 and getgenv().ServerData['PlayerData'].Level >= 2550 and getgenv().ServerData['PlayerData'].Beli >= 2000000 and (getgenv().ServerData['PlayerData'].RaceVer ~= 'V3' and getgenv().ServerData['PlayerData'].RaceVer ~="V4") then 
+        elseif (Sea2 or Sea3) and getgenv().ServerData['PlayerData'].Level >= 2550 and getgenv().ServerData['PlayerData'].Beli >= 2000000 and (getgenv().ServerData['PlayerData'].RaceVer ~= 'V3' and getgenv().ServerData['PlayerData'].RaceVer ~="V4") then 
             getgenv().CurrentTask = 'Auto V3'
         elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
             getgenv().CurrentTask = 'Saber Quest'
