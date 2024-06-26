@@ -1244,8 +1244,6 @@ function KillPlayer(PlayerName)
                         end)
                         Click()
                         game.Players.LocalPlayer.Character['Fast Attack'].Value = true
-                        game.Players.LocalPlayer.Character['Aimbot Position'].Value = tRoot.Position
-                        game.Players.LocalPlayer.Character['Aimbot'].Value = true
                         SendKey('Z')
                         SendKey("Q")
                         SendKey('X')
@@ -1263,8 +1261,6 @@ function KillPlayer(PlayerName)
     KillingMob = false
     StartKillTick = tick()
     game.Players.LocalPlayer.Character['Fast Attack'].Value = false
-    game.Players.LocalPlayer.Character['Aimbot Position'].Value = Vector3.new(0,0,0)
-    game.Players.LocalPlayer.Character['Aimbot'].Value = false
     if IsSafeZone or tick()-StartKillTick > 80 then 
         warn('Kill Failed:',PlayerName) 
         SetContent('Kill Failed: '..tostring(PlayerName))
