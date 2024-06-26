@@ -66,7 +66,7 @@ task.delay(15,function()
                         hookfunction(require(v2),function()end)
                     end
                 end)
-                wait(.5)
+                wait(.1)
             end
         end)
     end
@@ -132,7 +132,7 @@ task.spawn(function()
                 60
             )
             if bs and #bs > 0 then 
-                FastAttack()
+                task.spawn(FastAttack)
             end
         end
     end
