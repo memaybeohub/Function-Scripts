@@ -112,8 +112,8 @@ AutoV3 = function()
                     end
                 until not getgenv().ServerData['Server Bosses']['Diamond'] and not getgenv().ServerData['Server Bosses']['Jeremy'] and not getgenv().ServerData['Server Bosses']['Fajita'] 
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3")
-                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3")
-                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3")
+                SetContent('NIGGA ON FIRE 🔥🔥🔥')
+                TeleportWorld(3)
             else
                 HopServer(10,true)
             end
@@ -339,14 +339,11 @@ AutoRaidBoss = function()
     end
 end
 AutoCakePrinceEvent = function()
-    warn('Skibidi')
     local CPB = getgenv().ServerData['Server Bosses']['Cake Prince'] or getgenv().ServerData['Server Bosses']['Dough King'] 
     if not CPB or not CPB:FindFirstChildOfClass('Humanoid') then 
         getgenv().CakePrince = false 
         getgenv().CurrentTask =''  
-        warn('Skibidi 2')
     else  
-        warn('Skibidi 1')
         KillBoss(CPB)
         getgenv().CurrentTask ='' 
     end
@@ -664,7 +661,7 @@ AutoTushita = function()
                 else
                     HopServer(9,true)
                 end
-            else 
+            elseif game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then
                 if getgenv().ServerData["PlayerBackpack"]['Holy Torch'] then
                     EquipWeaponName("Holy Torch") 
                     SetContent('Finding new torch touching template...')
@@ -696,6 +693,8 @@ AutoTushita = function()
                     until getgenv().ServerData["PlayerBackpack"]['Holy Torch']
                     SetContent('Got Holy Torch.')
                 end 
+            else
+                KillBoss(getgenv().ServerData['Server Bosses']['rip_indra True Form'])
             end
         elseif not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then 
             if getgenv().ServerData['Server Bosses']['Longma'] then 
