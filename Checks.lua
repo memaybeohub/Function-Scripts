@@ -108,7 +108,8 @@ AutoV3 = function()
                     elseif getgenv().ServerData['Server Bosses']['Jeremy'] then 
                         KillBoss(getgenv().ServerData['Server Bosses']['Jeremy'])
                     elseif getgenv().ServerData['Server Bosses']['Fajita'] then 
-                        KillBoss(getgenv().ServerData['Server Bosses']['Fajita'])
+                        KillBoss(getgenv().ServerData['Server Bosses']['Fajita']) 
+                    end
                 until not getgenv().ServerData['Server Bosses']['Diamond'] and not getgenv().ServerData['Server Bosses']['Jeremy'] and not getgenv().ServerData['Server Bosses']['Fajita'] 
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3")
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3")
