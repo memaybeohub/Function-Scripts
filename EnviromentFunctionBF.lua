@@ -1543,8 +1543,8 @@ function autoStats()
         local Stats_Sword = game:GetService("Players").LocalPlayer.Data.Stats.Sword.Level.Value   
         if Stats_Melee < MaxLevel then 
             FireAddPoint('Melee',MaxLength-Stats_Melee)
-        elseif Stats_Def < 1250 then 
-            FireAddPoint('Defense',1250-Stats_Def)
+        elseif Stats_Def < 1350 then 
+            FireAddPoint('Defense',1350-Stats_Def)
         elseif Stats_DF < 1750 then 
             FireAddPoint('Demon Fruit',1750-Stats_DF)
         else 
@@ -2091,7 +2091,132 @@ function loadSkills()
         addSkills(v)
     end
     game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills.ChildAdded:Connect(addSkills) 
+end    
+function CheckTorchDimension(DimensionName) 
+    DimensionName = DimensionName == "Yama" and "HellDimension" or "HeavenlyDimension" 
+    if game.workspace.Map:FindFirstChild(DimensionName) then 
+        v3 = game.workspace.Map:FindFirstChild(DimensionName):GetChildren()
+        for i, v in pairs(v3) do
+            if string.find(v.Name, "Torch") then
+                if v.ProximityPrompt.Enabled == true then
+                    return v
+                end
+            end
+        end
+    end
 end  
+function CheckQuestCDK() 
+    if not Sea3 then return end
+    local CDK_LevelQuest = {
+        Good = 666,
+        Evil = 666
+    }
+    Check,CheckValue = pcall(function()
+        for i,v in pairs(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CDKQuest", "Progress", "Good")) do 
+            CDK_LevelQuest[i] = v 
+        end
+    end)
+    if CDK_LevelQuest.Good == -2 or CDK_LevelQuest.Good == 4 then 
+        getgenv().CDK_Yama = true 
+    end   
+    task.spawn(function()
+        if CDK_LevelQuest.Good ~= -2 and CDK_LevelQuest.Evil ~= -2 then 
+            if not getgenv().CDK_Yama then 
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CDKQuest", "StartTrial", "Good")
+            else
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CDKQuest", "StartTrial", "Evil")
+            end
+        end
+    end) 
+    if game.Players.LocalPlayer.PlayerGui.Main.Dialogue.Visible then
+        game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0))
+        game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0))
+    end
+    if CDK_LevelQuest.Good == 4 and CDK_LevelQuest.Evil == 3 then
+        return "Pedestal2"
+    elseif CDK_LevelQuest.Good == 3 and CDK_LevelQuest.Evil == 4 then
+        return "Pedestal1"
+    end
+    if CDK_LevelQuest.Evil == 4 and CDK_LevelQuest.Good == 4 then
+        return "The Final Boss"
+    end  
+    if CDK_LevelQuest.Good ~= -2 then 
+        if GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Heavenly Dimension"]) < 2000 then 
+            return "Tushita Dimension"
+        end
+        if CDK_LevelQuest.Good == -3 or CDK_LevelQuest.Good == -4 then 
+            return "Tushita Quest "..tostring(CDK_LevelQuest.Good)
+        end 
+        if CDK_LevelQuest.Good == -5 then 
+            return "Cake Queen"
+        end
+    else 
+        if GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Hell Dimension"]) <= 2000 then 
+            return "Yama Dimension"
+        end
+        if CDK_LevelQuest.Evil == -3 or CDK_LevelQuest.Evil == -4 then 
+            return "Yama Quest "..tostring(CDK_LevelQuest.Evil)
+        end  
+        local v316, v317, v318, v319 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Check")
+        if ((v318 and v318 > 0)) then 
+            return "Soul Reaper"
+        end
+    end
+end  
+function CheckHazeMob()
+    for i, v in pairs(game.workspace.Enemies:GetChildren()) do
+        if
+            RemoveLevelTitle(v.Name) == NearestHazeMob() and v:IsA("Model") and
+                v:FindFirstChild("HumanoidRootPart") and
+                v:FindFirstChild("Humanoid") and
+                v.Humanoid.Health > 0
+         then
+            xx = v
+        end
+    end
+end 
+function CheckMobHaki(mb)
+    if mb:FindFirstChild("Humanoid") then
+        for i, v in pairs(mb:WaitForChild("Humanoid"):GetChildren()) do
+            if string.find(v.Name, "Buso") then
+                return v
+            end
+        end
+    end
+end
+function FindMobHasHaki(IncludedStorage)
+    for i, v in pairs(game.workspace.Enemies:GetChildren()) do
+        if CheckMobHaki(v) then
+            return v
+        end
+    end
+    if IncludedStorage then
+        for i, v in pairs(game.ReplicatedStorage:GetChildren()) do
+            if CheckMobHaki(v) then
+                return v
+            end
+        end
+    end
+end
+function NearestHazeMob()
+    local AllHazeMobs = {}
+    for i, v in pairs(game:GetService("Players").LocalPlayer.QuestHaze:GetChildren()) do
+        if v.Value > 0 then
+            table.insert(AllHazeMobs, RemoveLevelTitle(v.Name))
+        end
+    end
+    local MobF = ""
+    local maxDis = math.huge
+    for i, v in pairs(AllHazeMobs) do
+        if MobSpawnClone[v] then
+            if GetDistance(MobSpawnClone[v]) < maxDis then
+                maxDis = GetDistance(MobSpawnClone[v]) 
+                MobF = v 
+            end
+        end
+    end
+    return MobF
+end
 if not getgenv().ServerData['PlayerData'] then getgenv().ServerData['PlayerData'] = {} end
 
 getgenv().ServerData['PlayerData']['Colors'] = {} 
@@ -2147,6 +2272,10 @@ RunService.Heartbeat:Connect(function()
             end
         else
             AddBodyVelocity(false)
+        end 
+        if Sea3 and getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and getgenv().ServerData["Inventory Items"]['Yama'].Mastery then 
+            getgenv().CDKQuest = CheckQuestCDK()  
+            getgenv().WeaponType = 'Sword' 
         end
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
             getgenv().ServerData["Inventory Items"][v.Name] = v 

@@ -19,6 +19,8 @@ function refreshTask()
             getgenv().CurrentTask = 'Getting Tushita'
         elseif Sea3 and not getgenv().ServerData["Inventory Items"]["Yama"] and (getgenv().ServerData['PlayerData']["Elite Hunted"] >= 30 or getgenv().ServerData['PlayerData'].Level >= 2100) then 
             getgenv().CurrentTask = 'Getting Yama' 
+        elseif Sea3 and getgenv().CDKQuest and getgenv().CDKQuest ~= '' then 
+            getgenv().CurrentTask = 'Getting Cursed Dual Katana'
         elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
             getgenv().CurrentTask = 'Saber Quest'
         elseif getgenv().ServerData['PlayerData'].Level >= 2300 and not getgenv().ServerData["Inventory Items"]["Soul Guitar"] then 
@@ -82,6 +84,192 @@ task.delay(.1,function()
         end
     end
 end)  
+AutoCDK = function(questTitle)
+    if questTitle == 'The Final Boss' then  
+        repeat task.wait()
+            if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3) > 10 and game:GetService("Workspace").Map.Turtle.Cursed.PlacedGem.Transparency ~= 0 then
+                Tweento(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3.CFrame * CFrame.new(0, 0, -2)) 
+            end 
+            if game:GetService("Workspace").Map.Turtle.Cursed.PlacedGem.Transparency == 0 then 
+                if not getgenv().ServerData['Server Bosses']['Cursed Skeleton'] then
+                    Tweento(CFrame.new(-12341.66796875, 603.3455810546875, -6550.6064453125))
+                else
+                    KillBoss(getgenv().ServerData['Server Bosses']['Cursed Skeleton'])
+                end
+            else 
+                if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3) < 10 then 
+                    fireproximityprompt(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3.ProximityPrompt) 
+                    wait(7.5)
+                end
+            end 
+        until not Config["Auto CDK"] or CheckItem("Cursed Dual Katana")
+    elseif questTitle == 'Pedestal1' then 
+        if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed["Pedestal1"]) < 10 then
+            fireproximityprompt(game:GetService("Workspace").Map.Turtle.Cursed['Pedestal1'].ProximityPrompt)
+        else
+            Tweento(game:GetService("Workspace").Map.Turtle.Cursed['Pedestal1'].CFrame * CFrame.new(0, 0, -2))
+        end
+    elseif questTitle == 'Pedestal2' then  
+        if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed["Pedestal2"]) < 10 then
+            fireproximityprompt(game:GetService("Workspace").Map.Turtle.Cursed['Pedestal2'].ProximityPrompt)
+        else
+            Tweento(game:GetService("Workspace").Map.Turtle.Cursed['Pedestal2'].CFrame * CFrame.new(0, 0, -2))
+        end
+    elseif questTitle == 'Tushita Dimension' then
+        repeat task.wait()
+            if game:GetService("Workspace").Map.HeavenlyDimension.Exit.BrickColor == BrickColor.new("Cloudy grey") then 
+                Tweento(game:GetService("Workspace").Map.HeavenlyDimension.Exit.CFrame)
+                wait(2) 
+            else
+                if #game.workspace.Enemies:GetChildren() > 0 then
+                    local CurrentCFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame 
+                    repeat task.wait()
+                        for i,v in pairs(workspace.Enemies:GetChildren()) do 
+                            if v:FindFirstChildOfClass('Humanoid') then 
+                                v:FindFirstChildOfClass('Humanoid').Health = 0 
+                            end 
+                        end
+                        Tweento(CurrentCFrame * CFrame.new(0,250,0))
+                    until #game.workspace.Enemies:GetChildren() <= 0
+                    Tweento(CurrentCFrame)
+                else
+                    if CheckTorchDimension("Tushita") then 
+                        local Torch = CheckTorchDimension("Tushita")
+                        Tweento(Torch.CFrame)  
+                        wait(.5)
+                        fireproximityprompt(Torch.ProximityPrompt)
+                    end
+                end
+            end
+            task.wait()
+        until not IsPlayerAlive() or GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Heavenly Dimension"]) > 2000
+    elseif questTitle == 'Cake Queen' then 
+        if getgenv().ServerData['Server Bosses']['Cake Queen'] then 
+            CDKTICK = tick()
+            repeat task.wait()
+                KillBoss(getgenv().ServerData['Server Bosses']['Cake Queen']) 
+            until GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Heavenly Dimension"]) <= 2000 or tick()-CDKTICK > 150
+        else
+            if GetDistance(CFrame.new(-731.2034301757812, 381.5658874511719, -11198.4951171875)) > 100 then 
+                Tweento(CFrame.new(-731.2034301757812, 381.5658874511719, -11198.4951171875))
+            else
+                HopServer(10,true)
+            end
+        end 
+    elseif questTitle == 'Tushita Quest -4' then 
+        if getgenv().PirateRaidTick and tick()-getgenv().PirateRaidTick < 60 then 
+            Auto3rdEvent()
+        end
+    elseif questTitle == 'Tushita Quest -3' then 
+        for v50, v51 in pairs(getnilinstances()) do
+            if v51.Name:match("Luxury Boat Dealer") then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v51.HumanoidRootPart.CFrame
+                local args = {
+                    [1] = "CDKQuest",
+                    [2] = "BoatQuest",
+                    [3] = workspace.NPCs:FindFirstChild("Luxury Boat Dealer")
+                }
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            end
+        end
+    elseif questTitle == 'Yama Dimension' then 
+        repeat task.wait()
+            if game:GetService("Workspace").Map.HellDimension.Exit.BrickColor == BrickColor.new("Olivine") then 
+                Tweento(game:GetService("Workspace").Map.HellDimension.Exit.CFrame)
+                wait(2) 
+            else
+                if #game.workspace.Enemies:GetChildren() > 0 then
+                    local CurrentCFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame 
+                    repeat task.wait()
+                        for i,v in pairs(workspace.Enemies:GetChildren()) do 
+                            if v:FindFirstChildOfClass('Humanoid') then 
+                                v:FindFirstChildOfClass('Humanoid').Health = 0 
+                            end 
+                        end
+                        Tweento(CurrentCFrame * CFrame.new(0,250,0))
+                    until #game.workspace.Enemies:GetChildren() <= 0
+                    Tweento(CurrentCFrame)
+                else
+                    if CheckTorchDimension("Yama") then 
+                        local Torch = CheckTorchDimension("Yama")
+                        Tweento(Torch.CFrame)  
+                        wait(.5)
+                        fireproximityprompt(Torch.ProximityPrompt)
+                    end
+                end
+            end
+        until not Config["Auto CDK"] or GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Hell Dimension"]) > 2000 
+    elseif questTitle == 'Soul Reaper' then 
+        if getgenv().ServerData['Server Bosses']['Soul Reaper'] then 
+            if GetDistance(getgenv().ServerData['Server Bosses']['Soul Reaper'].PrimaryPart) > 300 then 
+                Tweento(getgenv().ServerData['Server Bosses']['Soul Reaper'].PrimaryPart.CFrame * CFrame.new(0,1.5,-1.5)) 
+            else
+                game.Players.LocalPlayer.Character.PrimaryPart.CFrame = getgenv().ServerData['Server Bosses']['Soul Reaper'].PrimaryPart.CFrame * CFrame.new(0,1.5,-1.5) 
+            end  
+        elseif getgenv().ServerData["PlayerBackpack"]['Hallow Essence'] then 
+            EquipWeapon("Hallow Essence")
+            Tweento(game:GetService("Workspace").Map["Haunted Castle"].Summoner.Detection.CFrame)
+        else
+            local v316, v317, v318, v319 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Check")
+            if v318 > 0 then 
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1) 
+                if getgenv().ServerData['PlayerData'].Level >= 2000 then  
+                    if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
+                        FarmMobByLevel(2000)
+                    else 
+                        KillMobList({
+                            "Reborn Skeleton [Lv. 1975]",
+                            "Living Zombie [Lv. 2000]",
+                            "Demonic Soul [Lv. 2025]",
+                            "Posessed Mummy [Lv. 2050]"
+                        })
+                    end
+                else 
+                    KillMobList({
+                        "Reborn Skeleton [Lv. 1975]",
+                        "Living Zombie [Lv. 2000]",
+                        "Demonic Soul [Lv. 2025]",
+                        "Posessed Mummy [Lv. 2050]"
+                    })
+                end
+            elseif v316 < 5000 then 
+                if getgenv().ServerData['PlayerData'].Level >= 2000 then  
+                    if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
+                        FarmMobByLevel(2000)
+                    else 
+                        KillMobList({
+                            "Reborn Skeleton [Lv. 1975]",
+                            "Living Zombie [Lv. 2000]",
+                            "Demonic Soul [Lv. 2025]",
+                            "Posessed Mummy [Lv. 2050]"
+                        })
+                    end
+                else 
+                    KillMobList({
+                        "Reborn Skeleton [Lv. 1975]",
+                        "Living Zombie [Lv. 2000]",
+                        "Demonic Soul [Lv. 2025]",
+                        "Posessed Mummy [Lv. 2050]"
+                    })
+                end
+            end  
+        end
+    elseif questTitle == 'Yama Quest -4' then
+        if CheckHazeMob() then
+            KillBoss(CheckHazeMob()) 
+        else 
+            local MobSP = NearestHazeMob()
+            Tweento(getgenv().MobSpawnClone[NearestHazeMob()] * CFrame.new(0,50,0))
+        end
+    elseif questTitle == 'Yama Quest -3' then 
+        if FindMobHasHaki() then 
+            repeat 
+                task.wait()
+                Tweento(FindMobHasHaki().PrimaryPart.CFrame * CFrame.new(0,0,-2))
+            until not IsPlayerAlive()
+        end
+    end        
+end
 AutoUseGodChalice = function()
     if not UnCompleteColor() then 
         EquipWeapon("God's Chalice") 
