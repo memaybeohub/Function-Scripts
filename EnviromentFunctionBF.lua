@@ -553,7 +553,7 @@ local function LoadPlayer()
             local FastAttackDelayIn = Instance.new("NumberValue")
             FastAttackDelayIn.Name = 'Fast Attack Delay'
             FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
-            FastAttackDelayIn.Value = 0.21
+            FastAttackDelayIn.Value = 0.2
         end
         getgenv().ServerData["PlayerBackpackFruits"] = {}
         getgenv().ServerData["PlayerBackpack"] = {} 
@@ -1094,7 +1094,7 @@ function KillMobList(MobList)
     end
 end
 function KillBoss(BossInstance)
-    if not BossInstance:FindFirstChild('Humanoid') then return end 
+    if not BossInstance or not BossInstance:FindFirstChild('Humanoid') then return end 
     warn('Killing boss:',BossInstance.Name)
     if not game.Workspace.Enemies:FindFirstChild(BossInstance.Name) then  
         SetContent('Tweening to boss '..BossInstance.Name)
