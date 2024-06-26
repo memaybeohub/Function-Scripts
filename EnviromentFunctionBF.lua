@@ -2274,9 +2274,12 @@ RunService.Heartbeat:Connect(function()
         else
             AddBodyVelocity(false)
         end 
-        if Sea3 and getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and getgenv().ServerData["Inventory Items"]['Yama'].Mastery then 
+        if Sea3 and not getgenv().ServerData["Inventory Items"]['Cursed Dual Katana'] and getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and getgenv().ServerData["Inventory Items"]['Yama'].Mastery then 
             getgenv().CDKQuest = CheckQuestCDK()  
             getgenv().WeaponType = 'Sword' 
+        end 
+        if getgenv().ServerData["Inventory Items"]['Cursed Dual Katana'] and getgenv().CDKQuest then 
+            getgenv().CDKQuest = nil 
         end
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
             getgenv().ServerData["Inventory Items"][v.Name] = v 

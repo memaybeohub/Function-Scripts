@@ -92,15 +92,16 @@ AutoCDK = function(questTitle)
                 Tweento(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3.CFrame * CFrame.new(0, 0, -2)) 
             end 
             if game:GetService("Workspace").Map.Turtle.Cursed.PlacedGem.Transparency == 0 then 
-                if not getgenv().ServerData['Server Bosses']['Cursed Skeleton'] then
+                if not getgenv().ServerData['Server Bosses']['Cursed Skeleton Boss'] then
                     Tweento(CFrame.new(-12341.66796875, 603.3455810546875, -6550.6064453125))
                 else
-                    KillBoss(getgenv().ServerData['Server Bosses']['Cursed Skeleton'])
+                    KillBoss(getgenv().ServerData['Server Bosses']['Cursed Skeleton Boss'])
+                    getgenv().CurrentTask = ''
                 end
             else 
-                if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3) < 10 then 
+                if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3) < 10 and game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3.ProximityPrompt.Enabled then 
                     fireproximityprompt(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3.ProximityPrompt) 
-                    wait(7.5)
+                    wait(10)
                 end
             end 
         until not Config["Auto CDK"] or CheckItem("Cursed Dual Katana")
