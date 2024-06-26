@@ -23,7 +23,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Saber Quest'
         elseif getgenv().ServerData['PlayerData'].Level >= 2300 and not getgenv().ServerData["Inventory Items"]["Soul Guitar"] then 
             getgenv().CurrentTask = 'Getting Soul Guitar'
-        elseif Sea3 and getgenv().HallowEssence or getgenv().SoulReaper then 
+        elseif Sea3 and (getgenv().HallowEssence or getgenv().SoulReaper or getgenv().ServerData['Server Bosses']['Soul Reaper'] or getgenv().ServerData["PlayerBackpack"]['Hallow Essence']) then 
             getgenv().CurrentTask = 'Getting Hallow Scythe'
         elseif getgenv().ServerData['PlayerData'].Level > 150 
         and not getgenv().ServerData["Inventory Items"]["Pole (1st Form)"] 
@@ -31,7 +31,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Pole Quest'
         elseif Sea1 and getgenv().ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
             getgenv().CurrentTask = 'Sea 2 Quest'
-        elseif Sea3 and getgenv().CakePrince then 
+        elseif Sea3 and (getgenv().CakePrince or (getgenv().ServerData['Server Bosses']['Cake Prince'] or getgenv().ServerData['Server Bosses']['Dough King'] ))  then 
             getgenv().CurrentTask = 'Cake Prince Raid Boss Event'
         elseif (Sea2 or Sea3) and (getgenv().ServerData['Server Bosses']['Core'] or (Sea3 and getgenv().PirateRaidTick and tick()-getgenv().PirateRaidTick < 60)) then 
             getgenv().CurrentTask = '3rd Sea Event'
@@ -39,7 +39,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Bartilo Quest'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 1500 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") ~= 0 then 
             getgenv().CurrentTask = 'Auto Sea 3' 
-        elseif (Sea2 or Sea3) and (getgenv().RipIndra or getgenv().DarkBeard) then 
+        elseif (Sea2 or Sea3) and (getgenv().RipIndra or getgenv().DarkBeard or getgenv().ServerData['Server Bosses']['Dark Beard'] or getgenv().ServerData['Server Bosses']['rip_indra True Form']) then 
             getgenv().CurrentTask = 'Auto Raid Boss' 
         elseif Sea3 and (getgenv().ServerData['PlayerBackpack']["God's Chalice"] and (not UnCompleteColor() or HasColor(UnCompleteColor().Part.BrickColor.Name))) then 
             getgenv().CurrentTask = "Using God's Chalice"
@@ -113,13 +113,16 @@ AutoRaidBoss = function()
         getgenv().RipIndra = false 
     end
 end
-AutoCakePrince = function()
-    if getgenv().CakePrince then
+AutoCakePrinceEvent = function()
+    if getgenv().CakePrince then 
+        warn('Skibidi')
         local CP = getgenv().ServerData['Server Bosses']['Cake Prince'] or getgenv().ServerData['Server Bosses']['Dough King'] 
         if not CP or not CP:FindFirstChildOfClass('Humanoid') or not CP:FindFirstChildOfClass('Humanoid').Health <= 0 then 
             getgenv().CakePrince = false 
-            getgenv().CurrentTask ='' 
+            getgenv().CurrentTask =''  
+            warn('Skibidi 2')
         else  
+            warn('Skibidi 1')
             KillBoss(CP)
             getgenv().CurrentTask ='' 
         end
@@ -633,7 +636,11 @@ Auto3rdEvent = function()
     if Sea2 then
         KillBoss(getgenv().ServerData['Server Bosses']['Core']) 
         getgenv().CurrentTask = ''
-    else 
+    else  
+        if getgenv().PirateRaidTick <= 0 then 
+            getgenv().CurrentTask = ''
+            return 
+        end 
         local CastleCFrame = CFrame.new(-5543.5327148438, 313.80062866211, -2964.2585449219)
         if GetDistance(CastleCFrame) > 1500 then 
             Tweento(CastleCFrame * CFrame.new(0,-100,0))

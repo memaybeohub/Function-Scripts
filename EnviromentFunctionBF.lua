@@ -511,7 +511,6 @@ function Storef(v)
 end 
 function CheckMessage(v1)
     local v1 = tostring(v1)
-    warn('New Message:',v1)
     if v1:find('spotted') then  
         warn('Pirate raid FOUND!')
         getgenv().PirateRaidTick = tick()
@@ -529,7 +528,9 @@ function CheckMessage(v1)
     elseif v1:find('barrier') then 
         getgenv().RipIndra = true 
     elseif v1:find('dimension') then 
-        getgenv().CakePrince = true
+        getgenv().CakePrince = true 
+    elseif v1:find('disappeared') then 
+        getgenv().CakePrince = false
     elseif v1:find('legendary item') then  
         getgenv().HallowEssence = true
     elseif v1:find("entered this world") then 
@@ -564,7 +565,7 @@ local function LoadPlayer()
         end)
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
             if v.ClassName =='StringValue' then 
-                LoadMessage(newchild)
+                LoadMessage(v)
             end
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v  
