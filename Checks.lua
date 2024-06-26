@@ -1031,6 +1031,7 @@ AutoMeleeMasteryCheck = function()
                             if getgenv().ServerData['PlayerData'].Fragments < 1500 then 
                                 getgenv().FragmentNeeded = true 
                             else 
+                                BuyMelee('Dragon Claw') 
                                 getgenv().FragmentNeeded = false 
                             end
                         else 
