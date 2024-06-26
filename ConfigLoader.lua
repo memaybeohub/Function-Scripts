@@ -1,4 +1,4 @@
-local ConfigName = 'WhatABadConfig.json'
+local ConfigName = 'WhatABadConfig'..game.Players.LocalPlayer.Name..'.json'
 local HttpService = game:GetService("HttpService")
 getgenv().Config = {} 
 function SaveConfig()
