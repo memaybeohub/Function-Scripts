@@ -114,18 +114,16 @@ AutoRaidBoss = function()
     end
 end
 AutoCakePrinceEvent = function()
-    if getgenv().CakePrince then 
-        warn('Skibidi')
-        local CP = getgenv().ServerData['Server Bosses']['Cake Prince'] or getgenv().ServerData['Server Bosses']['Dough King'] 
-        if not CP or not CP:FindFirstChildOfClass('Humanoid') or not CP:FindFirstChildOfClass('Humanoid').Health <= 0 then 
-            getgenv().CakePrince = false 
-            getgenv().CurrentTask =''  
-            warn('Skibidi 2')
-        else  
-            warn('Skibidi 1')
-            KillBoss(CP)
-            getgenv().CurrentTask ='' 
-        end
+    warn('Skibidi')
+    local CP = getgenv().ServerData['Server Bosses']['Cake Prince'] or getgenv().ServerData['Server Bosses']['Dough King'] 
+    if not CP or not CP:FindFirstChildOfClass('Humanoid') or not CP:FindFirstChildOfClass('Humanoid').Health <= 0 then 
+        getgenv().CakePrince = false 
+        getgenv().CurrentTask =''  
+        warn('Skibidi 2')
+    else  
+        warn('Skibidi 1')
+        KillBoss(CP)
+        getgenv().CurrentTask ='' 
     end
 end
 AutoHallowScythe = function()
