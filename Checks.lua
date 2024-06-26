@@ -1155,9 +1155,11 @@ AutoMeleeCheck = function()
                     getgenv().MeleeTask = 'Find Ice'
                 elseif not getgenv().Config.WaterkeyPassed and (getgenv().ServerData["PlayerBackpack"]['Water Key'] or getgenv().ServerData['Server Bosses']['Tide Keeper'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Waterkey' 
-                elseif Sea3 and not getgenv().Config.PreviousHeroPassed then  
+                elseif getgenv().ServerData['PlayerData'].Level >= 1650 and not getgenv().Config.PreviousHeroPassed then  
+                    if not Sea3 then TeleportWorld(3) end
                     getgenv().MeleeTask = 'Previous Hero Puzzle' 
-                elseif Sea3 and v318 and v318 > 0 and not getgenv().Config.FireEssencePassed then  
+                elseif (Sea3 or getgenv().ServerData['PlayerData'].Level >= 1650) and v318 and v318 > 0 and not getgenv().Config.FireEssencePassed then   
+                    if not Sea3 then TeleportWorld(3) end
                     game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1)
                     if v316 and v316 < v318*50 then 
                         getgenv().MeleeTask = 'Find Fire Essence' 
