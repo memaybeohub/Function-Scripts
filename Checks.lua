@@ -1014,13 +1014,13 @@ AutoMeleeMasteryCheck = function()
                     BuyMelee('Superhuman')
                     if MLLV["Black Leg"] < 300 then 
                         BuyMelee('Black Leg') 
-                        SetMeleeWait('Black Leg',300)
-                    elseif MLLV["Fishman Karate"] < 300 then 
-                        BuyMelee('Fishman Karate')  
-                        SetMeleeWait('Fishman Karate',300)
+                        SetMeleeWait('Black Leg',300)  
                     elseif MLLV["Electro"] < 300 then 
                         BuyMelee('Electro')    
                         SetMeleeWait('Electro',300)
+                    elseif MLLV["Fishman Karate"] < 300 then 
+                        BuyMelee('Fishman Karate')  
+                        SetMeleeWait('Fishman Karate',300)
                     elseif MLLV["Dragon Claw"] < 300 then 
                         if MLLV['Dragon Claw'] == 0 then 
                             if getgenv().ServerData['PlayerData'].Fragments < 1500 then 
