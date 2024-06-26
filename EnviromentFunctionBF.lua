@@ -2172,7 +2172,7 @@ function CheckHazeMob()
                 v:FindFirstChild("Humanoid") and
                 v.Humanoid.Health > 0
          then
-            xx = v
+            return v
         end
     end
 end 
