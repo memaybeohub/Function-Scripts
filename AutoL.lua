@@ -96,7 +96,8 @@ function AutoL()
         KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper'])
     elseif not getgenv().QuestKillPlayer and getgenv().ServerData['PlayerData'].Level < 2550 then
         FarmMobByLevel()
-    else
+    else 
+        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakePrinceSpawner")
         if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
             FarmMobByLevel((function()
                 local a = {2200,2250}

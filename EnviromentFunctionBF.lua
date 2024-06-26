@@ -516,9 +516,7 @@ function CheckMessage(v1)
         getgenv().PirateRaidTick = tick()
     elseif v1:find('Good job') then 
         warn('Pirate raid Cancelled!')
-        wait(5)
         getgenv().PirateRaidTick = 0 
-        warn('Pirate raid stopped!')
     elseif v1:find('attack') then 
         getgenv().AttackedSafe = true 
     elseif v1:find('rare item') then 
@@ -967,9 +965,14 @@ function KillNigga(MobInstance)
             end
             ]] 
             local BringMobSuccess
-            task.delay(.1 ,function()
+            task.delay(.01 ,function()
                 repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 100
-                BringMobSuccess = BringMob(MobInstance, LockCFrame) 
+                if BringMob(MobInstance, LockCFrame) then 
+                    wait(.3)
+                    BringMobSuccess = true 
+                else 
+                    BringMobSuccess =true 
+                end
             end)            
             repeat
                 task.wait()
@@ -1512,7 +1515,8 @@ function GetQuest(QuestTables)
         else 
             Tweento(QuestTables["QuestCFrame"] * CFrame.new(0,0,-2))
         end
-        task.wait(1)
+        task.wait(1) 
+        GetQuest(QuestTables)
     end
 end    
 local AllNPCS = getnilinstances()
