@@ -561,7 +561,7 @@ local function LoadPlayer()
             loadSkills()
         end)
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
-            if v.ClassName ='StringValue' then 
+            if v.ClassName =='StringValue' then 
                 LoadMessage(newchild)
             end
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
@@ -648,7 +648,7 @@ local function LoadPlayer()
 
                 end)
                 game.Players.LocalPlayer.Character.ChildAdded:Connect(function(newchild) 
-                    if newchild.ClassName ='StringValue' then 
+                    if newchild.ClassName =='StringValue' then 
                         LoadMessage(newchild)
                     end
                     if newchild.Name:find('Fruit') then  
