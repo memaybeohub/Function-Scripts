@@ -106,19 +106,21 @@ function ReCreateMobFolder()
     l1 = {}
     for i,v in pairs(MobOutFolder) do 
         if v then
-            if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
-                MobNew = Instance.new("Part")
-                MobNew.CFrame = v.PrimaryPart.CFrame
-                MobNew.Name = v.Name
-                MobNew.Parent = game.Workspace.MobSpawns
-            elseif v:IsA("Part") then
-                MobNew = v:Clone()
-                MobNew.Parent = game.Workspace.MobSpawns
-                MobNew.Transparency = 1
-            end
-            if not table.find(l1,v.Name) then 
-                table.insert(l1,tostring(v.Name))
-            end 
+            pcall(function()
+                if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
+                    MobNew = Instance.new("Part")
+                    MobNew.CFrame = v.PrimaryPart.CFrame
+                    MobNew.Name = v.Name
+                    MobNew.Parent = game.Workspace.MobSpawns
+                elseif v:IsA("Part") then
+                    MobNew = v:Clone()
+                    MobNew.Parent = game.Workspace.MobSpawns
+                    MobNew.Transparency = 1
+                end
+                if not table.find(l1,v.Name) then 
+                    table.insert(l1,tostring(v.Name))
+                end 
+            end)
         end
     end
     warn('Created: '..tostring(#game.Workspace.MobSpawns:GetChildren()).." ("..tostring(#l1).."/"..#AllMobInGame..") Mob Spawns")
@@ -1802,7 +1804,6 @@ function BuyMelee(MeleeN)
             local Loser = game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg, true) 
             local BeliPassed = getgenv().ServerData['PlayerData'].Beli >= Melee_and_Price[MeleeN].Beli 
             local FragmentPassed = getgenv().ServerData['PlayerData'].Fragments >= Melee_and_Price[MeleeN].Fragment   
-            print('Buy Melee:',MeleeN,BeliPassed,FragmentPassed)
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer(RemoteArg) 
             --if Loser then
                 --[[
