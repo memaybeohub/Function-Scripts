@@ -1542,7 +1542,7 @@ function autoStats()
         local Stats_Gun = game:GetService("Players").LocalPlayer.Data.Stats.Gun.Level.Value 
         local Stats_Sword = game:GetService("Players").LocalPlayer.Data.Stats.Sword.Level.Value   
         if Stats_Melee < MaxLevel then 
-            FireAddPoint('Melee',MaxLength-Stats_Melee)
+            FireAddPoint('Melee',MaxLevel-Stats_Melee)
         elseif Stats_Def < 2550 then 
             FireAddPoint('Defense',2550-Stats_Def)
             --[[
