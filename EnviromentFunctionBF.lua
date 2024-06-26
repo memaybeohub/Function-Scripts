@@ -2187,12 +2187,12 @@ function CheckMobHaki(mb)
 end
 function FindMobHasHaki(IncludedStorage)
     for i, v in pairs(game.workspace.Enemies:GetChildren()) do
-        if CheckMobHaki(v) then
+        if v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and CheckMobHaki(v) then
             return v
         end
     end
     if IncludedStorage then
-        for i, v in pairs(game.ReplicatedStorage:GetChildren()) do
+        if v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and CheckMobHaki(v) then
             if CheckMobHaki(v) then
                 return v
             end

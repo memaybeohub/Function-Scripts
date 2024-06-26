@@ -263,8 +263,10 @@ AutoCDK = function(questTitle)
     elseif questTitle == 'Yama Quest -3' then 
         if FindMobHasHaki() then 
             repeat 
-                task.wait()
-                Tweento(FindMobHasHaki().PrimaryPart.CFrame * CFrame.new(0,0,-2))
+                pcall(function()
+                    task.wait()
+                    Tweento(FindMobHasHaki().PrimaryPart.CFrame * CFrame.new(0,0,-2))
+                end)
             until not IsPlayerAlive()
         end
     end        
