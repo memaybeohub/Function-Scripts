@@ -256,7 +256,7 @@ AutoCDK = function(questTitle)
     elseif questTitle == 'Yama Quest -4' then 
         local MobSP = NearestHazeMob()
         if MobSP then 
-            KillMobList(KillMobList)
+            KillMobList({MobSP})
         end
     elseif questTitle == 'Yama Quest -3' then 
         if FindMobHasHaki() then 
