@@ -132,7 +132,7 @@ task.spawn(function()
                 60
             )
             if bs and #bs > 0 then 
-                task.spawn(function() FastAttack end)
+                task.spawn(function() FastAttack() end)
             end
         end
     end
