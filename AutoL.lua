@@ -94,7 +94,21 @@ function AutoL()
         KillBoss(getgenv().ServerData['Server Bosses']['Awakened Ice Admiral']) 
     elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 1425 and getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
         KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper'])
-    elseif not getgenv().QuestKillPlayer then
+    elseif not getgenv().QuestKillPlayer and getgenv().ServerData['PlayerData'].Level < 2550 then
         FarmMobByLevel()
+    else
+        if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
+            FarmMobByLevel((function()
+                local a = {2200,2250}
+                return a[math.random(1,2)]
+            end)())
+        else 
+            KillMobList({
+                "Cookie Crafter",
+                "Cake Guard",
+                "Head Baker",
+                "Baking Staff"
+            })
+        end
     end
 end

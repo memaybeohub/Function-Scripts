@@ -537,7 +537,9 @@ function CheckMessage(v1)
     end
 end
 function LoadMessage(v)
-    v:GetPropertyChangedSignal('Value'):Connect(CheckMessage) 
+    v:GetPropertyChangedSignal('Value'):Connect(function()
+        CheckMessage(v.Value)
+    end) 
 end
 local function LoadPlayer() 
     if not IsPlayerAlive() then repeat task.wait(.1) until IsPlayerAlive() end
