@@ -41,6 +41,8 @@ function refreshTask()
             getgenv().CurrentTask = 'Auto Sea 3' 
         elseif (Sea2 or Sea3) and (getgenv().RipIndra or getgenv().DarkBeard) then 
             getgenv().CurrentTask = 'Auto Raid Boss' 
+        elseif Sea3 and (getgenv().ServerData['PlayerBackpack']["God's Chalice"] and (not UnCompleteColor() or HasColor(UnCompleteColor().Part.BrickColor.Name))) then 
+            getgenv().CurrentTask = "Using God's Chalice"
         elseif Sea2 and getgenv().ServerData['PlayerData'].Beli >= 500000 and getgenv().ServerData["Inventory Items"]["Warrior Helmet"] and getgenv().ServerData['PlayerData'].RaceVer == 'V1' then 
             getgenv().CurrentTask = 'Race V2 Quest' 
         end  
@@ -50,27 +52,15 @@ end
 if hookfunction then 
     hookfunction(require(game.ReplicatedStorage.Notification).new,function(v1,v2) 
         v1 = tostring(v1):gsub("<Color=[^>]+>", "") 
-        if v1:find('spotted') then  
-            warn('Pirate raid FOUND!')
-            getgenv().PirateRaidTick = tick()
-        elseif v1:find('Good job') then 
-            warn('Pirate raid Cancelled!')
-            getgenv().PirateRaidTick = 0 
-        elseif v1:find('attack') then 
-            getgenv().AttackedSafe = true 
-        elseif v1:find('rare item') then 
-            getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string'  
-        elseif v1:find('unleashed') then 
-            getgenv().DarkBeard = true  
-        elseif v1:find('barrier') then 
-            getgenv().RipIndra = true 
-        elseif v1:find('dimension') then 
-            getgenv().CakePrince = true
-        elseif v1:find('legendary item') then  
-            getgenv().HallowEssence = true
-        elseif v1:find("entered this world") then 
-            getgenv().SoulReaper = true
-        end
+        local Nof = game.Players.LocalPlayer.Character:FindFirstChild('Notify') or (function() 
+            if not game.Players.LocalPlayer.Character:FindFirstChild('Notify') then 
+                local nof = Instance.new('StringValue',game.Players.LocalPlayer.Character)
+                nof.Name = 'Notify'
+                nof.Value = ''
+                return nof
+            end 
+        end)()
+        Nof.Value = v1 
         local FakeLOL = {}
         function FakeLOL.Display(p18)
             return true;
@@ -91,7 +81,17 @@ task.delay(.1,function()
             warn('Refreshing task error:',rF2)
         end
     end
-end) 
+end)  
+AutoUseGodChalice = function()
+    if not UnCompleteColor() then 
+        EquipWeapon("God's Chalice") 
+        Tweento(game:GetService("Workspace").Map["Boat Castle"].Summoner.Detection.CFrame)
+        getgenv().CurrentTask = ''
+    elseif HasColor(UnCompleteColor().Part.BrickColor.Name) then
+        local ColorToActive = UnCompleteColor()
+        Tweento(ColorToActive.CFrame)
+    end
+end
 AutoRaidBoss = function()
     if Sea2 then 
         if not getgenv().ServerData['Server Bosses']['Dark Beard'] then 

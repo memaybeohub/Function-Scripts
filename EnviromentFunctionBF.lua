@@ -508,6 +508,36 @@ function Storef(v)
             v
         )
     end
+end 
+function CheckMessage(v1)
+    local v1 = tostring(v1)
+    warn('New Message:',v1)
+    if v1:find('spotted') then  
+        warn('Pirate raid FOUND!')
+        getgenv().PirateRaidTick = tick()
+    elseif v1:find('Good job') then 
+        warn('Pirate raid Cancelled!')
+        wait(5)
+        getgenv().PirateRaidTick = 0 
+        warn('Pirate raid stopped!')
+    elseif v1:find('attack') then 
+        getgenv().AttackedSafe = true 
+    elseif v1:find('rare item') then 
+        getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string'  
+    elseif v1:find('unleashed') then 
+        getgenv().DarkBeard = true  
+    elseif v1:find('barrier') then 
+        getgenv().RipIndra = true 
+    elseif v1:find('dimension') then 
+        getgenv().CakePrince = true
+    elseif v1:find('legendary item') then  
+        getgenv().HallowEssence = true
+    elseif v1:find("entered this world") then 
+        getgenv().SoulReaper = true
+    end
+end
+function LoadMessage(v)
+    v:GetPropertyChangedSignal('Value'):Connect(CheckMessage) 
 end
 local function LoadPlayer() 
     if not IsPlayerAlive() then repeat task.wait(.1) until IsPlayerAlive() end
@@ -530,7 +560,10 @@ local function LoadPlayer()
             repeat task.wait() until loadSkills
             loadSkills()
         end)
-        for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
+        for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
+            if v.ClassName ='StringValue' then 
+                LoadMessage(newchild)
+            end
             if not getgenv().ServerData["PlayerBackpack"][v.Name] then 
                 getgenv().ServerData["PlayerBackpack"][v.Name] = v  
                 if v.Name:find('Fruit') then  
@@ -614,7 +647,10 @@ local function LoadPlayer()
                     end 
 
                 end)
-                game.Players.LocalPlayer.Character.ChildAdded:Connect(function(newchild)
+                game.Players.LocalPlayer.Character.ChildAdded:Connect(function(newchild) 
+                    if newchild.ClassName ='StringValue' then 
+                        LoadMessage(newchild)
+                    end
                     if newchild.Name:find('Fruit') then  
                         if not Storef(newchild) then 
                             local nextid = #getgenv().ServerData["PlayerBackpackFruits"]
@@ -1085,7 +1121,6 @@ function BringMob(TAR,V5)
             then
                 task.spawn(function()
                     TweenObject(V6,v.PrimaryPart,1000)
-                    v.HumanoidRootPart.CanCollide = false
                     v.PrimaryPart.CanCollide = false
                     v.Head.CanCollide = false
                     v.Humanoid.WalkSpeed = 0
@@ -2049,7 +2084,29 @@ function loadSkills()
         addSkills(v)
     end
     game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills.ChildAdded:Connect(addSkills) 
-end
+end 
+getgenv().ServerData['PlayerData']['Colors'] = {} 
+function UnCompleteColor()
+    for i, v in next, game:GetService("Workspace").Map["Boat Castle"].Summoner.Circle:GetChildren() do
+        if v:IsA("Part") and v:FindFirstChild("Part") and v.Part.BrickColor.Name == "Dark stone grey" then
+            return v
+        end
+    end
+end    
+function HasColor(BrickColorName) 
+    local BricksWithColors = {
+        ["Hot pink"] = "Winter Sky",
+        ["Really red"] = "Pure Red",
+        ["Oyster"] = "Snow White"
+    }
+    local RealColorName = BricksWithColors[BrickColorName]
+    if not getgenv().ServerData['PlayerData']['Colors'][RealColorName] then
+        return false 
+    else
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("activateColor", RealColorName) 
+        return true
+    end
+end  
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true
@@ -2086,7 +2143,12 @@ RunService.Heartbeat:Connect(function()
             getgenv().ServerData["Inventory Items"][v.Name] = v 
         end
         getgenv().ServerData['PlayerData']["Elite Hunted"] = tonumber(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("EliteHunter", "Progress")) or 0
-        getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer() 
+        getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer()  
+        for i, v in pairs(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("getColors")) do
+            if v["Unlocked"] then
+                getgenv().ServerData['PlayerData']['Colors'][v.HiddenName] = v
+            end
+        end
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Cousin", "Buy") 
         local v141, v142 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ColorsDealer", "1")
         if v141 and v142 and v142 > 5000 then 
