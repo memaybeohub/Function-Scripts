@@ -84,7 +84,8 @@ task.delay(.1,function()
         end
     end
 end)  
-AutoCDK = function(questTitle)
+AutoCDK = function(questTitle) 
+    SetContent(questTitle)
     if questTitle == 'The Final Boss' then  
         repeat task.wait()
             if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3) > 10 and game:GetService("Workspace").Map.Turtle.Cursed.PlacedGem.Transparency ~= 0 then
