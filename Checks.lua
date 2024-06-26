@@ -619,47 +619,56 @@ AutoSoulGuitar = function()
     end
 end
 AutoTushita = function()
-    if not getgenv().ServerData["Inventory Items"]["Tushita"] then
-        if not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then 
+    if not getgenv().ServerData["Inventory Items"]["Tushita"] then 
+        if getgenv().ServerData['Server Bosses']['rip_indra True Form'] then 
+            if not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then 
+                if getgenv().ServerData['Server Bosses']['Longma'] then 
+                    KillBoss(getgenv().ServerData['Server Bosses']['Longma'])
+                    getgenv().CurrentTask = '' 
+                else
+                    HopServer(9,true)
+                end
+            else 
+                if getgenv().ServerData["PlayerBackpack"]['Holy Torch'] then
+                    EquipWeaponName("Holy Torch") 
+                    SetContent('Finding new torch touching template...')
+                    if (function() 
+                        for i = 1,5,1 do 
+                            if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
+                                return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)]
+                            end 
+                        end
+                    end)() then
+                        SetContent('Tweening to torch touching template')
+                        Tweento((function() 
+                            for i = 1,5,1 do 
+                                if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
+                                    return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)]
+                                end 
+                            end
+                        end)().CFrame)
+                        SetContent('Uhm') 
+                        if not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then  
+                            getgenv().CurrentTask = ''  
+                        end
+                    end
+                else
+                    SetContent('Getting Holy Torch...')
+                    repeat 
+                        Tweento(game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame)
+                        task.wait(1)
+                    until getgenv().ServerData["PlayerBackpack"]['Holy Torch']
+                    SetContent('Got Holy Torch.')
+                end 
+            end
+        elseif not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then 
             if getgenv().ServerData['Server Bosses']['Longma'] then 
                 KillBoss(getgenv().ServerData['Server Bosses']['Longma'])
                 getgenv().CurrentTask = '' 
             else
                 HopServer(9,true)
             end
-        elseif getgenv().ServerData['Server Bosses']['rip_indra True Form'] then   
-            if getgenv().ServerData["PlayerBackpack"]['Holy Torch'] then
-                EquipWeaponName("Holy Torch") 
-                SetContent('Finding new torch touching template...')
-                if (function() 
-                    for i = 1,5,1 do 
-                        if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
-                            return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)]
-                        end 
-                    end
-                end)() then
-                    SetContent('Tweening to torch touching template')
-                    Tweento((function() 
-                        for i = 1,5,1 do 
-                            if not game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)].Particles.Main.Enabled then 
-                                return game:GetService("Workspace").Map.Turtle.QuestTorches['Torch'..tostring(i)]
-                            end 
-                        end
-                    end)().CFrame)
-                    SetContent('Uhm') 
-                    if not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then  
-                        getgenv().CurrentTask = ''  
-                    end
-                end
-            else
-                SetContent('Getting Holy Torch...')
-                repeat 
-                    Tweento(game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame)
-                    task.wait(1)
-                until getgenv().ServerData["PlayerBackpack"]['Holy Torch']
-                SetContent('Got Holy Torch.')
-            end
-        end 
+        end
     end
 end
 AutoYama = function()
