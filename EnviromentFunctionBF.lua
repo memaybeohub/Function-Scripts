@@ -1857,15 +1857,17 @@ function ReloadFrutis()
     SetContent('Checking Server Fruits...')
     for i,v in pairs(game.workspace:GetChildren()) do 
         if v.Name:find('Fruit') and not table.find(getgenv().ServerData['Workspace Fruits'],v) then 
-            local vN = ReturnFruitNameWithId(v)
-            table.insert(getgenv().ServerData['Workspace Fruits'],v)  
-            local selfs 
-            selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
-                if v.Parent ~= game.workspace then 
-                    getgenv().ServerData['Workspace Fruits'] = {}
-                    selfs:Disconnect()
-                    ReloadFrutis()
-                end
+            pcall(function()
+                local vN = ReturnFruitNameWithId(v)
+                table.insert(getgenv().ServerData['Workspace Fruits'],v)  
+                local selfs 
+                selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
+                    if v.Parent ~= game.workspace then 
+                        getgenv().ServerData['Workspace Fruits'] = {}
+                        selfs:Disconnect()
+                        ReloadFrutis()
+                    end
+                end)
             end)
         end 
     end
