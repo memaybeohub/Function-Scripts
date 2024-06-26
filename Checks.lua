@@ -20,7 +20,9 @@ function refreshTask()
         elseif Sea3 and not getgenv().ServerData["Inventory Items"]["Yama"] and (getgenv().ServerData['PlayerData']["Elite Hunted"] >= 30 or getgenv().ServerData['PlayerData'].Level >= 2100) then 
             getgenv().CurrentTask = 'Getting Yama' 
         elseif Sea3 and getgenv().CDKQuest and getgenv().CDKQuest ~= '' then 
-            getgenv().CurrentTask = 'Getting Cursed Dual Katana'
+            getgenv().CurrentTask = 'Getting Cursed Dual Katana' 
+        elseif Sea3 and getgenv().ServerData['PlayerData'].Level >= 2550 and getgenv().ServerData['PlayerData'].Beli >= 2000000 and (getgenv().ServerData['PlayerData'].RaceVer ~= 'V3' and getgenv().ServerData['PlayerData'].RaceVer ~="V4") then 
+            getgenv().CurrentTask = 'Auto V3'
         elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
             getgenv().CurrentTask = 'Saber Quest'
         elseif getgenv().ServerData['PlayerData'].Level >= 2300 and not getgenv().ServerData["Inventory Items"]["Soul Guitar"] then 
@@ -83,7 +85,40 @@ task.delay(.1,function()
             warn('Refreshing task error:',rF2)
         end
     end
-end)  
+end)   
+AutoV3 = function()  
+    if getgenv().ServerData['PlayerData'].RaceVer == "V3" then 
+        getgenv().CurrentTask = ''
+        return 
+    elseif not Sea2 then 
+        TeleportWorld(2)
+    else 
+        local CurrentR = getgenv().ServerData['PlayerData'].Race  
+        local v113 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1")
+        if v113 == 0 then
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "2")
+        end
+        if CurrentR == 'Human' then  
+            if getgenv().ServerData['Server Bosses']['Diamond'] and getgenv().ServerData['Server Bosses']['Jeremy'] and getgenv().ServerData['Server Bosses']['Fajita'] then 
+                repeat 
+                    task.wait() 
+                    game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3")
+                    if getgenv().ServerData['Server Bosses']['Diamond'] then 
+                        KillBoss(getgenv().ServerData['Server Bosses']['Diamond'])
+                    elseif getgenv().ServerData['Server Bosses']['Jeremy'] then 
+                        KillBoss(getgenv().ServerData['Server Bosses']['Jeremy'])
+                    elseif getgenv().ServerData['Server Bosses']['Fajita'] then 
+                        KillBoss(getgenv().ServerData['Server Bosses']['Fajita'])
+                until not getgenv().ServerData['Server Bosses']['Diamond'] and not getgenv().ServerData['Server Bosses']['Jeremy'] and not getgenv().ServerData['Server Bosses']['Fajita'] 
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3")
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3")
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3")
+            else
+                HopServer(10,true)
+            end
+        end
+    end
+end
 AutoCDK = function(questTitle) 
     SetContent(questTitle)
     if questTitle == 'The Final Boss' then  
