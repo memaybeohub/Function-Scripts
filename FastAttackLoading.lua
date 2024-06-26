@@ -121,7 +121,33 @@ FastAttack = function()
         end)
     end
 end
-
+function CheckKick(v)
+    if v.Name == "ErrorPrompt" then
+        if v.Visible then
+            if v.TitleFrame.ErrorTitle.Text ~= "Teleport Failed" then
+                game:GetService("TeleportService"):TeleportToPlaceInstance(
+                    game.PlaceId,
+                    game.JobId,
+                    game.Players.LocalPlayer
+                )
+            end
+        end
+        v:GetPropertyChangedSignal("Visible"):Connect(
+            function()
+                if v.Visible then
+                    if v.TitleFrame.ErrorTitle.Text ~= "Teleport Failed" then
+                        game:GetService("TeleportService"):TeleportToPlaceInstance(
+                            game.PlaceId,
+                            game.JobId,
+                            game.Players.LocalPlayer
+                        )
+                    end
+                end
+            end
+        )
+    end
+end
+game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(CheckKick) 
 local bs
 task.spawn(function()
     while task.wait(_G.Fast_Delay) do
