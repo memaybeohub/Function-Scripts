@@ -202,6 +202,7 @@ AutoCDK = function(questTitle)
         if getgenv().ServerData['Server Bosses']['Soul Reaper'] then 
             if GetDistance(getgenv().ServerData['Server Bosses']['Soul Reaper'].PrimaryPart) > 300 then 
                 Tweento(getgenv().ServerData['Server Bosses']['Soul Reaper'].PrimaryPart.CFrame * CFrame.new(0,1.5,-1.5)) 
+                wait(3)
             else
                 game.Players.LocalPlayer.Character.PrimaryPart.CFrame = getgenv().ServerData['Server Bosses']['Soul Reaper'].PrimaryPart.CFrame * CFrame.new(0,1.5,-1.5) 
             end  
