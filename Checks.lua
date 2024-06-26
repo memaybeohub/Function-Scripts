@@ -148,7 +148,8 @@ AutoCDK = function(questTitle)
         if getgenv().ServerData['Server Bosses']['Cake Queen'] then 
             CDKTICK = tick()
             repeat task.wait()
-                KillBoss(getgenv().ServerData['Server Bosses']['Cake Queen']) 
+                KillBoss(getgenv().ServerData['Server Bosses']['Cake Queen'])  
+                wait(1)
             until GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Heavenly Dimension"]) <= 2000 or tick()-CDKTICK > 150
         else
             if GetDistance(CFrame.new(-731.2034301757812, 381.5658874511719, -11198.4951171875)) > 100 then 

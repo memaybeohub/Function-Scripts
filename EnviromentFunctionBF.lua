@@ -1543,10 +1543,11 @@ function autoStats()
         local Stats_Sword = game:GetService("Players").LocalPlayer.Data.Stats.Sword.Level.Value   
         if Stats_Melee < MaxLevel then 
             FireAddPoint('Melee',MaxLength-Stats_Melee)
-        elseif Stats_Def < 1350 then 
-            FireAddPoint('Defense',1350-Stats_Def)
-        elseif Stats_DF < 1750 then 
-            FireAddPoint('Demon Fruit',1750-Stats_DF)
+        elseif Stats_Def < 2550 then 
+            FireAddPoint('Defense',2550-Stats_Def)
+            --[[
+                    elseif Stats_DF < 1750 then 
+            FireAddPoint('Demon Fruit',1750-Stats_DF)]]
         else 
             FireAddPoint('Sword',999)
         end
