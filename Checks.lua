@@ -760,7 +760,8 @@ end
 AutoSea3 = function()
     if Sea2 and getgenv().ServerData['PlayerData'].Level >= 1000 then  
         local v135 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
-        if v135 and v135 ~= 0 then 
+        if v135 and v135 ~= 0 then  
+            warn('cc ne')
             if checkFruit1M() then 
                 EquipWeaponName(checkFruit1M().Name)
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
@@ -776,10 +777,11 @@ AutoSea3 = function()
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "3")  
             elseif checkFruit1MWS() then  
                 SetContent('Picking up '..getRealFruit(checkFruit1MWS()))
-                Tweento(v.Handle.CFrame)
+                Tweento(checkFruit1MWS().Handle.CFrame)
                 task.wait(.1) 
                 getgenv().CurrentTask = ''
-            else
+            else 
+                warn('cc')
                 SetContent('Dont Have Fruit So We Must Farm')
                 --[[
                 SetContent('Hoping for 1M Fruit',5)
