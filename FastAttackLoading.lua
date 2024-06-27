@@ -110,8 +110,7 @@ FastAttack = function()
             CurveFrame.activeController.hitboxMagnitude = 40
             CurveFrame.activeController.humanoid.AutoRotate = true
             CurveFrame.activeController.increment = 1 + 1 / 1 
-            game:GetService("VirtualUser"):CaptureController()
-            game:GetService("VirtualUser"):Button1Down(Vector2.new())  
+            CurveFrame.activeController:attack()
             cdnormal = tick()
         else
             Animation.AnimationId = ac.anims.basic[2]
@@ -154,6 +153,7 @@ task.delay(10,function()
     end
     game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(CheckKick) 
 end)
-game:GetService("RunService").Stepped:Connect(function() 
+game:GetService("RunService").Stepped:Connect(function()  
+    if not getgenv().FastAttackSpeed then return end
     FastAttack()
 end)
