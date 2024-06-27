@@ -1,5 +1,5 @@
 repeat task.wait() until getgenv().EnLoaded 
-getgenv().CurrentTask = "" 
+getgenv().CurrentTask = ""  
 getgenv().TaskUpdateTick = tick()  
 getgenv().PirateRaidTick = 0
 function refreshTask() 
