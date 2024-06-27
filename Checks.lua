@@ -780,6 +780,7 @@ AutoSea3 = function()
                 task.wait(.1) 
                 getgenv().CurrentTask = ''
             else
+                SetContent('Dont Have Fruit So We Must Farm')
                 --[[
                 SetContent('Hoping for 1M Fruit',5)
                 HopServer(9,math.random(1,2) == 1)
