@@ -66,7 +66,7 @@ task.delay(15,function()
                         hookfunction(require(v2),function()end)
                     end
                 end)
-                wait(.1)
+                task.wait(.1)
             end
         end)
     end
@@ -103,7 +103,8 @@ FastAttack = function()
         {game.Players.LocalPlayer.Character.HumanoidRootPart},
         60
     )
-    if tick()-fastattackdelaytick >= _G.Fast_Delay and ac and ac.equipped and shit and #shit > 0 then
+    if tick()-fastattackdelaytick >= _G.Fast_Delay and ac and ac.equipped and shit and #shit > 0 then 
+        fastattackdelaytick = tick()
         if tick() - cdnormal > 0.5 then 
             CurveFrame.activeController.timeToNextAttack = -1
             CurveFrame.activeController.focusStart = 0
@@ -121,7 +122,7 @@ FastAttack = function()
                 60
             ), 2, "")
         end 
-        fastattackdelaytick = tick()
+        
     end
 end
 task.delay(10,function()

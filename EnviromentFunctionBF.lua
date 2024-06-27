@@ -555,7 +555,7 @@ local function LoadPlayer()
             local FastAttackDelayIn = Instance.new("NumberValue")
             FastAttackDelayIn.Name = 'Fast Attack Delay'
             FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
-            FastAttackDelayIn.Value = 0.2
+            FastAttackDelayIn.Value = 0.175
         end
         getgenv().ServerData["PlayerBackpackFruits"] = {}
         getgenv().ServerData["PlayerBackpack"] = {} 
