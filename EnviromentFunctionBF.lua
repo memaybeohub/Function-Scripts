@@ -10,8 +10,12 @@ SetContent = function(v1,delayticks)
         end 
         if not getgenv().MeleeWait then 
             getgenv().MeleeWait = '' 
+        end 
+        local aSet1 = getgenv().CurrentTask
+        if getgenv().MeleeTask and getgenv().MeleeTask ~= '' and getgenv().MeleeTask ~='None' then 
+            aSet1 = getgenv().MeleeTask
         end
-        if ContentSet then ContentSet(v1,tostring(getgenv().CurrentTask),tostring(getgenv().MeleeWait)) end
+        if ContentSet then ContentSet(v1,tostring(aSet1),tostring(getgenv().MeleeWait)) end
     end 
     if delayticks then 
         lasttis = tick()+delayticks
