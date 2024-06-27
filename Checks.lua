@@ -129,6 +129,14 @@ AutoV3 = function()
             end 
         elseif CurrentR == 'Mink' then 
             getgenv().ChestCollect = 0
+            repeat 
+                local NearestChest = getNearestChest()
+                if NearestChest then 
+                    PickChest(NearestChest)
+                end
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
+            until game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1") ~= 1
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
         end
     end
 end

@@ -1983,7 +1983,7 @@ end
 getgenv().SuccessBoughtTick = 0
 getgenv().LastBuyChipTick = 0
 function buyRaidingChip() 
-    if getgenv().EnLoaded and (Sea2 or Sea3) and tick()-JoinedGame > 90 and tick()-getgenv().SuccessBoughtTick > 60 and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
+    if getgenv().EnLoaded and (Sea2 or Sea3) and tick()-JoinedGame > 60 and tick()-getgenv().SuccessBoughtTick > 60 and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
         if (getgenv().CurrentTask == '' or getgenv().MeleeTask == 'None') and getgenv().CurrentTask ~= 'Auto Sea 3' and not checkFruit1M() and getgenv().FragmentNeeded or (not CheckX2Exp() and ((getgenv().ServerData['PlayerData'].Fragments < 7500 or (getgenv().ServerData['PlayerData'].Level >= 2550 and getgenv().ServerData['PlayerData'].Fragments < 25000)) or #getgenv().ServerData["PlayerBackpackFruits"] > 0)) then 
             wait(1)
             if getgenv().CurrentTask ~= '' then return end
