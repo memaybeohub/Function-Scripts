@@ -814,11 +814,26 @@ AutoSea3 = function()
                     Tweento(RedHeadCFrame)
                 end
             elseif getgenv().ServerData['Server Bosses']['rip_indra'] then 
-                KillBoss(getgenv().ServerData['Server Bosses']['rip_indra'])
-                local args = {
-                    [1] = "TravelZou"
-                }
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                repeat 
+                    if game.workspace:FindFirstChild('rip_indra') then 
+                        task.wait()
+                        if IsPlayerAlive() then 
+                            KillingMob = true
+                            KillingMobTick = tick()
+                            AddBodyVelocity(true)
+                            EquipWeapon() 
+                            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true
+                            TweenKill(game.workspace:FindFirstChild('rip_indra'))
+                        else 
+                            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
+                            wait(1)
+                        end 
+                    end
+                    local args = {
+                        [1] = "TravelZou"
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                until not getgenv().ServerData['Server Bosses']['rip_indra']
             end 
         end
     end
