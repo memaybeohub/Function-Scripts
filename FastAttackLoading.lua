@@ -154,4 +154,6 @@ task.delay(10,function()
     end
     game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(CheckKick) 
 end)
-game:GetService("RunService").Stepped:Connect(FastAttack)
+game:GetService("RunService").Stepped:Connect(function() 
+    FastAttack()
+end)
