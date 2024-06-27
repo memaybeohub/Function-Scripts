@@ -995,7 +995,10 @@ AutoMeleeFunc = function()
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", "Start")
         Tweento(CFrame.new(-12548.8, 332.378, -7617.77)) 
         getgenv().MeleeTask = '' 
-    elseif getgenv().MeleeTask == 'Find Fire Essence' then 
+    elseif getgenv().MeleeTask == 'Find Fire Essence' then  
+        if getgenv().ServerData['Server Bosses']['Soul Reaper'] or getgenv().ServerData["PlayerBackpack"]['Hallow Essence'] then 
+            return AutoHallowScythe()
+        end
         if getgenv().ServerData['PlayerData'].Level >= 2000 then  
             if not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
                 FarmMobByLevel(2000)
