@@ -789,7 +789,7 @@ AutoSea3 = function()
                 ]]
                 if getgenv().ServerData['Server Bosses']['Core'] then 
                     KillBoss(getgenv().ServerData['Server Bosses']['Core']) 
-                elseif ##getgenv().ServerData['Workspace Fruits'] > 0 then 
+                elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
                     collectAllFruit_Store()
                 else
                     FarmMobByLevel(1450)
