@@ -1657,7 +1657,11 @@ function collectAllFruit_Store()
             SetContent('Picking up '..getRealFruit(v))
             Tweento(v.Handle.CFrame)
             task.wait(.1) 
-            getgenv().CurrentTask = ''
+            task.delay(3,function()
+                if getgenv().CurrentTask == 'Collect Fruit' then 
+                    getgenv().CurrentTask = ''
+                end
+            end)
         end
     end
 end 
