@@ -970,7 +970,7 @@ function KillNigga(MobInstance)
             task.delay(.01 ,function()
                 repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 100
                 if BringMob(MobInstance, LockCFrame) then 
-                    wait(.15)
+                    wait(.275)
                     BringMobSuccess = true 
                 else    
                     BringMobSuccess =true 
