@@ -780,8 +780,17 @@ AutoSea3 = function()
                 task.wait(.1) 
                 getgenv().CurrentTask = ''
             else
+                --[[
                 SetContent('Hoping for 1M Fruit',5)
                 HopServer(9,math.random(1,2) == 1)
+                ]]
+                if getgenv().ServerData['Server Bosses']['Core'] then 
+                    KillBoss(getgenv().ServerData['Server Bosses']['Core']) 
+                elseif ##getgenv().ServerData['Workspace Fruits'] > 0 then 
+                    collectAllFruit_Store()
+                else
+                    FarmMobByLevel(1450)
+                end
             end
         elseif v135 == 0 then
             local ZQuestProgress = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Check")
