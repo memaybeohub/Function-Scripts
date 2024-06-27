@@ -22,7 +22,7 @@ function refreshTask()
         elseif Sea3 and getgenv().CDKQuest and getgenv().CDKQuest ~= '' then 
             getgenv().CurrentTask = 'Getting Cursed Dual Katana' 
         elseif (Sea2 or Sea3) and getgenv().ServerData['PlayerData'].Level >= 2550 and getgenv().ServerData['PlayerData'].Beli >= 2000000 and (getgenv().ServerData['PlayerData'].RaceVer ~= 'V3' and getgenv().ServerData['PlayerData'].RaceVer ~="V4") then 
-            getgenv().CurrentTask = 'Auto V3'
+            getgenv().CurrentTask = 'Auto Race V3'
         elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
             getgenv().CurrentTask = 'Saber Quest'
         elseif getgenv().ServerData['PlayerData'].Level >= 2300 and not getgenv().ServerData["Inventory Items"]["Soul Guitar"] then 
@@ -116,7 +116,19 @@ AutoV3 = function()
                 TeleportWorld(3)
             else
                 HopServer(10,true)
-            end
+            end 
+        elseif CurrentR == 'Cyborg' then  
+            game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
+            local CheckAgain = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1")
+            if CheckAgain and CheckAgain == 1 then 
+                local FruitBelow1M = getFruitBelow1M()
+                if FruitBelow1M then 
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", FruitBelow1M) 
+                    game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
+                end 
+            end 
+        elseif CurrentR == 'Mink' then 
+            getgenv().ChestCollect = 0
         end
     end
 end
@@ -761,7 +773,6 @@ AutoSea3 = function()
     if Sea2 and getgenv().ServerData['PlayerData'].Level >= 1000 then  
         local v135 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
         if v135 and v135 ~= 0 then  
-            warn('cc ne')
             if checkFruit1M() then 
                 EquipWeaponName(checkFruit1M().Name)
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("TalkTrevor", "1")
@@ -781,7 +792,6 @@ AutoSea3 = function()
                 task.wait(.1) 
                 getgenv().CurrentTask = ''
             else 
-                warn('cc')
                 SetContent('Dont Have Fruit So We Must Farm')
                 --[[
                 SetContent('Hoping for 1M Fruit',5)
@@ -1174,12 +1184,26 @@ AutoMeleeCheck = function()
                             getgenv().Config.WaterkeyPassed = typeof(v178) ~= 'string'; 
                         end
                     end 
-                    if not getgenv().Config.PreviousHeroPassed then
-                        getgenv().Config.PreviousHeroPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true))~= 'string'
-                    end 
+                    if not getgenv().Config.PreviousHeroPassed then  
+                        local Previoushero = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true)
+                        getgenv().Config.PreviousHeroPassed = typeof(Previoushero)~= 'string'
+                        if Previoushero == 4 then 
+                            getgenv().Config.PreviousHeroPassed2 = false 
+                        else 
+                            getgenv().Config.PreviousHeroPassed2 = true 
+                        end
+                    end  
+                    if not getgenv().Config.PreviousHeroPassed2 then  
+                        local Previoushero = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true)
+                        if Previoushero == 4 then 
+                            getgenv().Config.PreviousHeroPassed2 = false 
+                        else 
+                            getgenv().Config.PreviousHeroPassed2 = true 
+                        end
+                    end                    
                     if not getgenv().Config.FireEssencePassed then 
                         getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string' 
-                    end
+                    end     
                     if not getgenv().Config.IceCastleDoorPassed then 
                         getgenv().Config.IceCastleDoorPassed = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("OpenLibrary")   
                     end
@@ -1188,17 +1212,24 @@ AutoMeleeCheck = function()
                     getgenv().MeleeTask = 'Find Ice'
                 elseif not getgenv().Config.WaterkeyPassed and (getgenv().ServerData["PlayerBackpack"]['Water Key'] or getgenv().ServerData['Server Bosses']['Tide Keeper'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Waterkey' 
-                elseif getgenv().ServerData['PlayerData'].Level >= 1650 and not getgenv().Config.PreviousHeroPassed then  
-                    if not Sea3 then TeleportWorld(3) end
-                    getgenv().MeleeTask = 'Previous Hero Puzzle' 
-                elseif (Sea3 or getgenv().ServerData['PlayerData'].Level >= 1650) and v318 and v318 > 0 and not getgenv().Config.FireEssencePassed then   
-                    if not Sea3 then TeleportWorld(3) end
-                    game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1)
-                    if v316 and v316 < v318*50 then 
-                        getgenv().MeleeTask = 'Find Fire Essence' 
+                elseif getgenv().ServerData['PlayerData'].Level >= 1650 and not getgenv().Config.PreviousHeroPassed and not getgenv().Config.PreviousHeroPassed2 then  
+                    if not Sea3 then 
+                        TeleportWorld(3) 
                     else
-                        getgenv().MeleeTask = ''
+                        getgenv().MeleeTask = 'Previous Hero Puzzle' 
                     end
+                elseif (Sea3 or getgenv().ServerData['PlayerData'].Level >= 1650) and v318 and v318 > 0 and not getgenv().Config.FireEssencePassed then   
+                    if not Sea3 then 
+                        TeleportWorld(3) 
+                    else
+                        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1)
+                        if v316 and v316 < v318*50 then 
+                            getgenv().MeleeTask = 'Find Fire Essence' 
+                        else
+                            getgenv().MeleeTask = ''
+                        end
+                    end
+
                 end  
             elseif getgenv().Config.AllV2MeleeStyles400Mastery and MLLV['Godhuman'] == 0 then 
                 getgenv().Config.FarmmingForGodhuman = true  
