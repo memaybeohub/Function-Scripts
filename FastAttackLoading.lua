@@ -103,7 +103,7 @@ FastAttack = function()
         {game.Players.LocalPlayer.Character.HumanoidRootPart},
         60
     )
-    if ac and ac.equipped and shit and #shit > 0 then
+    if tick()-fastattackdelaytick >= _G.Fast_Delay and ac and ac.equipped and shit and #shit > 0 then
         if tick() - cdnormal > 0.5 then 
             CurveFrame.activeController.timeToNextAttack = -1
             CurveFrame.activeController.focusStart = 0
@@ -154,5 +154,4 @@ task.delay(10,function()
     end
     game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(CheckKick) 
 end)
-local bs 
 game:GetService("RunService").Stepped:Connect(FastAttack)
