@@ -776,7 +776,7 @@ local function TweenKill(v)
             if GetDistance(v.HumanoidRootPart) < 200 then 
                 if getgenv().tween then 
                     getgenv().tween:Cancel()
-                    TweenK = nil 
+                    getgenv().tween = nil 
                 end
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * GetCFrameADD() 
             else 
@@ -914,6 +914,18 @@ function CheckSkill(skillstable,blacklistedskills)
     elseif skillstable["C"] then 
         return "C"
     end
+end 
+function addCheckSkill(v)
+    if v:FindFirstChildOfClass('Humanoid') then
+        local animator = v:FindFirstChildOfClass('Humanoid'):FindFirstChildOfClass('Animator')
+        if animator then
+            animator.AnimationPlayed:Connect(function(anitrack) 
+                if anitrack.Animation.AnimationId ~= 'rbxassetid://9802959564' and anitrack.Animation.AnimationId ~= 'rbxassetid://507766388' and anitrack.Animation.AnimationId ~='http://www.roblox.com/asset/?id=9884584522' then 
+                    getgenv().DogdeUntil = tick()+anitrack.TimePosition
+                end
+            end)
+        end
+    end
 end
 function KillNigga(MobInstance) 
     local LS,LS2 = pcall(function()
@@ -964,9 +976,10 @@ function KillNigga(MobInstance)
             ]] 
             local BringMobSuccess
             task.delay(.01 ,function()
-                repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 100
+                repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 140 
+                addCheckSkill(MobInstance)
                 if BringMob(MobInstance, LockCFrame) then 
-                    wait(.275)
+                    task.wait(.275)
                     BringMobSuccess = true 
                 else    
                     BringMobSuccess =true 
@@ -974,39 +987,47 @@ function KillNigga(MobInstance)
             end)            
             repeat
                 task.wait()
-                if IsPlayerAlive() then 
-                    KillingMob = true
-                    KillingMobTick = tick()
-                    AddBodyVelocity(true)
-                    EquipWeapon()
-                    TweenKill(MobInstance)
-                    if getgenv().MasteryFarm then 
-                        if CanMasteryFarm(MobInstance) then 
-                            getgenv().FastAttackSpeed = false 
-                            repeat 
-                                task.wait()
-                                if IsPlayerAlive() then 
-                                    TweenKill(MobInstance) 
-                                    getgenv().FastAttackSpeed = true
-                                    getgenv().AimbotToggle = true 
-                                    getgenv().AimbotPosition = MobInstance.PrimaryPart.Position 
-                                    EquipWeapon(getgenv().ServerData['PlayerData'].DevilFruit) 
-                                    local Skilled = CheckSkill(getgenv().ServerData['Skill Loaded'][getgenv().ServerData['PlayerData'].DevilFruit],{'F'})
-                                    if Skilled then 
-                                        SendKey(Skilled,1)
-                                        wait()
+                if IsPlayerAlive() then
+                    if not getgenv().DogdeUntil and tick() > getgenv().DogdeUntil then  
+                        KillingMob = true
+                        KillingMobTick = tick()
+                        AddBodyVelocity(true)
+                        EquipWeapon()
+                        TweenKill(MobInstance)
+                        if getgenv().MasteryFarm then 
+                            if CanMasteryFarm(MobInstance) then 
+                                getgenv().UseFAttack = false 
+                                repeat 
+                                    task.wait()
+                                    if IsPlayerAlive() then 
+                                        TweenKill(MobInstance) 
+                                        getgenv().UseFAttack = true
+                                        getgenv().AimbotToggle = true 
+                                        getgenv().AimbotPosition = MobInstance.PrimaryPart.Position 
+                                        EquipWeapon(getgenv().ServerData['PlayerData'].DevilFruit) 
+                                        local Skilled = CheckSkill(getgenv().ServerData['Skill Loaded'][getgenv().ServerData['PlayerData'].DevilFruit],{'F'})
+                                        if Skilled then 
+                                            SendKey(Skilled,1)
+                                            wait()
+                                        end
                                     end
-                                end
-                            until not MobInstance or not MobInstance.Parent or not MobInstance.PrimaryPart or not MobInstance:FindFirstChild('Humanoid') or MobInstance.Humanoid.Health <= 0 or not CanMasteryFarm(MobInstance)
-                            getgenv().FastAttackSpeed = false
+                                until not MobInstance or not MobInstance.Parent or not MobInstance.PrimaryPart or not MobInstance:FindFirstChild('Humanoid') or MobInstance.Humanoid.Health <= 0 or not CanMasteryFarm(MobInstance)
+                                getgenv().UseFAttack = false
+                            elseif BringMobSuccess then 
+                                getgenv().UseFAttack = true  
+                            end
                         elseif BringMobSuccess then 
-                            getgenv().FastAttackSpeed = true  
+                            getgenv().UseFAttack = true  
+                        end  
+                    else
+                        if getgenv().tween then 
+                            getgenv().tween:Cancel()
+                            getgenv().tween = nil 
                         end
-                    elseif BringMobSuccess then 
-                        getgenv().FastAttackSpeed = true  
+                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,300,0)
                     end
                 else 
-                    getgenv().FastAttackSpeed = false
+                    getgenv().UseFAttack = false
                     wait(1)
                 end 
             until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
@@ -1015,8 +1036,8 @@ function KillNigga(MobInstance)
             SetContent('...')
             KillingMobTick = 0
             KillingMob = false
-            getgenv().FastAttackSpeed = false  
-            getgenv().FastAttackSpeed = false 
+            getgenv().UseFAttack = false  
+            getgenv().UseFAttack = false 
             getgenv().AimbotToggle = false  
             getgenv().AimbotPosition = nil
             AddBodyVelocity(false)
@@ -1226,7 +1247,7 @@ function KillPlayer(PlayerName)
                         SetContent('Bypassing Anti-Killing')
                         task.wait()
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,100,10)
-                        getgenv().FastAttackSpeed = false
+                        getgenv().UseFAttack = false
                     until tick()-getNeartick > 5 and tick()-getNeartick < 100
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,10)
                 elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
@@ -1242,7 +1263,7 @@ function KillPlayer(PlayerName)
                             game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
                         end)
                         Click()
-                        getgenv().FastAttackSpeed = true
+                        getgenv().UseFAttack = true
                         SendKey('Z')
                         SendKey("Q")
                         SendKey('X')
@@ -1259,7 +1280,7 @@ function KillPlayer(PlayerName)
     cancelKill = false 
     KillingMob = false
     StartKillTick = tick()
-    getgenv().FastAttackSpeed = false
+    getgenv().UseFAttack = false
     if IsSafeZone or tick()-StartKillTick > 80 then 
         warn('Kill Failed:',PlayerName) 
         SetContent('Kill Failed: '..tostring(PlayerName))
