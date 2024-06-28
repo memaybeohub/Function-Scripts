@@ -97,33 +97,31 @@ local Animation = Instance.new("Animation")
 local CooldownFastAttack = 0
 local fastattackdelaytick = 0
 FastAttack = function()
-    if tick()-fastattackdelaytick >= _G.Fast_Delay then  
-        local ac = CurveFrame.activeController 
-        local shit = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
+    local ac = CurveFrame.activeController 
+    local shit = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
+        game.Players.LocalPlayer.Character,
+        {game.Players.LocalPlayer.Character.HumanoidRootPart},
+        60  
+    )
+    if ac and ac.equipped and shit and #shit > 0 then 
+        fastattackdelaytick = tick()
+        if tick() - cdnormal > 0.5 then  
+            cdnormal = tick()
+            CurveFrame.activeController.timeToNextAttack = -1
+            CurveFrame.activeController.focusStart = 0
+            CurveFrame.activeController.hitboxMagnitude = 40
+            CurveFrame.activeController.humanoid.AutoRotate = true
+            CurveFrame.activeController.increment = 1 + 1 / 1 
+            CurveFrame.activeController:attack()                
+        end 
+        Animation.AnimationId = ac.anims.basic[2]
+        ac.humanoid:LoadAnimation(Animation):Play(0.001,0.001,0.001) 
+        game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
             game.Players.LocalPlayer.Character,
             {game.Players.LocalPlayer.Character.HumanoidRootPart},
-            60  
-        )
-        if ac and ac.equipped and shit and #shit > 0 then 
-            fastattackdelaytick = tick()
-            if tick() - cdnormal > 0.5 then  
-                cdnormal = tick()
-                CurveFrame.activeController.timeToNextAttack = -1
-                CurveFrame.activeController.focusStart = 0
-                CurveFrame.activeController.hitboxMagnitude = 40
-                CurveFrame.activeController.humanoid.AutoRotate = true
-                CurveFrame.activeController.increment = 1 + 1 / 1 
-                CurveFrame.activeController:attack()                
-            end 
-            Animation.AnimationId = ac.anims.basic[2]
-            ac.humanoid:LoadAnimation(Animation):Play(0.001,0.001,0.001) 
-            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
-                game.Players.LocalPlayer.Character,
-                {game.Players.LocalPlayer.Character.HumanoidRootPart},
-                60
-            ), 2, "")
-        end 
-    end
+            60
+        ), 2, "")
+    end 
 end
 task.delay(10,function()
     function CheckKick(v)
@@ -155,6 +153,9 @@ task.delay(10,function()
     game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(CheckKick) 
 end)
 game:GetService("RunService").Stepped:Connect(function()  
-    if not getgenv().FastAttackSpeed then return end
-    FastAttack()
+    if not getgenv().FastAttackSpeed then return end 
+    if tick()-fastattackdelaytick >= _G.Fast_Delay then   
+        fastattackdelaytick = tick()
+        FastAttack() 
+    end
 end)
