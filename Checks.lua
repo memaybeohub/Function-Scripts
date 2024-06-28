@@ -1228,7 +1228,7 @@ AutoMeleeCheck = function()
                     getgenv().MeleeTask = 'Find Ice'
                 elseif not getgenv().Config.WaterkeyPassed and (getgenv().ServerData["PlayerBackpack"]['Water Key'] or getgenv().ServerData['Server Bosses']['Tide Keeper'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Waterkey' 
-                elseif getgenv().ServerData['PlayerData'].Level >= 1650 and not getgenv().Config.PreviousHeroPassed and not getgenv().Config.PreviousHeroPassed2 then  
+                elseif getgenv().ServerData['PlayerData'].Level >= 1650 and getgenv().Config.PreviousHeroPassed and not getgenv().Config.PreviousHeroPassed2 then  
                     if not Sea3 then 
                         TeleportWorld(3) 
                     else
