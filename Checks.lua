@@ -687,7 +687,10 @@ AutoSoulGuitar = function()
             elseif getgenv().ChestCollect >= 17.5 then 
                 HopServer(9,true,"Find new server for Fist of Darkness")
             else 
-                local NearestChest = getNearestChest() 
+                local NearestChest = getNearestChest()
+                if not NearestChest then 
+                    SetContent('Ngu')
+                end 
                 if NearestChest then 
                     PickChest(NearestChest) 
                 elseif #getgenv().ServerData['Chest'] <= 0 then 

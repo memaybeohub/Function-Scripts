@@ -64,11 +64,10 @@ function SetNewReason(reasonreal,time)
     HOPGUI.Enabled = true   
     Blur.Enabled = true 
     reason.Text = reasonreal
-    task.spawn(function()
-        for t1 = time,1,1 do 
-            second.Text = "Hopping to new Server in: "..t1.."s" 
-        end 
-    end)
+    for t1 = time,1,1 do 
+        second.Text = "Hopping to new Server in: "..t1.."s"
+        wait(1) 
+    end 
 end
 
 function SaveSettings2()
@@ -156,10 +155,6 @@ function HopServer(CountTarget, hoplowallow,reasontohop)
     end
     SetNewReason(reasontohop,delay)
     local timeplased = tick()+delay
-    for d = 1,delay do 
-        if timeplased <= tick() then break; end
-        SetContent('Waitting '..tostring(math.floor(timeplased-tick())).." to hop...") 
-    end
     if hoplowallow and getgenv().TimeTryHopLow < 3 then
         for i = 1, 3 - getgenv().TimeTryHopLow do
             if getgenv().TimeTryHopLow < 3 then

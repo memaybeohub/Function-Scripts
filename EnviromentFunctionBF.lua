@@ -1987,6 +1987,7 @@ function PickChest(Chest)
             getgenv().ChestCollect +=1 
             getgenv().ChestConnection:Disconnect()
             getgenv().ChestConnection = nil
+            SortChest()
         end)
         repeat 
             Tweento(Chest.CFrame)
