@@ -1991,11 +1991,13 @@ function PickChest(Chest)
             getgenv().ChestConnection:Disconnect()
             getgenv().ChestConnection = nil
             SortChest()
-        end)
+        end) 
+        local StartPick = tick()
         repeat 
             Tweento(Chest.CFrame)
             SendKey('Space',.5)
-        until not Chest or not Chest.Parent
+        until not Chest or not Chest.Parent or tick()-StartPick >= 60 
+        if Chest then Chest:Destroy() end
     end
 end
 local Raids = require(game:GetService("ReplicatedStorage").Raids).raids
