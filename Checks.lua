@@ -72,7 +72,44 @@ if hookfunction then
         function FakeLOL.Dead()
         end
         return FakeLOL
-    end)  
+    end)   
+    task.delay(10,function() 
+        warn('Disabling effects')
+        if hookfunction and not islclosure(hookfunction) then 
+            workspace._WorldOrigin.ChildAdded:Connect(function(v)
+                if v.Name =='DamageCounter' then 
+                    v.Enabled  = false 
+                end
+            end)
+            hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
+            hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
+            hookfunction(require(game:GetService("ReplicatedStorage"):WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end)
+            task.spawn(function()
+                local NGU,NGUVL
+                repeat 
+                    NGU,NGUVL = pcall(function()
+                        for i,v in pairs(getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.data) do  
+                            if typeof(v) == 'function' then 
+                                hookfunction(v,function() end )
+                            end
+                        end
+                    end)
+                    task.wait(1.5)
+                until NGU 
+            end) 
+            task.delay(0.1,function()
+                for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
+                    pcall(function()
+                        if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
+                            hookfunction(require(v2),function()end) 
+                            task.wait(.5)
+                        end
+                    end)
+                end
+            end)
+        end
+    end)
+    
 end 
 local rF1,rF2 
 task.delay(.1,function()
