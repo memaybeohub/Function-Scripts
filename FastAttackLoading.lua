@@ -147,15 +147,9 @@ task.spawn(function()
                 bs = tick()
             end
             pcall(function()
-                for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
-                    if v.Humanoid.Health > 0 then
-                        if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 100 then
-                            FastAttack()
-                            task.wait()
-                            Boost()
-                        end
-                    end
-                end
+                FastAttack()
+                task.wait()
+                Boost()
             end)
         else
             _G.Fast = false
