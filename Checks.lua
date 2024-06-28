@@ -25,7 +25,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Auto Race V3'
         elseif getgenv().ServerData['PlayerData'].Level > 200  and not getgenv().ServerData["Inventory Items"]["Saber"] then 
             getgenv().CurrentTask = 'Saber Quest'
-        elseif getgenv().Config and getgenv().Config.AllV2MeleeStyles400Mastery and getgenv().Config["Melee Level Values"] and getgenv().Config["Melee Level Values"]['Godhuman'] == 0 and getgenv().ServerData['PlayerData'].Level >= 2300 and not getgenv().ServerData["Inventory Items"]["Soul Guitar"] then 
+        elseif getgenv().Config and getgenv().Config["Melee Level Values"] and getgenv().Config["Melee Level Values"]['Godhuman'] > 0 and getgenv().ServerData['PlayerData'].Level >= 2300 and not getgenv().ServerData["Inventory Items"]["Soul Guitar"] then 
             getgenv().CurrentTask = 'Getting Soul Guitar'
         elseif Sea3 and (getgenv().HallowEssence or getgenv().SoulReaper or getgenv().ServerData['Server Bosses']['Soul Reaper'] or getgenv().ServerData["PlayerBackpack"]['Hallow Essence']) then 
             getgenv().CurrentTask = 'Getting Hallow Scythe'

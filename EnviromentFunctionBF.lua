@@ -984,7 +984,11 @@ function KillNigga(MobInstance)
                 else    
                     BringMobSuccess =true 
                 end
-            end)            
+            end)             
+            if getgenv().KillAuraConnection then 
+                getgenv().KillAuraConnection:Disconnect()
+                getgenv().KillAuraConnection = nil 
+            end
             repeat
                 task.wait()
                 if IsPlayerAlive() then
