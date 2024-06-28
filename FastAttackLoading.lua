@@ -91,6 +91,21 @@ function CurveFuckWeapon()
     
     return wea
 end
+function Boost()
+    task.spawn(function()
+        pcall(function()
+            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(CurveFuckWeapon()))
+        end)
+    end)
+end
+
+function Unboost()
+    task.spawn(function()
+        pcall(function()
+            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("unequipWeapon", tostring(CurveFuckWeapon()))
+        end)
+    end)
+end
 
 local cdnormal = 0
 local Animation = Instance.new("Animation")
@@ -156,7 +171,17 @@ end)
 game:GetService("RunService").Stepped:Connect(function()  
     if not getgenv().FastAttackSpeed then return end 
     if tick()-fastattackdelaytick >= _G.Fast_Delay then   
-        fastattackdelaytick = tick()
-        FastAttack() 
+        fastattackdelaytick = tick() 
+        task.spawn(function()
+            Boost() 
+            task.wait(.000025)
+            Unboost()
+        end)
+        FastAttack()  
+        task.spawn(function()
+            Boost() 
+            task.wait(.000025)
+            Unboost()
+        end)
     end
 end)
