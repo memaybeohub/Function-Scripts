@@ -988,7 +988,7 @@ function KillNigga(MobInstance)
             repeat
                 task.wait()
                 if IsPlayerAlive() then
-                    if not getgenv().DogdeUntil and tick() > getgenv().DogdeUntil then  
+                    if not getgenv().DogdeUntil or tick() > getgenv().DogdeUntil then  
                         KillingMob = true
                         KillingMobTick = tick()
                         AddBodyVelocity(true)
