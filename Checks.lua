@@ -890,8 +890,9 @@ AutoRaid = function()
         end
     elseif getgenv().ServerData["PlayerBackpack"]['Special Microchip'] then
         SetContent('Firing raid remote...',3)
+        getgenv().NextRaidIslandId = 1
         if Sea2 then
-            fireclickdetector(Workspace.Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
+            fireclickdetector(Workspace.Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector) 
         elseif Sea3 then
             fireclickdetector(Workspace.Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector)
         end
@@ -1105,16 +1106,16 @@ AutoMeleeMasteryCheck = function()
                     elseif MLLV['Superhuman'] < 400 then
                         BuyMelee('Superhuman')
                         SetMeleeWait('Superhuman',400)
-                    elseif MLLV['Sharkman Karate'] < 400 then 
+                    elseif MLLV['Sharkman Karate'] > 0 and MLLV['Sharkman Karate'] < 400 then 
                         BuyMelee('Sharkman Karate')  
                         SetMeleeWait('Sharkman Karate',400)
-                    elseif MLLV['Death Step'] < 400 then 
+                    elseif MLLV['Death Step'] > 0 and MLLV['Death Step'] < 400 then 
                         BuyMelee('Death Step')  
                         SetMeleeWait('Death Step',400)
-                    elseif MLLV['Electric Claw'] < 400 then 
+                    elseif MLLV['Electric Claw'] > 0 MLLV['Electric Claw'] < 400 then 
                         BuyMelee('Electric Claw')  
                         SetMeleeWait('Electric Claw',400)
-                    elseif MLLV['Dragon Talon'] < 400 then 
+                    elseif MLLV['Dragon Talon'] > 0 and MLLV['Dragon Talon'] < 400 then 
                         SetMeleeWait('Dragon Talon',400)
                         BuyMelee('Dragon Talon')
                     end   

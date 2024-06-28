@@ -517,6 +517,10 @@ function Storef(v)
 end 
 function CheckMessage(v1)
     local v1 = tostring(v1)
+    local RaidCheck = "Island #%d cleared!"
+    if string.match(v1,RaidCheck) then 
+        getgenv().NextRaidIslandId = string.match(v1,'%d')
+    end
     if v1:find('spotted') then  
         warn('Pirate raid FOUND!')
         getgenv().PirateRaidTick = tick()
@@ -549,18 +553,6 @@ end
 local function LoadPlayer() 
     if not IsPlayerAlive() then repeat task.wait(.1) until IsPlayerAlive() end
     if IsPlayerAlive() then
-        if not game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack") then
-            local FastAttackIn = Instance.new("BoolValue")
-            FastAttackIn.Parent = game.Players.LocalPlayer.Character
-            FastAttackIn.Value = false
-            FastAttackIn.Name = 'Fast Attack'
-        end
-        if not game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack Delay") then
-            local FastAttackDelayIn = Instance.new("NumberValue")
-            FastAttackDelayIn.Name = 'Fast Attack Delay'
-            FastAttackDelayIn.Parent = game.Players.LocalPlayer.Character
-            FastAttackDelayIn.Value = 0.175
-        end
         getgenv().ServerData["PlayerBackpackFruits"] = {}
         getgenv().ServerData["PlayerBackpack"] = {} 
         task.spawn(function()
@@ -990,12 +982,12 @@ function KillNigga(MobInstance)
                     TweenKill(MobInstance)
                     if getgenv().MasteryFarm then 
                         if CanMasteryFarm(MobInstance) then 
-                            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
+                            getgenv().FastAttackSpeed = false 
                             repeat 
                                 task.wait()
                                 if IsPlayerAlive() then 
                                     TweenKill(MobInstance) 
-                                    game.Players.LocalPlayer.Character['Fast Attack'].Value = true
+                                    getgenv().FastAttackSpeed = true
                                     getgenv().AimbotToggle = true 
                                     getgenv().AimbotPosition = MobInstance.PrimaryPart.Position 
                                     EquipWeapon(getgenv().ServerData['PlayerData'].DevilFruit) 
@@ -1006,15 +998,15 @@ function KillNigga(MobInstance)
                                     end
                                 end
                             until not MobInstance or not MobInstance.Parent or not MobInstance.PrimaryPart or not MobInstance:FindFirstChild('Humanoid') or MobInstance.Humanoid.Health <= 0 or not CanMasteryFarm(MobInstance)
-                            game.Players.LocalPlayer.Character['Fast Attack'].Value = false
+                            getgenv().FastAttackSpeed = false
                         elseif BringMobSuccess then 
-                            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true  
+                            getgenv().FastAttackSpeed = true  
                         end
                     elseif BringMobSuccess then 
-                        game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = true  
+                        getgenv().FastAttackSpeed = true  
                     end
                 else 
-                    game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
+                    getgenv().FastAttackSpeed = false
                     wait(1)
                 end 
             until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
@@ -1023,7 +1015,7 @@ function KillNigga(MobInstance)
             SetContent('...')
             KillingMobTick = 0
             KillingMob = false
-            game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false 
+            getgenv().FastAttackSpeed = false 
             getgenv().AimbotToggle = false  
             getgenv().AimbotPosition = nil
             AddBodyVelocity(false)
@@ -1233,7 +1225,7 @@ function KillPlayer(PlayerName)
                         SetContent('Bypassing Anti-Killing')
                         task.wait()
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,100,10)
-                        game.Players.LocalPlayer.Character['Fast Attack'].Value = false
+                        getgenv().FastAttackSpeed = false
                     until tick()-getNeartick > 5 and tick()-getNeartick < 100
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,10)
                 elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
@@ -1249,7 +1241,7 @@ function KillPlayer(PlayerName)
                             game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
                         end)
                         Click()
-                        game.Players.LocalPlayer.Character['Fast Attack'].Value = true
+                        getgenv().FastAttackSpeed = true
                         SendKey('Z')
                         SendKey("Q")
                         SendKey('X')
@@ -1266,7 +1258,7 @@ function KillPlayer(PlayerName)
     cancelKill = false 
     KillingMob = false
     StartKillTick = tick()
-    game.Players.LocalPlayer.Character['Fast Attack'].Value = false
+    getgenv().FastAttackSpeed = false
     if IsSafeZone or tick()-StartKillTick > 80 then 
         warn('Kill Failed:',PlayerName) 
         SetContent('Kill Failed: '..tostring(PlayerName))
@@ -1288,7 +1280,10 @@ function getNearestRaidIsland()
             end 
         end 
         return ChildSet
-    end
+    end 
+    if getgenv().NextRaidIslandId then
+        return GetI(getgenv().NextRaidIslandId)
+    end 
     local nextg
     for i = 5,1,-1 do   
         nextg = GetI(i)          
@@ -1916,7 +1911,8 @@ game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(functi
                     if getgenv().CurrentTask == 'Auto Raid'  then 
                         repeat task.wait(1) until not game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible
                         getgenv().CurrentTask = '' 
-                        warn('Clearing',getgenv().ServerData['Nearest Raid Island'])
+                        warn('Clearing',getgenv().ServerData['Nearest Raid Island']) 
+                        getgenv().NextRaidIslandId = 1
                         getgenv().ServerData['Nearest Raid Island'] = nil
                         getgenv().tween:Cancel()   
                         if getgenv().KillAuraConnection then 
@@ -2270,8 +2266,6 @@ RunService.Heartbeat:Connect(function()
     if IsPlayerAlive() then 
         EnableBuso()
         if tick() - getgenv().LastBuyChipTick > 5 then getgenv().LastBuyChipTick = tick() buyRaidingChip() end
-        _G.Fast_Delay = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack Delay').Value 
-        getgenv().FastAttackSpeed = game.Players.LocalPlayer.Character:FindFirstChild('Fast Attack').Value 
         if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().tween and getgenv().tween.PlaybackState and tostring(string.gsub(tostring(getgenv().tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
             AddBodyVelocity(true)
             for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 

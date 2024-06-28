@@ -106,24 +106,22 @@ FastAttack = function()
         )
         if ac and ac.equipped and shit and #shit > 0 then 
             fastattackdelaytick = tick()
-            if tick() - cdnormal > 0.5 then 
+            if tick() - cdnormal > 0.5 then  
+                cdnormal = tick()
                 CurveFrame.activeController.timeToNextAttack = -1
                 CurveFrame.activeController.focusStart = 0
                 CurveFrame.activeController.hitboxMagnitude = 40
                 CurveFrame.activeController.humanoid.AutoRotate = true
                 CurveFrame.activeController.increment = 1 + 1 / 1 
-                CurveFrame.activeController:attack()
-                cdnormal = tick()
-            else
-                Animation.AnimationId = ac.anims.basic[2]
-                ac.humanoid:LoadAnimation(Animation):Play(0.001,0.001,0.001) 
-                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
-                    game.Players.LocalPlayer.Character,
-                    {game.Players.LocalPlayer.Character.HumanoidRootPart},
-                    60
-                ), 2, "")
+                CurveFrame.activeController:attack()                
             end 
-            
+            Animation.AnimationId = ac.anims.basic[2]
+            ac.humanoid:LoadAnimation(Animation):Play(0.001,0.001,0.001) 
+            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
+                game.Players.LocalPlayer.Character,
+                {game.Players.LocalPlayer.Character.HumanoidRootPart},
+                60
+            ), 2, "")
         end 
     end
 end
