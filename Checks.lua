@@ -458,6 +458,7 @@ AutoSoulGuitar = function()
                 Tweento(CFrame.new(-10171.7607421875, 138.62667846679688, 6008.0654296875) * CFrame.new(0,25,-20))
             else
                 if CheckAnyPlayersInCFrame(CFrame.new(-10171.7607421875, 138.62667846679688, 6008.0654296875), 500) then
+                    SetContent('Players In Area | Hopping for peace',5)
                     HopServer(10,true)
                 else
                     if (function() 
@@ -532,7 +533,8 @@ AutoSoulGuitar = function()
                 TeleportWorld(3)
             elseif GetDistance(CFrame.new(-9755.6591796875, 271.0661315917969, 6290.61474609375)) > 7 then
                 Tweento(CFrame.new(-9755.6591796875, 271.0661315917969, 6290.61474609375))
-                game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("GuitarPuzzleProgress", "Ghost")
+                game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("GuitarPuzzleProgress", "Ghost") 
+                wait(3)
             end 
         elseif not CurrnetPuzzle.Trophies then 
             SetContent("Unlocking Soul Guitar's Puzzle (Trophies: Unlock the Trophies's Puzzle)") 

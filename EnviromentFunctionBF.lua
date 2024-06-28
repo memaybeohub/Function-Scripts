@@ -1015,6 +1015,7 @@ function KillNigga(MobInstance)
             SetContent('...')
             KillingMobTick = 0
             KillingMob = false
+            getgenv().FastAttackSpeed = false  
             getgenv().FastAttackSpeed = false 
             getgenv().AimbotToggle = false  
             getgenv().AimbotPosition = nil
@@ -1984,7 +1985,7 @@ getgenv().SuccessBoughtTick = 0
 getgenv().LastBuyChipTick = 0
 function buyRaidingChip() 
     if getgenv().EnLoaded and (Sea2 or Sea3) and tick()-JoinedGame > 60 and tick()-getgenv().SuccessBoughtTick > 60 and getgenv().ServerData['PlayerData'].Level >= 1100 and not getgenv().ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
-        if (((getgenv().CurrentTask == '' or getgenv().MeleeTask == 'None') and getgenv().CurrentTask ~= 'Auto Sea 3') or getgenv().FragmentNeeded) and not checkFruit1M() and getgenv().FragmentNeeded or (not CheckX2Exp() and ((getgenv().ServerData['PlayerData'].Fragments < 7500 or (getgenv().ServerData['PlayerData'].Level >= 2550 and getgenv().ServerData['PlayerData'].Fragments < 25000)) or #getgenv().ServerData["PlayerBackpackFruits"] > 0)) then 
+        if (((getgenv().CurrentTask == '' or getgenv().MeleeTask == 'None') and getgenv().CurrentTask ~= 'Auto Sea 3') or getgenv().FragmentNeeded) and not checkFruit1M() and (getgenv().FragmentNeeded or (not CheckX2Exp() and ((getgenv().ServerData['PlayerData'].Fragments < 7500 or (getgenv().ServerData['PlayerData'].Level >= 2550 and getgenv().ServerData['PlayerData'].Fragments < 25000)) or #getgenv().ServerData["PlayerBackpackFruits"] > 0))) then 
             wait(1)
             local SelRaid = "Flame"
             if table.find(Raids,mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)) then  
