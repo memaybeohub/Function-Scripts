@@ -945,6 +945,7 @@ AutoRaid = function()
     for i,v in pairs(workspace.Enemies:GetChildren()) do 
         if v:FindFirstChildOfClass('Humanoid') then 
             v:FindFirstChildOfClass('Humanoid').Health = 0 
+            SetContent('Doing raid '..tostring(#workspace.Enemies:GetChildren()))
         end 
     end     
     if not getgenv().KillAuraConnection then 

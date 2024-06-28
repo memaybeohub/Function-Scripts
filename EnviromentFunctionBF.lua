@@ -975,6 +975,9 @@ function KillNigga(MobInstance)
             end
             ]] 
             local BringMobSuccess
+            task.delay(10,function() 
+                BringMobSuccess = true
+            end)
             task.delay(.01 ,function()
                 repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 140 
                 addCheckSkill(MobInstance)
