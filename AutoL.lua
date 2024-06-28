@@ -4,7 +4,10 @@ function AutoL()
     if getgenv().QuestKillPlayer and not game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
         getgenv().QuestKillPlayer = false 
     end 
-    local BOSSCP = getgenv().ServerData['Server Bosses']['rip_indra True Form'] or getgenv().ServerData['Server Bosses']['Dark Beard'] or getgenv().ServerData['Server Bosses']['Cake Prince'] or getgenv().ServerData['Server Bosses']['Dough King']
+    local BOSSCP =  getgenv().ServerData['Server Bosses']['Dark Beard'] or getgenv().ServerData['Server Bosses']['Cake Prince'] or getgenv().ServerData['Server Bosses']['Dough King'] 
+    if not not game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") and not BOSSCP and getgenv().ServerData['Server Bosses']['rip_indra True Form'] then 
+        BOSSCP = getgenv().ServerData['Server Bosses']['rip_indra True Form'] 
+    end
     if game.PlaceId == 2753915549 and not getgenv().QuestKillPlayer and game.Players.LocalPlayer.Data.Level.Value >= 35 and game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("PlayerHunter") ~="I don't have anything for you right now. Come back later." then 
         namequest =
             string.gsub(
