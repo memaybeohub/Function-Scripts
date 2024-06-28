@@ -1560,7 +1560,14 @@ function PushData(tab,newdata)
     return tab
 end
 function FarmMobByLevel(level)
-    if not level then level = game.Players.LocalPlayer.Data.Level.Value end
+    if not level then  
+        level = game.Players.LocalPlayer.Data.Level.Value 
+        if Sea1 and level >= 700 then 
+            level = 650 
+        elseif Sea2 and level >= 1500 then 
+            level = 1450 
+        end
+    end
     local CurrentQuestMob = CheckCurrentQuestMob()
     if level <= game.Players.LocalPlayer.Data.Level.Value and not game.Players.LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
         local NewQuest = CheckQuestByLevel({

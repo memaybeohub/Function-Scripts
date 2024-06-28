@@ -814,7 +814,7 @@ AutoSea3 = function()
                 elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
                     collectAllFruit_Store()
                 else
-                    FarmMobByLevel(1450)
+                    AutoL()
                 end
             end
         elseif v135 == 0 then

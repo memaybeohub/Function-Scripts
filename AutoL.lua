@@ -3,7 +3,8 @@ local BlackListedKillPlayers = {}
 function AutoL()
     if getgenv().QuestKillPlayer and not game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
         getgenv().QuestKillPlayer = false 
-    end
+    end 
+    local BOSSCP = getgenv().ServerData['Server Bosses']['rip_indra True Form'] or getgenv().ServerData['Server Bosses']['Dark Beard'] or getgenv().ServerData['Server Bosses']['Cake Prince'] or getgenv().ServerData['Server Bosses']['Dough King']
     if game.PlaceId == 2753915549 and not getgenv().QuestKillPlayer and game.Players.LocalPlayer.Data.Level.Value >= 35 and game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("PlayerHunter") ~="I don't have anything for you right now. Come back later." then 
         namequest =
             string.gsub(
@@ -94,6 +95,8 @@ function AutoL()
         KillBoss(getgenv().ServerData['Server Bosses']['Awakened Ice Admiral']) 
     elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 1425 and not getgenv().Config.WaterkeyPassed and getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
         KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper'])
+    elseif BOSSCP then 
+        KillBoss(BOSSCP)
     elseif not getgenv().QuestKillPlayer and getgenv().ServerData['PlayerData'].Level < 2550 then
         FarmMobByLevel()
     else 
