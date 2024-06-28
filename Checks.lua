@@ -684,7 +684,7 @@ AutoSoulGuitar = function()
                 else 
                     Tweento(game:GetService("Workspace").Map.DarkbeardArena.Summoner.Detection.CFrame)
                 end
-            elseif getgenv().ChestCollect >= 17.5 then 
+            elseif getgenv().ChestCollect >= 20 then 
                 HopServer(9,true,"Find new server for Fist of Darkness")
             else 
                 local NearestChest = getNearestChest()
