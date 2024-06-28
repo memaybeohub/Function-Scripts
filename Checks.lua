@@ -575,13 +575,15 @@ AutoSoulGuitar = function()
                 TeleportWorld(3)
             else
                 for i, v in pairs(Pipes) do
-                    local x = game.workspace.Map["Haunted Castle"]["Lab Puzzle"].ColorFloor.Model[i]
-                    if x.BrickColor.Name ~= v then
-                        repeat
-                            wait()
-                            fireclickdetector(x.ClickDetector)
-                        until x.BrickColor.Name == v
-                    end 
+                    pcall(function()
+                        local x = game.workspace.Map["Haunted Castle"]["Lab Puzzle"].ColorFloor.Model[i]
+                        if x.BrickColor.Name ~= v then
+                            repeat
+                                wait()
+                                fireclickdetector(x.ClickDetector)
+                            until x.BrickColor.Name == v
+                        end
+                    end) 
                 end
             end 
         end 
