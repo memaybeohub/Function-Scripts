@@ -64,7 +64,7 @@ function SetNewReason(reasonreal,time)
     HOPGUI.Enabled = true   
     Blur.Enabled = true 
     reason.Text = reasonreal
-    for t1 = time,1,1 do 
+    for t1 = time,1,-1 do 
         second.Text = "Hopping to new Server in: "..t1.."s"
         wait(1) 
     end 
