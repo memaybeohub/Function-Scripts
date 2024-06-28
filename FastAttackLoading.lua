@@ -115,7 +115,8 @@ FastAttack = function()
             CurveFrame.activeController:attack()                
         end 
         Animation.AnimationId = ac.anims.basic[2]
-        ac.humanoid:LoadAnimation(Animation):Play(0.001,0.001,0.001) 
+        ac.humanoid:LoadAnimation(Animation):Play(0.001,0.001,0.001)  
+        game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange",tostring(CurveFuckWeapon()))
         game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
             game.Players.LocalPlayer.Character,
             {game.Players.LocalPlayer.Character.HumanoidRootPart},
