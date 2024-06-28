@@ -73,7 +73,6 @@ task.delay(15,function()
 end)
 
 
-
 function CurveFuckWeapon()
     local p13 = CurveFrame.activeController
     if not p13 then
@@ -91,6 +90,8 @@ function CurveFuckWeapon()
     
     return wea
 end
+
+
 function Boost()
     task.spawn(function()
         pcall(function()
@@ -110,78 +111,77 @@ end
 local cdnormal = 0
 local Animation = Instance.new("Animation")
 local CooldownFastAttack = 0
-local fastattackdelaytick = 0
+
 FastAttack = function()
-    local ac = CurveFrame.activeController 
-    local shit = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
-        game.Players.LocalPlayer.Character,
-        {game.Players.LocalPlayer.Character.HumanoidRootPart},
-        60  
-    )
-    if ac and ac.equipped and shit and #shit > 0 then 
-        fastattackdelaytick = tick()
-        if tick() - cdnormal > 0.5 then  
-            cdnormal = tick()
-            CurveFrame.activeController.timeToNextAttack = -1
-            CurveFrame.activeController.focusStart = 0
-            CurveFrame.activeController.hitboxMagnitude = 40
-            CurveFrame.activeController.humanoid.AutoRotate = true
-            CurveFrame.activeController.increment = 1 + 1 / 1 
-            CurveFrame.activeController:attack()                
-        end 
-        Animation.AnimationId = ac.anims.basic[2]
-        ac.humanoid:LoadAnimation(Animation):Play(0.001,0.001,0.001)  
-        game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange",tostring(CurveFuckWeapon()))
-        game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
-            game.Players.LocalPlayer.Character,
-            {game.Players.LocalPlayer.Character.HumanoidRootPart},
-            60
-        ), 2, "")
-    end 
-end
-task.delay(10,function()
-    function CheckKick(v)
-        if v.Name == "ErrorPrompt" then
-            if v.Visible then
-                if v.TitleFrame.ErrorTitle.Text ~= "Teleport Failed" then
-                    game:GetService("TeleportService"):TeleportToPlaceInstance(
-                        game.PlaceId,
-                        game.JobId,
-                        game.Players.LocalPlayer
-                    )
-                end
+    local ac = CurveFrame.activeController
+    if ac and ac.equipped then 
+        CurveFrame.activeController.timeToNextAttack = -1
+        CurveFrame.activeController.focusStart = 0
+        CurveFrame.activeController.hitboxMagnitude = 40
+        CurveFrame.activeController.humanoid.AutoRotate = true
+        CurveFrame.activeController.increment = 1 + 1 / 1
+        task.spawn(function()
+            if tick() - cdnormal > 0.5 then
+                ac:attack()
+                cdnormal = tick()
+            else
+                Animation.AnimationId = ac.anims.basic[2]
+                ac.humanoid:LoadAnimation(Animation):Play(1, 1,0.001)
+                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
+                    game.Players.LocalPlayer.Character,
+                    {game.Players.LocalPlayer.Character.HumanoidRootPart},
+                    60
+                ), 2, "")
             end
-            v:GetPropertyChangedSignal("Visible"):Connect(
-                function()
-                    if v.Visible then
-                        if v.TitleFrame.ErrorTitle.Text ~= "Teleport Failed" then
-                            game:GetService("TeleportService"):TeleportToPlaceInstance(
-                                game.PlaceId,
-                                game.JobId,
-                                game.Players.LocalPlayer
-                            )
+        end)
+    end
+end
+
+local bs = tick()
+task.spawn(function()
+    while task.wait(_G.Fast_Delay) do
+        if getgenv().FastAttackSpeed then
+            _G.Fast = true
+            if bs - tick() > 0.75 then
+                task.wait()
+                bs = tick()
+            end
+            pcall(function()
+                for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+                    if v.Humanoid.Health > 0 then
+                        if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 100 then
+                            FastAttack()
+                            task.wait()
+                            Boost()
                         end
                     end
                 end
-            )
+            end)
+        else
+            _G.Fast = false
         end
     end
-    game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(CheckKick) 
 end)
-game:GetService("RunService").Stepped:Connect(function()  
-    if not getgenv().FastAttackSpeed then return end 
-    if tick()-fastattackdelaytick >= _G.Fast_Delay then   
-        fastattackdelaytick = tick() 
-        task.spawn(function()
-            Boost() 
-            task.wait(.000025)
-            Unboost()
-        end)
-        FastAttack()  
-        task.spawn(function()
-            Boost() 
-            task.wait(.000025)
-            Unboost()
-        end)
+
+local k = tick()
+task.spawn(function()
+    if _G.Fast then
+        while task.wait(.2) do
+            if k - tick() > 0.75 then
+                task.wait()
+                k = tick()
+            end
+            pcall(function()
+                for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+                    if v.Humanoid.Health > 0 then
+                        if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 100 then
+                            task.wait(.000025)
+                            Unboost()
+                        end
+                    end
+                end
+            end)
+        end
     end
 end)
+
