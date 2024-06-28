@@ -1112,7 +1112,7 @@ AutoMeleeMasteryCheck = function()
                     elseif MLLV['Death Step'] > 0 and MLLV['Death Step'] < 400 then 
                         BuyMelee('Death Step')  
                         SetMeleeWait('Death Step',400)
-                    elseif MLLV['Electric Claw'] > 0 MLLV['Electric Claw'] < 400 then 
+                    elseif MLLV['Electric Claw'] > 0 and MLLV['Electric Claw'] < 400 then 
                         BuyMelee('Electric Claw')  
                         SetMeleeWait('Electric Claw',400)
                     elseif MLLV['Dragon Talon'] > 0 and MLLV['Dragon Talon'] < 400 then 
