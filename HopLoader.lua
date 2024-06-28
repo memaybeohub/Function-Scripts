@@ -1,6 +1,75 @@
 warn('Loading Hops...')
 local Settings2 = {}
 local SaveFileName2 = "!Blacklist_Servers.json"
+local HOPGUI = Instance.new("ScreenGui")
+local hoptext = Instance.new("TextLabel")
+local reason = Instance.new("TextLabel")
+local second = Instance.new("TextLabel")
+--Properties:
+local Blur = Instance.new("BlurEffect")
+Blur.Size = 25
+Blur.Parent = game.Lighting
+Blur.Enabled = false 
+HOPGUI.Enabled = false 
+HOPGUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+HOPGUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+HOPGUI.Name = 'Hop Gui'
+
+hoptext.Name = "hoptext"
+hoptext.Parent = HOPGUI
+hoptext.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+hoptext.BackgroundTransparency = 1.000
+hoptext.BorderColor3 = Color3.fromRGB(0, 0, 0)
+hoptext.BorderSizePixel = 0
+hoptext.Position = UDim2.new(0.307627112, 0, 0.218623489, 0)
+hoptext.Size = UDim2.new(0, 453, 0, 50)
+hoptext.Font = Enum.Font.Comic
+hoptext.Text = "Tsuo Hub - Hop Server"
+hoptext.TextColor3 = Color3.fromRGB(255, 44, 153)
+hoptext.TextSize = 25.000
+
+reason.Name = "reason"
+reason.Parent = HOPGUI
+reason.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+reason.BackgroundTransparency = 1.000
+reason.BorderColor3 = Color3.fromRGB(0, 0, 0)
+reason.BorderSizePixel = 0
+reason.Position = UDim2.new(0.157627121, 0, 0.358299583, 0)
+reason.Size = UDim2.new(0, 453, 0, 50)
+reason.Font = Enum.Font.Comic
+reason.Text = "For Reason:"
+reason.TextColor3 = Color3.fromRGB(255, 255, 255)
+reason.TextSize = 25.000
+
+second.Name = "second"
+second.Parent = HOPGUI
+second.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+second.BackgroundTransparency = 1.000
+second.BorderColor3 = Color3.fromRGB(0, 0, 0)
+second.BorderSizePixel = 0
+second.Position = UDim2.new(0.307627112, 0, 0.568825901, 0)
+second.Size = UDim2.new(0, 453, 0, 50)
+second.Font = Enum.Font.Comic
+second.Text = "Hopping to new Server in: 5s"
+second.TextColor3 = Color3.fromRGB(255, 255, 255)
+second.TextSize = 25.000  
+function SetNewReason(reasonreal,time)
+    if not reasonreal then reasonreal = '' end 
+    if reasonreal == '' then
+        HOPGUI.Enabled = false  
+        Blur.Enabled = false
+        return 
+    end   
+    if not time then time = 3 end 
+    HOPGUI.Enabled = true   
+    Blur.Enabled = true 
+    reason.Text = reasonreal
+    task.spawn(function()
+        for t1 = time,1,1 do 
+            second.Text = "Hopping to new Server in: "..t1.."s" 
+        end 
+    end)
+end
 
 function SaveSettings2()
     local HttpService = game:GetService("HttpService")
@@ -79,9 +148,13 @@ function HopLow()
 end
 local Settings2 = ReadSetting2()
 getgenv().TimeTryHopLow = 0
-function HopServer(CountTarget, hoplowallow,delay)
-    SetContent('Start hopping...')
-    if not delay then delay = 3 end  
+function HopServer(CountTarget, hoplowallow,reasontohop)
+    SetContent('Start hopping...') 
+    delay = 3 
+    if not reasontohop then 
+        reasontohop = 'None'
+    end
+    SetNewReason(reasontohop,delay)
     local timeplased = tick()+delay
     for d = 1,delay do 
         if timeplased <= tick() then break; end
