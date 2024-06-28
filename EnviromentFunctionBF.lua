@@ -518,8 +518,8 @@ end
 function CheckMessage(v1)
     local v1 = tostring(v1)
     local RaidCheck = "Island #%d cleared!"
-    if string.match(v1,RaidCheck) then 
-        getgenv().NextRaidIslandId = string.match(v1,'%d')
+    if v1:find('Island') and v1:find('cleared') then 
+        getgenv().NextRaidIslandId = tonumber(string.match(v1,'%d'))+1
     end
     if v1:find('spotted') then  
         warn('Pirate raid FOUND!')
