@@ -1200,22 +1200,8 @@ AutoMeleeCheck = function()
                             getgenv().Config.WaterkeyPassed = typeof(v178) ~= 'string'; 
                         end
                     end 
-                    if not getgenv().Config.PreviousHeroPassed then  
-                        local Previoushero = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true)
-                        getgenv().Config.PreviousHeroPassed = typeof(Previoushero)~= 'string'
-                        if Previoushero == 4 then 
-                            getgenv().Config.PreviousHeroPassed2 = false 
-                        else 
-                            getgenv().Config.PreviousHeroPassed2 = true 
-                        end
-                    end  
                     if not getgenv().Config.PreviousHeroPassed2 then  
-                        local Previoushero = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true)
-                        if Previoushero == 4 then 
-                            getgenv().Config.PreviousHeroPassed2 = false 
-                        else 
-                            getgenv().Config.PreviousHeroPassed2 = true 
-                        end
+                        getgenv().Config.PreviousHeroPassed2 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) ~= 4 
                     end                    
                     if not getgenv().Config.FireEssencePassed then 
                         getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string' 
@@ -1228,7 +1214,7 @@ AutoMeleeCheck = function()
                     getgenv().MeleeTask = 'Find Ice'
                 elseif not getgenv().Config.WaterkeyPassed and (getgenv().ServerData["PlayerBackpack"]['Water Key'] or getgenv().ServerData['Server Bosses']['Tide Keeper'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Waterkey' 
-                elseif getgenv().ServerData['PlayerData'].Level >= 1650 and getgenv().Config.PreviousHeroPassed and not getgenv().Config.PreviousHeroPassed2 then  
+                elseif getgenv().ServerData['PlayerData'].Level >= 1650 and not getgenv().Config.PreviousHeroPassed2 then  
                     if not Sea3 then 
                         TeleportWorld(3) 
                     else

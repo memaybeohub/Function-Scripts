@@ -139,7 +139,7 @@ end
 
 local bs = tick()
 task.spawn(function()
-    while task.wait(_G.Fast_Delay) do
+    while task.wait(_G.Fast_Delay/2) do
         if getgenv().FastAttackSpeed then
             _G.Fast = true
             if bs - tick() > 0.75 then
