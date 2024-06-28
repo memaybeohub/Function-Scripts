@@ -152,7 +152,7 @@ AutoV3 = function()
                 SetContent('NIGGA ON FIRE 🔥🔥🔥')
                 TeleportWorld(3)
             else
-                HopServer(10,true)
+                HopServer(10,true,"Find 3 bosses to get Human V3")
             end 
         elseif CurrentR == 'Cyborg' then  
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
@@ -247,7 +247,7 @@ AutoCDK = function(questTitle)
             until GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Heavenly Dimension"]) <= 2000 or tick()-CDKTICK > 150
         else
             SetContent('Hopping for Cake Quen',5)
-            HopServer(10,true)
+            HopServer(10,true,"Cake Queen")
         end 
     elseif questTitle == 'Tushita Quest -4' then 
         if getgenv().PirateRaidTick and tick()-getgenv().PirateRaidTick < 60 then 
@@ -485,7 +485,7 @@ AutoSoulGuitar = function()
                     end  
                 end
             else 
-                HopServer(10,true)
+                HopServer(10,true,"Full Moon")
             end 
         elseif not CurrnetPuzzle.Swamp then  
             SetContent("Unlocking Soul Guitar's Puzzle (Swamp: Kill 6 Zombie at same time)",5)
@@ -496,7 +496,7 @@ AutoSoulGuitar = function()
             else
                 if CheckAnyPlayersInCFrame(CFrame.new(-10171.7607421875, 138.62667846679688, 6008.0654296875), 500) then
                     SetContent('Players In Area | Hopping for peace',5)
-                    HopServer(10,true)
+                    HopServer(10,true,"Peace Area")
                 else
                     if (function() 
                         local Cos = 0   
@@ -685,13 +685,13 @@ AutoSoulGuitar = function()
                     Tweento(game:GetService("Workspace").Map.DarkbeardArena.Summoner.Detection.CFrame)
                 end
             elseif getgenv().ChestCollect >= 17.5 then 
-                HopServer(9,true)
+                HopServer(9,true,"Find new server for Fist of Darkness")
             else 
                 local NearestChest = getNearestChest() 
                 if NearestChest then 
                     PickChest(NearestChest) 
                 elseif #getgenv().ServerData['Chest'] <= 0 then 
-                    HopServer(9,true) 
+                    HopServer(9,true,"Find Chest") 
                 end
             end
         end
@@ -720,7 +720,7 @@ AutoTushita = function()
                     KillBoss(getgenv().ServerData['Server Bosses']['Longma'])
                     getgenv().CurrentTask = '' 
                 else
-                    HopServer(9,true)
+                    HopServer(9,true,"Find Long Ma")
                 end
             elseif game:GetService("Workspace").Map.Turtle:FindFirstChild("TushitaGate") then
                 if getgenv().ServerData["PlayerBackpack"]['Holy Torch'] then
@@ -762,7 +762,7 @@ AutoTushita = function()
                 KillBoss(getgenv().ServerData['Server Bosses']['Longma'])
                 getgenv().CurrentTask = '' 
             else
-                HopServer(9,true)
+                HopServer(9,true,"Find Long Ma")
             end
         end
     end
@@ -792,8 +792,7 @@ AutoYama = function()
                 getgenv().CurrentTask = '' 
             end 
         else 
-            
-            HopServer(9,true)
+            HopServer(9,true,'Elite, getting yama')
         end
     end
 end
@@ -861,7 +860,7 @@ AutoSea3 = function()
                     KillBoss(getgenv().ServerData['Server Bosses']['Don Swan'])
                 else 
                     SetContent('Hopping for Don Swan',5)
-                    HopServer(9,true)
+                    HopServer(9,true,"Don Swan")
                 end
             elseif ZQuestProgress == 0 and GetDistance(game:GetService("Workspace").Map.IndraIsland.Part) > 1000 then
                 local RedHeadCFrame =
@@ -1017,7 +1016,7 @@ AutoMeleeFunc = function()
             getgenv().MeleeTask = ''
         else  
             SetContent('Hopping for Ice Admiral',5)
-            HopServer(10,true)
+            HopServer(10,true,"Ice Admiral")
         end
     elseif getgenv().MeleeTask == 'Find Waterkey' then  
         if not Sea2 then TeleportWorld(2) end  
@@ -1029,7 +1028,7 @@ AutoMeleeFunc = function()
             getgenv().MeleeTask = ''
         else   
             SetContent('Hopping for Tide Keeper',5)
-            HopServer(10,true)
+            HopServer(10,true,"Tide Keeper")
         end 
     elseif getgenv().MeleeTask == 'Previous Hero Puzzle' then   
         if not Sea3 then TeleportWorld(3) end
@@ -1301,7 +1300,7 @@ AutoRaceV2 = function()
                 Tweento(workspace.Flower1.CFrame)
             else  
                 SetContent('Hopping for Blue Flower',5)
-                HopServer(10,true)
+                HopServer(10,true,"Blue Flower")
             end
         elseif not getgenv().ServerData["PlayerBackpack"]['Flower 2'] then 
             SetContent('Getting Red Flower (Flower 2)')
@@ -1337,7 +1336,7 @@ AutoBartiloQuest = function()
             getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level > 500 then  
             SetContent('Hopping for Bartilo',5)
-            HopServer(9,true)
+            HopServer(9,true,"Jeremy Boss")
         end
     elseif QuestBartiloId == 2 then 
         local StartCFrame =
@@ -1417,7 +1416,7 @@ AutoSea2 = function()
             getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level >= 700 then  
             SetContent('Hopping for Ice Admiral',5)
-            HopServer(9,true)
+            HopServer(9,true,"Ice Admiral")
         end
     end
 end
@@ -1434,7 +1433,7 @@ AutoPole = function()
             getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level > 500 then  
             SetContent('Hopping for Thunder God',5)
-            HopServer(9,true)
+            HopServer(9,true,'Thunder God')
         end
 end
 local function IsUnlockedSaberDoor()
@@ -1473,7 +1472,7 @@ AutoSaber = function()
             getgenv().CurrentTask = ''
         elseif getgenv().ServerData['PlayerData'].Level > 200 then  
             SetContent('Hopping for Shanks',5)
-            HopServer(9,true)
+            HopServer(9,true,"Shanks")
         end 
     elseif game:GetService("Workspace").Map.Jungle.QuestPlates.Door.CanCollide then 
         SetContent('Touching templates in jungle...')
@@ -1509,7 +1508,7 @@ AutoSaber = function()
                 KillBoss(getgenv().ServerData['Server Bosses']['Mob Leader']) 
             elseif getgenv().ServerData['PlayerData'].Level > 500 then  
                 SetContent('Hopping for Mob Leader',5)
-                HopServer()  
+                HopServer(9,true,"Mob Leader")  
             end
         elseif RichSonProgress == 1 then
             if getgenv().ServerData["PlayerBackpack"]['Relic'] then 
