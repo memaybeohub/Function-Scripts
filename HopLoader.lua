@@ -81,8 +81,12 @@ local Settings2 = ReadSetting2()
 getgenv().TimeTryHopLow = 0
 function HopServer(CountTarget, hoplowallow,delay)
     SetContent('Start hopping...')
-    if not delay then delay = 0 end 
-    wait(delay)
+    if not delay then delay = 3 end  
+    local timeplased = tick()+delay
+    for d = 1,delay do 
+        if timeplased <= tick() then break; end
+        SetContent('Waitting '..tostring(math.floor(timeplased-tick())).." to hop...") 
+    end
     if hoplowallow and getgenv().TimeTryHopLow < 3 then
         for i = 1, 3 - getgenv().TimeTryHopLow do
             if getgenv().TimeTryHopLow < 3 then
