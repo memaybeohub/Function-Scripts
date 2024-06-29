@@ -2012,7 +2012,10 @@ game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(functi
                         repeat task.wait(1) until not game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible
                         getgenv().CurrentTask = '' 
                         warn('Clearing',getgenv().ServerData['Nearest Raid Island']) 
-                        getgenv().NextRaidIslandId = 1
+                        if not getgenv().ServerData['Nearest Raid Island'] then 
+                            getgenv().CurrentTask = ''
+                        end
+                        getgenv().NextRaidIslandId = 1 
                         getgenv().ServerData['Nearest Raid Island'] = nil
                         getgenv().tween:Cancel()   
                         if getgenv().KillAuraConnection then 
