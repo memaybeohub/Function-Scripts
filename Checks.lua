@@ -843,10 +843,10 @@ AutoSea3 = function()
                 getgenv().CurrentTask = ''
             else 
                 SetContent('Dont Have Fruit So We Must Farm')
-                --[[
-                SetContent('Hoping for 1M Fruit',5)
-                HopServer(9,math.random(1,2) == 1)
-                ]]
+                if _G.HopFruit1M then 
+                    SetContent('Hoping for 1M Fruit',5)
+                    HopServer(9,math.random(1,2) == 1)  
+                end
                 if getgenv().ServerData['Server Bosses']['Core'] then 
                     KillBoss(getgenv().ServerData['Server Bosses']['Core']) 
                 elseif #getgenv().ServerData['Workspace Fruits'] > 0 then 
@@ -1202,7 +1202,26 @@ AutoMeleeMasteryCheck = function()
                             LoadItem('Yama')
                         elseif getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350 then 
                             LoadItem('Tushita')
-                        end 
+                        end
+                    elseif MLLV['Godhuman'] < 600 then 
+                        BuyMelee('Godhuman')
+                        SetMeleeWait('Godhuman',600)
+                    elseif MLLV['Sharkman Karate'] < 600 then 
+                        BuyMelee('Sharkman Karate')
+                        SetMeleeWait('Sharkman Karate',600)
+                    elseif MLLV['Death Step'] < 600 then 
+                        BuyMelee('Death Step')
+                        SetMeleeWait('Death Step',600)
+                    elseif MLLV['Electric Claw'] < 600 then 
+                        BuyMelee('Electric Claw')
+                        SetMeleeWait('Electric Claw',600)
+                    elseif MLLV['Dragon Talon'] < 600 then 
+                        BuyMelee('Dragon Talon')
+                        SetMeleeWait('Dragon Talon',600)
+                    elseif MLLV['Superhuman'] < 600 then 
+                        BuyMelee('Superhuman')
+                        SetMeleeWait('Superhuman',600)
+                        
                     elseif getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit] and getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit]:WaitForChild('Level').Value < 350 then 
                         --getgenv().MasteryFarm = true 
                     else
@@ -1465,8 +1484,10 @@ AutoSaber = function()
     if IsUnlockedSaberDoor() then 
         SetContent('Finding Saber Expert...')
         if getgenv().ServerData['Server Bosses']['Saber Expert'] then 
-            KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert']) 
-            getgenv().CurrentTask = ''
+            KillBoss(getgenv().ServerData['Server Bosses']['Saber Expert'])  
+            if not getgenv().ServerData['Server Bosses']['Saber Expert'] or not getgenv().ServerData['Server Bosses']['Saber Expert']:FindFirstChildOfClass('Humanoid') or getgenv().ServerData['Server Bosses']['Saber Expert']:FindFirstChildOfClass('Humanoid').Health <= 0 then 
+                getgenv().CurrentTask = ''
+            end
         elseif getgenv().ServerData['PlayerData'].Level > 200 then  
             SetContent('Hopping for Shanks',5)
             HopServer(9,true,"Shanks")

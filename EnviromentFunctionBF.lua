@@ -921,7 +921,8 @@ function addCheckSkill(v)
         if animator then
             animator.AnimationPlayed:Connect(function(anitrack) 
                 if anitrack.Animation.AnimationId ~= 'rbxassetid://9802959564' and anitrack.Animation.AnimationId ~= 'rbxassetid://507766388' and anitrack.Animation.AnimationId ~='http://www.roblox.com/asset/?id=9884584522' then 
-                    getgenv().DogdeUntil = tick()+anitrack.TimePosition
+                    getgenv().DogdeUntil = tick()+anitrack.TimePosition 
+                    warn('Dogde Skill Please sirrrr')
                 end
             end)
         end
