@@ -1,4 +1,5 @@
 task.delay(10,function()
+    warn('Fast')
     local Players = game:GetService("Players")
     local Workspace = game:GetService("Workspace")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -43,7 +44,7 @@ task.delay(10,function()
 
     AttackFunc = function()
         AddAttack(require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
-            plr.Character,
+            game.Players.LocalPlayer.Character,
             {plr.Character.HumanoidRootPart},
             60
         ))
