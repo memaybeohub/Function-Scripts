@@ -1,58 +1,128 @@
-task.delay(10,function()
-    warn('Fast')
-    local Players = game:GetService("Players")
-    local Workspace = game:GetService("Workspace")
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local old = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+local com = getupvalue(old, 2)
+require(game.ReplicatedStorage.Util.CameraShaker):Stop()
+spawn(
+    function()
+        game:GetService("RunService").Stepped:Connect(
+            function()
+                pcall(
+                    function()
+                        com.activeController.hitboxMagnitude = 60
+                        if UseFastAttack or Config["Fast Attack Aura"] then
+                            com.activeController.hitboxMagnitude = 60
+                            com.activeController.active = false
+                            com.activeController.blocking = false
+                            com.activeController.focusStart = 0
+                            com.activeController.hitSound = nil
+                            com.activeController.increment = 0
+                            com.activeController.timeToNextAttack = 0
+                            com.activeController.timeToNextBlock = 0
+                            com.activeController:attack()
+                        end
+                    end
+                )
+            end
+        )
+    end
+)
 
-    local CombatFramework = require(Players.LocalPlayer.PlayerScripts:WaitForChild("CombatFramework"))
-    local CombatFrameworkR = getupvalues(CombatFramework)[2]
+local ply = game.Players.LocalPlayer
 
-    local _getupvalue = (debug.getupvalue or getupvalue or getupvalues or function(...)return ... end)
-    local _setupvalue = (debug.setupvalue or setupvalue or setupvalues or function(...)return ... end)
-    AddAttack = function(Hit)
-        local ac = CombatFrameworkR.activeController
-        if ac and ac.equipped then
-            if #Hit > 0 then 
-                local agrs1 = _getupvalue(ac.attack, 5)
-                local agrs2 = _getupvalue(ac.attack, 6)
-                local agrs3 = _getupvalue(ac.attack, 4)
-                local agrs4 = _getupvalue(ac.attack, 7)
-                local agrs5 = (agrs1 * 798405 + agrs3 * 727595) % agrs2
-                local agrs6 = agrs3 * 798405
+local Combatfram1 = debug.getupvalues(require(ply.PlayerScripts.CombatFramework))
+local Combatfram2 = Combatfram1[2]
 
-                agrs5 = (agrs5 * agrs2 + agrs6) % 1099511627776
-                agrs1 = math.floor(agrs5 / agrs2)
-                agrs3 = agrs5 - agrs1 * agrs2
-                agrs4 = agrs4 + 1
+function GetCurrentBlade()
+    local p13 = Combatfram2.activeController
+    local ret = p13.blades[1]
+    if not ret then
+        return
+    end
+    while ret.Parent ~= game.Players.LocalPlayer.Character do
+        ret = ret.Parent
+    end
+    return ret
+end
 
-                _setupvalue(ac.attack, 5, agrs1)
-                _setupvalue(ac.attack, 6, agrs2)
-                _setupvalue(ac.attack, 4, agrs3)
-                _setupvalue(ac.attack, 7, agrs4)
-                local Blade = ac.currentWeaponModel
-                ac.animator.anims.basic[1]:Play(0.01, 0.01, 0.01)
-                if Blade then
-                    pcall(function()
-                        ReplicatedStorage.RigControllerEvent:FireServer("weaponChange", Blade.Name)
-                        ReplicatedStorage.Remotes.Validator:FireServer(math.floor(agrs5 / 1099511627776 * 16777215), agrs4)
-                        ReplicatedStorage.RigControllerEvent:FireServer("hit", Hit, 1, "")
-                    end)
+function Attack()
+    pcall(
+        function()
+            local a = game.Players.LocalPlayer
+            local b = getupvalues(require(a.PlayerScripts.CombatFramework))[2]
+            local e = b.activeController
+            for f = 1, 1 do
+                local g =
+                    require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
+                    a.Character,
+                    {a.Character.HumanoidRootPart},
+                    60
+                )
+                local h = {}
+                local i = {}
+                for j, k in pairs(g) do
+                    if k.Parent:FindFirstChild("HumanoidRootPart") and not i[k.Parent] then
+                        table.insert(h, k.Parent.HumanoidRootPart)
+                        i[k.Parent] = true
+                    end
+                end
+                g = h
+                if #g > 0 then
+                    local l = debug.getupvalue(e.attack, 5)
+                    local m = debug.getupvalue(e.attack, 6)
+                    local n = debug.getupvalue(e.attack, 4)
+                    local o = debug.getupvalue(e.attack, 7)
+                    local p = (l * 798405 + n * 727595) % m
+                    local q = n * 798405
+                    (function()
+                        p = (p * m + q) % 1099511627776
+                        l = math.floor(p / m)
+                        n = p - l * m
+                    end)()
+                    o = o + 1
+                    debug.setupvalue(e.attack, 5, l)
+                    debug.setupvalue(e.attack, 6, m)
+                    debug.setupvalue(e.attack, 4, n)
+                    debug.setupvalue(e.attack, 7, o)
+                    pcall(
+                        function()
+                            if a.Character:FindFirstChildOfClass("Tool") and e.blades and e.blades[1] then
+                                e.animator.anims.basic[1]:Play(0.01, 0.01, 0.01)
+                                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer(
+                                    "weaponChange",
+                                    tostring(GetCurrentBlade())
+                                )
+                                game.ReplicatedStorage.Remotes.Validator:FireServer(
+                                    math.floor(p / 1099511627776 * 16777215),
+                                    o
+                                )
+                                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", g, f, "")
+                            end
+                        end
+                    )
                 end
             end
+            b.activeController.timeToNextAttack = -math.huge
+            b.activeController.attacking = false
+            b.activeController.timeToNextBlock = 0
+            b.activeController.humanoid.AutoRotate = 80
+            b.activeController.increment = 4
+            b.activeController.blocking = false
+            b.activeController.hitboxMagnitude = 200
+        end
+    )
+end
+if not _G.AttackConfig then
+    _G.AttackConfig = {
+        ["Fast Attack Aura"] = false,
+        ["Fast Attack Delay"] = 0,
+    }
+end
+_G.AttackConfig["Fast Attack Delay"] = _G.AttackConfig["Fast Attack Delay"] or 0.2
+local LastAz = 0 
+game:GetService"RunService".Heartbeat:Connect(function() 
+    if getgenv().UseFAttack or _G.AttackConfig["Fast Attack Aura"] then
+        if tick()-LastAz >= _G.AttackConfig["Fast Attack Delay"] then 
+            LastAz = tick()
+            Attack()
         end
     end
-
-    AttackFunc = function()
-        AddAttack(require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
-            game.Players.LocalPlayer.Character,
-            {game.Players.LocalPlayer.Character.HumanoidRootPart},
-            60
-        ))
-    end
-
-    task.spawn(function()
-        while task.wait(.15) do 
-            task.spawn(AttackFunc)
-        end
-    end)
 end)
