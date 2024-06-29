@@ -80,7 +80,7 @@ RunAttack = function()
         Tick = tick()
     end
 end
-taks.spawn(function()
+task.spawn(function()
     while task.wait(.1) do 
         RunAttack()
     end
