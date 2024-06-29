@@ -34,7 +34,7 @@ PlayerHits = function(Value)
 end
 AddAttack = function(Hit)
     local ac = CombatFrameworkR.activeController
-    if ac and ac.equipped then
+    if getgenv().UseFAttack and ac and ac.equipped then
         if #Hit > 0 then
             local agrs1 = getupvalue(ac.attack, 5)
             local agrs2 = getupvalue(ac.attack, 6)
@@ -67,7 +67,7 @@ AttackFunc = function()
     AddAttack(PlayerHits(65))
 end
 local Tick = tick()
-local Delay = 0.15
+local Delay = 0.12
 RunAttack = function()
     if (tick() - Tick) >= math.clamp(Delay, 0.100, 1) then
         task.spawn(AttackFunc)
