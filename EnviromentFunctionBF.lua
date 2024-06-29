@@ -574,23 +574,6 @@ function CheckMessage(v1)
     elseif v1:find("entered this world") then 
         getgenv().SoulReaper = true
     end 
-    task.spawn(function()
-        local rq = http_request or request or HttpPost or syn.request
-        local aaaaa 
-        repeat
-            aaaaa = rq(
-                {
-                    Url = "https://discord.com/api/webhooks/1256572783719223326/WXQZKqFvRMAAbMCxc9wVQ4MJWId4N5q30_qVqKn4gBd0qdCY5EloZvt4lCCsM-11DUn5",
-                    Method = "POST",
-                    Headers = {
-                        ["Content-Type"] = "application/json"
-                    },
-                    Body = game:GetService("HttpService"):JSONEncode({content = v1})
-                }
-            ) 
-            task.wait(10)
-        until aaaaa.StatusCode == 200
-    end)
 end
 function LoadMessage(v)
     v:GetPropertyChangedSignal('Value'):Connect(function()
@@ -1074,7 +1057,6 @@ function KillNigga(MobInstance)
             KillingMobTick = 0
             KillingMob = false
             getgenv().UseFAttack = false  
-            getgenv().AimbotPosition = nil
             AddBodyVelocity(false)
             return true
         end
