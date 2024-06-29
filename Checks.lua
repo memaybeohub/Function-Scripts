@@ -1206,12 +1206,14 @@ AutoMeleeMasteryCheck = function()
                     elseif MLLV['Superhuman'] < 600 then 
                         BuyMelee('Superhuman')
                         SetMeleeWait('Superhuman',600)
-                        
-                    elseif getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit] and getgenv().ServerData["PlayerBackpack"][getgenv().ServerData['PlayerData'].DevilFruit]:WaitForChild('Level').Value < 350 then 
-                        --getgenv().MasteryFarm = true 
                     else
                         getgenv().MasteryFarm = false
-                        getgenv().WeaponType = 'Melee'
+                        local SwordMasteryFarm = getNextSwordToFarm()
+                        if SwordMasteryFarm and not SwordMasteryFarm.Equipped then 
+                            LoadItem(SwordMasteryFarm.Nam) 
+                        elseif SwordMasteryFarm then 
+                            getgenv().WeaponType = 'Sword' 
+                        end
                     end
                 end  
             end)

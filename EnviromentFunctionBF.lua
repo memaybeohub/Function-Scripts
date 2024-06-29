@@ -408,7 +408,35 @@ function SnipeFruit(fruitsSnipes)
             end
         end  
     end
-end  
+end   
+function sortSwordsByRarity(swords)
+    table.sort(swords, function(a, b)
+        return a.Rarity < b.Rarity
+    end) 
+    return swords[1]
+end
+
+function getNextSwordToFarm()
+    local Swords = {}
+    for _, itemData in pairs(getgenv().ServerData["Inventory Items"]) do 
+        if itemData.Type == 'Sword' and itemData.Mastery < itemData.MasteryRequirements.X then 
+            table.insert(Swords, itemData)  -- Chèn đúng vào bảng Swords
+        end 
+    end
+    if #Swords > 0 then 
+        return sortSwordsByRarity(Swords) 
+    end
+    Swords = {}
+    for _, itemData in pairs(getgenv().ServerData["Inventory Items"]) do 
+        if itemData.Type == 'Sword' and itemData.Mastery < 600 then 
+            table.insert(Swords, itemData)  -- Chèn đúng vào bảng Swords
+        end 
+    end
+    if #Swords > 0 then 
+        return sortSwordsByRarity(Swords) 
+    end
+end 
+
 function checkFruit1MWS()
     for i,v in pairs(game.workspace:GetChildren()) do 
         if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 then 
@@ -841,12 +869,12 @@ function GetWeapon(wptype)
     local s = ""
     for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
         if v:IsA("Tool") and v.ToolTip == wptype then
-            s = v.Name
+            s=v
         end
     end
     for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
         if v:IsA("Tool") and v.ToolTip == wptype then
-            s = v.Name
+            s = v
         end
     end
     return s
@@ -862,9 +890,8 @@ function EquipWeapon(ToolSe)
         getgenv().WeaponType = "Melee"
     end
     if not ToolSe then 
-        ToolSe = GetWeapon(getgenv().WeaponType) 
-    end
-    if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
+        game.Players.LocalPlayer.Character.Humanoid:EquipTool(GetWeapon(getgenv().WeaponType))
+    else
         local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
         wait(.4)
         game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
