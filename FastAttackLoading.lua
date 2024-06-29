@@ -33,7 +33,7 @@ PlayerHits = function(Value)
     return Hits
 end
 AddAttack = function(Hit)
-    local ac = CombatFrameworkR.activeController    
+    local ac = CombatFrameworkR.activeController
     if ac and ac.equipped then
         if #Hit > 0 then
             local agrs1 = getupvalue(ac.attack, 5)
@@ -67,17 +67,14 @@ AttackFunc = function()
     AddAttack(PlayerHits(65))
 end
 local Tick = tick()
-getgenv().DelayFast = getgenv().DelayFast or 0.25
-local RunAttack = function()
-    if getgenv().UseFAttack and (tick() - Tick) >= getgenv().DelayFast then
-        AddAttack(require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(game.Players.LocalPlayer.Character,{game.Players.LocalPlayer.Character.HumanoidRootPart},60)) 
+local Delay = 0.2
+RunAttack = function()
+    if (tick() - Tick) >= math.clamp(Delay, 0.100, 1) then
+        task.spawn(AttackFunc)
         Tick = tick()
     end
-end  
-getgenv().UseFAttack = false
-task.spawn(function()
-    while task.wait() do 
-        RunAttack()
-    end
-end) 
+end 
+while task.wait() do 
+    RunAttack()
+end
 warn('Loaded Fast Attack!')
