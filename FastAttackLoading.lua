@@ -74,7 +74,9 @@ RunAttack = function()
         Tick = tick()
     end
 end 
-while task.wait() do 
-    RunAttack()
-end
+task.spawn(function()
+    while task.wait() do 
+        RunAttack()
+    end
+end)
 warn('Loaded Fast Attack!')
