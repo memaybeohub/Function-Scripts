@@ -1053,29 +1053,7 @@ function KillNigga(MobInstance)
                         AddBodyVelocity(true)
                         EquipWeapon()
                         TweenKill(MobInstance) 
-                        if getgenv().MasteryFarm then 
-                            if CanMasteryFarm(MobInstance) then 
-                                getgenv().UseFAttack = false 
-                                repeat 
-                                    task.wait()
-                                    if IsPlayerAlive() then 
-                                        TweenKill(MobInstance) 
-                                        getgenv().UseFAttack = true
-                                        getgenv().AimbotToggle = true 
-                                        getgenv().AimbotPosition = MobInstance.PrimaryPart.Position 
-                                        EquipWeapon(getgenv().ServerData['PlayerData'].DevilFruit) 
-                                        local Skilled = CheckSkill(getgenv().ServerData['Skill Loaded'][getgenv().ServerData['PlayerData'].DevilFruit],{'F'})
-                                        if Skilled then 
-                                            SendKey(Skilled,1)
-                                            wait()
-                                        end
-                                    end
-                                until not MobInstance or not MobInstance.Parent or not MobInstance.PrimaryPart or not MobInstance:FindFirstChild('Humanoid') or MobInstance.Humanoid.Health <= 0 or not CanMasteryFarm(MobInstance)
-                                getgenv().UseFAttack = false
-                            elseif BringMobSuccess then 
-                                getgenv().UseFAttack = true  
-                            end
-                        elseif BringMobSuccess then 
+                        if BringMobSuccess then 
                             getgenv().UseFAttack = true  
                         end  
                     else
@@ -1096,8 +1074,6 @@ function KillNigga(MobInstance)
             KillingMobTick = 0
             KillingMob = false
             getgenv().UseFAttack = false  
-            getgenv().UseFAttack = false 
-            getgenv().AimbotToggle = false  
             getgenv().AimbotPosition = nil
             AddBodyVelocity(false)
             return true
