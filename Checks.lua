@@ -1189,30 +1189,38 @@ AutoMeleeMasteryCheck = function()
                             LoadItem('Tushita')
                         end
                     elseif MLLV['Godhuman'] < 600 then 
-                        BuyMelee('Godhuman')
+                        BuyMelee('Godhuman') 
+                        getgenv().WeaponType = "Melee"
                         SetMeleeWait('Godhuman',600)
                     elseif MLLV['Sharkman Karate'] < 600 then 
                         BuyMelee('Sharkman Karate')
+                        getgenv().WeaponType = "Melee"
                         SetMeleeWait('Sharkman Karate',600)
                     elseif MLLV['Death Step'] < 600 then 
                         BuyMelee('Death Step')
+                        getgenv().WeaponType = "Melee"
                         SetMeleeWait('Death Step',600)
                     elseif MLLV['Electric Claw'] < 600 then 
                         BuyMelee('Electric Claw')
+                        getgenv().WeaponType = "Melee"
                         SetMeleeWait('Electric Claw',600)
                     elseif MLLV['Dragon Talon'] < 600 then 
                         BuyMelee('Dragon Talon')
+                        getgenv().WeaponType = "Melee"
                         SetMeleeWait('Dragon Talon',600)
                     elseif MLLV['Superhuman'] < 600 then 
                         BuyMelee('Superhuman')
+                        getgenv().WeaponType = "Melee"
                         SetMeleeWait('Superhuman',600)
                     else
                         getgenv().MasteryFarm = false
-                        local SwordMasteryFarm = getNextSwordToFarm()
+                        local SwordMasteryFarm,SwordMasteryFarm2 = getNextSwordToFarm()
                         if SwordMasteryFarm and not SwordMasteryFarm.Equipped then 
                             LoadItem(SwordMasteryFarm.Nam) 
                         elseif SwordMasteryFarm then 
-                            getgenv().WeaponType = 'Sword' 
+                            getgenv().WeaponType = 'Sword'  
+                        else
+                            getgenv().WeaponType = 'Melee'
                         end
                     end
                 end  

@@ -424,7 +424,8 @@ function getNextSwordToFarm()
         end 
     end
     if #Swords > 0 then 
-        return sortSwordsByRarity(Swords) 
+        local NNN = sortSwordsByRarity(Swords) 
+        return NNN,NNN.MasteryRequirements.X
     end
     Swords = {}
     for _, itemData in pairs(getgenv().ServerData["Inventory Items"]) do 
@@ -433,7 +434,8 @@ function getNextSwordToFarm()
         end 
     end
     if #Swords > 0 then 
-        return sortSwordsByRarity(Swords) 
+        local NNN = sortSwordsByRarity(Swords) 
+        return NNN,NNN.MasteryRequirements.X
     end
 end 
 
