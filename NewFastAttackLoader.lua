@@ -82,7 +82,7 @@ RunAttack = function()
     end
 end
 task.spawn(function()
-    while task.wait() do 
+    while task.wait(.15) do 
         task.spawn(AttackFunc)
     end
 end)
