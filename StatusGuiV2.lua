@@ -20,6 +20,31 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.Parent = game:GetService("Players").LocalPlayer.PlayerGui
 ScreenGui.Name = 'CoinCard'
 
+
+local DiscordUrlTextLabel = Instance.new("TextLabel", ScreenGui);
+DiscordUrlTextLabel["BorderSizePixel"] = 0;
+DiscordUrlTextLabel["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+DiscordUrlTextLabel["TextSize"] = 16;
+DiscordUrlTextLabel["FontFace"] = Font.new([[rbxasset://fonts/families/RobotoMono.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+DiscordUrlTextLabel["TextColor3"] = Color3.fromRGB(223, 115, 255);
+DiscordUrlTextLabel["BackgroundTransparency"] = 1;
+DiscordUrlTextLabel["AnchorPoint"] = Vector2.new(0.5, 0.5);
+DiscordUrlTextLabel["Size"] = UDim2.new(0, 200, 0, 50);
+DiscordUrlTextLabel["BorderColor3"] = Color3.fromRGB(153, 102, 204);
+DiscordUrlTextLabel["Text"] = [[discord.gg/tsuoscripts]];
+DiscordUrlTextLabel["Position"] = UDim2.new(0.5, 0, -0.025, 0);
+
+local DiscordUrlUiStroke = Instance.new("UIStroke", DiscordUrlTextLabel);
+DiscordUrlUiStroke["Color"] = Color3.fromRGB(255, 255, 255);
+
+local DiscordUrlUiGradient = Instance.new("UIGradient", DiscordUrlUiStroke);
+GDiscordUrlUiGradient = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(153, 102, 204)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(223, 115, 255))
+};
+
+
+
 DropShadowHolder.AnchorPoint = Vector2.new(0.5, 0.5)
 DropShadowHolder.BackgroundTransparency = 1
 DropShadowHolder.BorderSizePixel = 0
@@ -61,8 +86,8 @@ UIStroke.Thickness = 2.5
 UIStroke.Parent = Main
 
 UIGradient.Color = ColorSequence.new{
-ColorSequenceKeypoint.new(0, Color3.fromRGB(131.00000739097595, 181.0000044107437, 255)),
-ColorSequenceKeypoint.new(1, Color3.fromRGB(224.000001847744, 162.00000554323196, 255))
+ColorSequenceKeypoint.new(0, Color3.fromRGB(153, 102, 204)),
+ColorSequenceKeypoint.new(1, Color3.fromRGB(223, 115, 255))
 }
 UIGradient.Parent = UIStroke
 
@@ -82,8 +107,8 @@ Top.Name = "Top"
 Top.Parent = Main
 
 UIGradient1.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(131.00000739097595, 181.0000044107437, 255)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(224.000001847744, 162.00000554323196, 255))
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(153, 102, 204)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(223, 115, 255))
 }
 UIGradient1.Parent = Top
 
@@ -103,8 +128,8 @@ Under.Name = "Under"
 Under.Parent = Main
 
 UIGradient2.Color = ColorSequence.new{
-ColorSequenceKeypoint.new(0, Color3.fromRGB(131.00000739097595, 181.0000044107437, 255)),
-ColorSequenceKeypoint.new(1, Color3.fromRGB(224.000001847744, 162.00000554323196, 255))
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(153, 102, 204)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(223, 115, 255))
 }
 UIGradient2.Parent = Under
 Top.Size = UDim2.new(0, Top.TextBounds.X, 0, 18)
