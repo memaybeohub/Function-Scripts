@@ -5,6 +5,9 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CombatFramework = require(Players.LocalPlayer.PlayerScripts:WaitForChild("CombatFramework"))
 local CombatFrameworkR = getupvalues(CombatFramework)[2]
 
+local _getupvalue = (debug.getupvalue or getupvalue or getupvalues or function(...)return ... end)
+local _setupvalue = (debug.setupvalue or setupvalue or setupvalues or function(...)return ... end)
+
 BladeHits = function(Value)
     local Hits = {}
     for _, Hit in ipairs(Workspace.Enemies:GetChildren()) do
@@ -64,20 +67,21 @@ AddAttack = function(Hit)
         end
     end
 end
+
 AttackFunc = function()
     AddAttack(BladeHits(65))
     AddAttack(PlayerHits(65))
 end
+
 local Tick = tick()
-local Delay = 0.25
 RunAttack = function()
-    task.spawn(function()
-        while task.wait() do 
-            if (tick() - Tick) >= math.clamp(Delay, 0.100, 1) then
-                task.spawn(AttackFunc)
-                Tick = tick()
-            end
-        end 
-    end)
+    if (tick() - Tick) >= math.clamp(1, 0.100, 1) then
+        task.spawn(AttackFunc)
+        Tick = tick()
+    end
 end
-RunAttack()
+taks.spawn(function()
+    while task.wait(.1) do 
+        RunAttack()
+    end
+end)
