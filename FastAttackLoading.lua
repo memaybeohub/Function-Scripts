@@ -34,7 +34,7 @@ PlayerHits = function(Value)
 end
 AddAttack = function(Hit)
     local ac = CombatFrameworkR.activeController
-    if getgenv().UseFAttack and ac and ac.equipped then
+    if ac and ac.equipped then
         if #Hit > 0 then
             local agrs1 = getupvalue(ac.attack, 5)
             local agrs2 = getupvalue(ac.attack, 6)
@@ -55,7 +55,7 @@ AddAttack = function(Hit)
             local Blade = ac.currentWeaponModel
             if Blade then
                 ReplicatedStorage.RigControllerEvent:FireServer("weaponChange", Blade.Name)
-                ac.animator.anims.basic[1]:Play(1, 1, 0.001)
+                ac.animator.anims.basic[1]:Play(0.01, 0.01, 0.01)
                 ReplicatedStorage.Remotes.Validator:FireServer(math.floor(agrs5 / 1099511627776 * 16777215), agrs4)
                 ReplicatedStorage.RigControllerEvent:FireServer("hit", Hit, 1, "")
             end
@@ -67,15 +67,15 @@ AttackFunc = function()
     AddAttack(PlayerHits(65))
 end
 local Tick = tick()
-local Delay = 0.12
+local Delay = 0.25
 RunAttack = function()
-    if (tick() - Tick) >= math.clamp(Delay, 0.100, 1) then
-        task.spawn(AttackFunc)
-        Tick = tick()
-    end
-end 
-task.spawn(function()
-    while task.wait() do 
-        RunAttack()
-    end
-end)
+    task.spawn(function()
+        while task.wait() do 
+            if (tick() - Tick) >= math.clamp(Delay, 0.100, 1) then
+                task.spawn(AttackFunc)
+                Tick = tick()
+            end
+        end 
+    end)
+end
+RunAttack()
