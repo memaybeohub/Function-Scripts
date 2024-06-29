@@ -45,7 +45,7 @@ task.delay(10,function()
     AttackFunc = function()
         AddAttack(require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
             game.Players.LocalPlayer.Character,
-            {plr.Character.HumanoidRootPart},
+            {game.Players.LocalPlayer.Character.HumanoidRootPart},
             60
         ))
     end
