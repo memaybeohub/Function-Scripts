@@ -67,7 +67,8 @@ function SetNewReason(reasonreal,time)
     for t1 = time,1,-1 do 
         second.Text = "Hopping to new Server in: "..t1.."s"
         wait(1) 
-    end 
+    end  
+    second.Text = "Hopping to new Server in: 0s"
 end
 
 function SaveSettings2()
