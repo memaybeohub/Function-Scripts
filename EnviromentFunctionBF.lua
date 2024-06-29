@@ -950,8 +950,8 @@ function addCheckSkill(v)
         if animator then
             animator.AnimationPlayed:Connect(function(anitrack) 
                 if anitrack.Animation.AnimationId ~= 'rbxassetid://9802959564' and anitrack.Animation.AnimationId ~= 'rbxassetid://507766388' and anitrack.Animation.AnimationId ~='http://www.roblox.com/asset/?id=9884584522' then 
-                    getgenv().DogdeUntil = tick()+anitrack.TimePosition 
-                    warn('Dogde Skill Please sirrrr')
+                    getgenv().DogdeUntil = tick()+math.floor(anitrack.TimePosition)+1
+                    warn('Dogde Skill Please sirrrr',anitrack.TimePosition,math.floor(anitrack.TimePosition)+1)
                 end
             end)
         end
@@ -1025,7 +1025,7 @@ function KillNigga(MobInstance)
             repeat
                 task.wait()
                 if IsPlayerAlive() then
-                    if not getgenv().DogdeUntil or tick() > getgenv().DogdeUntil then  
+                    if not getgenv().DogdeUntil or getgenv().DogdeUntil < tick() then  
                         KillingMob = true
                         KillingMobTick = tick()
                         AddBodyVelocity(true)

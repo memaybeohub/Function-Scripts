@@ -121,7 +121,16 @@ task.delay(.1,function()
             warn('Refreshing task error:',rF2)
         end
     end
-end)   
+end)    
+getgenv().rejoin = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(
+    child)
+    if child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
+        if not Hopping then
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)            
+            Hopping = true
+        end
+    end
+end) 
 AutoV3 = function()  
     if getgenv().ServerData['PlayerData'].RaceVer == "V3" then 
         getgenv().CurrentTask = ''
@@ -1399,7 +1408,8 @@ AutoBartiloQuest = function()
                 SetContent('Done task | Returning task...')
         end
     end
-end
+end 
+
 AutoSea2 = function()  
     if game.Workspace.Map.Ice.Door.CanCollide then
         if not getgenv().ServerData["PlayerBackpack"]['Key'] then  
@@ -1421,7 +1431,7 @@ AutoSea2 = function()
         if getgenv().ServerData['Server Bosses']['Ice Admiral'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Ice Admiral']) 
             refreshTask()
-            task.delay(10,function()
+            task.delay(5,function()
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa") 
             end)
             getgenv().CurrentTask = ''
