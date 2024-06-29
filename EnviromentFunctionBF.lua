@@ -1061,7 +1061,7 @@ function KillNigga(MobInstance)
                             getgenv().tween:Cancel()
                             getgenv().tween = nil 
                         end
-                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = Mob.Instance.PrimaryPart.CFrame * CFrame.new(0,300,0)
+                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = MobInstance.PrimaryPart.CFrame * CFrame.new(0,300,0)
                     end
                 else 
                     getgenv().UseFAttack = false
