@@ -67,16 +67,15 @@ AttackFunc = function()
     AddAttack(PlayerHits(65))
 end
 local Tick = tick()
-local Delay = 0.1
+local Delay = 0.15
 RunAttack = function()
     if (tick() - Tick) >= math.clamp(Delay, 0.100, 1) then
         task.spawn(AttackFunc)
         Tick = tick()
     end
 end 
-task.spawn(function() 
-    if not getgenv().DelayFast then getgenv().DelayFast = 0.3 end
-    while task.wait(getgenv().DelayFast/2) do 
+task.spawn(funciton()
+    while task.wait() do 
         RunAttack()
     end
 end)
