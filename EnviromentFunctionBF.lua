@@ -532,9 +532,9 @@ function CheckMessage(v1)
     elseif v1:find('rare item') then 
         getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string'  
     elseif v1:find('unleashed') then 
-        getgenv().DarkBeard = true  
+        getgenv().RaidBossEvent = true  
     elseif v1:find('barrier') then 
-        getgenv().RipIndra = true 
+        getgenv().RaidBossEvent = true 
     elseif v1:find('dimension') then 
         getgenv().CakePrince = true 
     elseif v1:find('disappeared') then 

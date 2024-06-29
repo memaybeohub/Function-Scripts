@@ -43,7 +43,7 @@ function refreshTask()
             getgenv().CurrentTask = 'Bartilo Quest'
         elseif Sea2 and getgenv().ServerData['PlayerData'].Level >= 1500 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") ~= 0 then 
             getgenv().CurrentTask = 'Auto Sea 3' 
-        elseif (Sea2 or Sea3) and (getgenv().RipIndra or getgenv().DarkBeard or getgenv().ServerData['Server Bosses']['Dark Beard'] or getgenv().ServerData['Server Bosses']['rip_indra True Form']) then 
+        elseif (Sea2 or Sea3) and (getgenv().RaidBossEvent or getgenv().ServerData['Server Bosses']['Dark Beard'] or getgenv().ServerData['Server Bosses']['rip_indra True Form']) then 
             getgenv().CurrentTask = 'Auto Raid Boss' 
         elseif Sea3 and (getgenv().ServerData['PlayerBackpack']["God's Chalice"] and (not UnCompleteColor() or HasColor(UnCompleteColor().Part.BrickColor.Name))) then 
             getgenv().CurrentTask = "Using God's Chalice"
@@ -374,24 +374,9 @@ AutoUseGodChalice = function()
     end
 end
 AutoRaidBoss = function()
-    if Sea2 then 
-        if not getgenv().ServerData['Server Bosses']['Dark Beard'] then 
-            getgenv().CurrentTask = ''
-            getgenv().DarkBeard = false 
-        else 
-            SetContent('Start Killing Nigga Beard',5)
-            KillBoss(getgenv().ServerData['Server Bosses']['Dark Beard']) 
-        end
-    elseif Sea3 then  
-        if not getgenv().ServerData['Server Bosses']['rip_indra True Form'] then 
-            getgenv().CurrentTask = ''
-            getgenv().RipIndra = false 
-        else
-            KillBoss(getgenv().ServerData['Server Bosses']['rip_indra True Form']) 
-        end
-    else
-        getgenv().DarkBeard = false 
-        getgenv().RipIndra = false 
+    local RaidBoss = getgenv().ServerData['Server Bosses']['Dark Beard'] or getgenv().ServerData['Server Bosses']['rip_indra True Form']
+    if RaidBoss then 
+        KillBoss(RaidBoss)
     end
 end
 AutoCakePrinceEvent = function()
