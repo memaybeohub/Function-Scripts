@@ -1053,11 +1053,6 @@ function KillNigga(MobInstance)
                         AddBodyVelocity(true)
                         EquipWeapon()
                         TweenKill(MobInstance) 
-                        if MobInstance:FindFirstChildOfClass('Humanoid').Health < 6500 then 
-                            getgenv().DelayFast = 0.325
-                        else
-                            getgenv().DelayFast = 0.275
-                        end
                         if getgenv().MasteryFarm then 
                             if CanMasteryFarm(MobInstance) then 
                                 getgenv().UseFAttack = false 
