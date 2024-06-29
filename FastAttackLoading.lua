@@ -74,7 +74,7 @@ RunAttack = function()
         Tick = tick()
     end
 end 
-task.spawn(funciton()
+task.spawn(function()
     while task.wait() do 
         RunAttack()
     end
