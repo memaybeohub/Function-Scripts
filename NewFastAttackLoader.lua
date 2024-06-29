@@ -38,7 +38,8 @@ end
 AddAttack = function(Hit)
     local ac = CombatFrameworkR.activeController
     if ac and ac.equipped then
-        if #Hit > 0 then
+        if #Hit > 0 then 
+            warn('attack')
             local agrs1 = _getupvalue(ac.attack, 5)
             local agrs2 = _getupvalue(ac.attack, 6)
             local agrs3 = _getupvalue(ac.attack, 4)
@@ -51,10 +52,10 @@ AddAttack = function(Hit)
             agrs3 = agrs5 - agrs1 * agrs2
             agrs4 = agrs4 + 1
 
-            _getupvalue(ac.attack, 5, agrs1)
-            _getupvalue(ac.attack, 6, agrs2)
-            _getupvalue(ac.attack, 4, agrs3)
-            _getupvalue(ac.attack, 7, agrs4)
+            _setupvalue(ac.attack, 5, agrs1)
+            _setupvalue(ac.attack, 6, agrs2)
+            _setupvalue(ac.attack, 4, agrs3)
+            _setupvalue(ac.attack, 7, agrs4)
             local Blade = ac.currentWeaponModel
             ac.animator.anims.basic[1]:Play(0.01, 0.01, 0.01)
             if Blade then
@@ -70,18 +71,18 @@ end
 
 AttackFunc = function()
     AddAttack(BladeHits(65))
-    AddAttack(PlayerHits(65))
 end
 
-local Tick = tick()
+local Tick = 0 
 RunAttack = function()
-    if (tick() - Tick) >= math.clamp(1, 0.100, 1) then
+    if (tick() - Tick) >= math.clamp(1, 0.100, 1) then 
+
         task.spawn(AttackFunc)
         Tick = tick()
     end
 end
 task.spawn(function()
-    while task.wait(.1) do 
-        RunAttack()
+    while task.wait() do 
+        task.spawn(AttackFunc)
     end
 end)
