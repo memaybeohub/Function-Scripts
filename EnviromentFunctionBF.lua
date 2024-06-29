@@ -1910,7 +1910,6 @@ function getMeleeLevelValues()
             if getgenv().ServerData["PlayerBackpack"][i] then 
                 getgenv().Config["Melee Level Values"][i] = getgenv().ServerData["PlayerBackpack"][i].Level.Value 
             end 
-            SetContent(i.." "..getgenv().Config["Melee Level Values"][i])
         end
     end) 
 end 
