@@ -37,7 +37,7 @@ local AttackFunc = function()
     AddAttack(require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(game.Players.LocalPlayer.Character,{game.Players.LocalPlayer.Character.HumanoidRootPart},60)) 
 end
 local Tick = tick()
-getgenv().DelayFast = getgenv().DelayFast or 0.21
+getgenv().DelayFast = getgenv().DelayFast or 0.25
 local RunAttack = function()
     if getgenv().UseFAttack and (tick() - Tick) >= getgenv().DelayFast then
         AttackFunc()
