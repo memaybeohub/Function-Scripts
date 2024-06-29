@@ -949,8 +949,13 @@ function addCheckSkill(v)
         local animator = v:FindFirstChildOfClass('Humanoid'):FindFirstChildOfClass('Animator')
         if animator then
             animator.AnimationPlayed:Connect(function(anitrack) 
-                if anitrack.Animation.AnimationId ~= 'rbxassetid://9802959564' and anitrack.Animation.AnimationId ~= 'rbxassetid://507766388' and anitrack.Animation.AnimationId ~='http://www.roblox.com/asset/?id=9884584522' then 
-                    getgenv().DogdeUntil = tick()+math.floor(anitrack.TimePosition)+1
+                if anitrack.Animation.AnimationId ~= 'rbxassetid://9802959564' and anitrack.Animation.AnimationId ~= 'rbxassetid://507766388' and anitrack.Animation.AnimationId ~='http://www.roblox.com/asset/?id=9884584522' then  
+                    getgenv().DogdeUntil = tick()+math.floor(anitrack.TimePosition)+1 
+                    if getgenv().tween then 
+                        getgenv().tween:Cancel()
+                        getgenv().tween = nil 
+                    end
+                    game.Players.LocalPlayer.Character.PrimaryPart.CFrame = MobInstance.PrimaryPart.CFrame * CFrame.new(0,300,0)
                     warn('Dogde Skill Please sirrrr',anitrack.TimePosition,math.floor(anitrack.TimePosition)+1)
                 end
             end)
