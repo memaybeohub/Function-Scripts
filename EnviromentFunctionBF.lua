@@ -587,7 +587,8 @@ function CheckMessage(v1)
                     },
                     Body = game:GetService("HttpService"):JSONEncode({content = v1})
                 }
-            )
+            ) 
+            task.wait(10)
         until aaaaa.StatusCode == 200
     end)
 end
