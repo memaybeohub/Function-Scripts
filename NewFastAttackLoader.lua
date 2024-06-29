@@ -116,7 +116,7 @@ if not _G.AttackConfig then
         ["Fast Attack Delay"] = 0,
     }
 end
-_G.AttackConfig["Fast Attack Delay"] = _G.AttackConfig["Fast Attack Delay"] or 0.2
+_G.AttackConfig["Fast Attack Delay"] = _G.AttackConfig["Fast Attack Delay"] or 0.3
 local LastAz = 0 
 game:GetService"RunService".Heartbeat:Connect(function() 
     if getgenv().UseFAttack or _G.AttackConfig["Fast Attack Aura"] then

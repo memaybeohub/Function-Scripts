@@ -30,7 +30,7 @@ DiscordUrlTextLabel["TextColor3"] = Color3.fromRGB(223, 115, 255);
 DiscordUrlTextLabel["BackgroundTransparency"] = 1;
 DiscordUrlTextLabel["AnchorPoint"] = Vector2.new(0.5, 0.5);
 DiscordUrlTextLabel["Size"] = UDim2.new(0, 200, 0, 50);
-DiscordUrlTextLabel["BorderColor3"] = Color3.fromRGB(153, 102, 204);
+DiscordUrlTextLabel["BorderColor3"] = Color3.fromRGB(142, 66, 133);
 DiscordUrlTextLabel["Text"] = [[discord.gg/tsuoscripts]];
 DiscordUrlTextLabel["Position"] = UDim2.new(0.5, 0, -0.025, 0);
 
@@ -39,8 +39,8 @@ DiscordUrlUiStroke["Color"] = Color3.fromRGB(255, 255, 255);
 
 local DiscordUrlUiGradient = Instance.new("UIGradient", DiscordUrlUiStroke);
 GDiscordUrlUiGradient = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(153, 102, 204)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(223, 115, 255))
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(225, 164, 194 )),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(142, 66, 133))
 };
 
 
