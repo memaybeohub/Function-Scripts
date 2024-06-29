@@ -109,8 +109,7 @@ if hookfunction then
             end)
         end
     end)
-    
-end 
+end
 local rF1,rF2 
 task.delay(.1,function()
     while task.wait(.5) do 

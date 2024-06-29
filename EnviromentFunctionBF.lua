@@ -1591,8 +1591,14 @@ function FarmMobByLevel(level)
     if not level then  
         level = game.Players.LocalPlayer.Data.Level.Value 
         if Sea1 and level >= 700 then 
+            if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") == 0 then 
+                TeleportWorld(2)
+            end
             level = 650 
         elseif Sea2 and level >= 1500 then 
+            if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") == 0 then 
+                TeleportWorld(3)
+            end
             level = 1450 
         end
     end
