@@ -1014,8 +1014,9 @@ AutoMeleeFunc = function()
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
         elseif getgenv().ServerData['Server Bosses']['Tide Keeper'] then 
             KillBoss(getgenv().ServerData['Server Bosses']['Tide Keeper']) 
-            game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)  
-            getgenv().MeleeTask = ''
+            if type(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~='string' then   
+                getgenv().MeleeTask = '' 
+            end
         else   
             SetContent('Hopping for Tide Keeper',5)
             HopServer(10,true,"Tide Keeper")
