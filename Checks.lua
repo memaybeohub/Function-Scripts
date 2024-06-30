@@ -1248,12 +1248,7 @@ AutoMeleeCheck = function()
             if MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0  then 
                 pcall(function() 
                     if not getgenv().Config.WaterkeyPassed then 
-                        if MLLV['Sharkman Karate'] > 0 then 
-                            getgenv().Config.WaterkeyPassed = true; 
-                        else 
-                            local v178 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
-                            getgenv().Config.WaterkeyPassed = typeof(v178) ~= 'string'; 
-                        end
+                        getgenv().Config.WaterkeyPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~= 'string'; 
                     end 
                     if not getgenv().Config.PreviousHeroPassed2 then  
                         getgenv().Config.PreviousHeroPassed2 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) ~= 4 
