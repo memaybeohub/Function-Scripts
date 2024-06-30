@@ -2301,7 +2301,8 @@ function HasColor(BrickColorName)
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("activateColor", RealColorName) 
         return true
     end
-end  
+end   
+local TOIKHONGBIET = 0
 RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true
@@ -2319,7 +2320,8 @@ RunService.Heartbeat:Connect(function()
         Sea2 = false
         MySea = "Sea 3"
     end
-    if IsPlayerAlive() then 
+    if tick()-TOIKHONGBIET > 3 and IsPlayerAlive() then  
+        TOIKHONGBIET = tick()
         EnableBuso()
         if tick() - getgenv().LastBuyChipTick > 5 then getgenv().LastBuyChipTick = tick() buyRaidingChip() end
         if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().tween and getgenv().tween.PlaybackState and tostring(string.gsub(tostring(getgenv().tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 

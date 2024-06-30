@@ -84,7 +84,6 @@ if hookfunction then
             hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
             hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
             hookfunction(require(game:GetService("ReplicatedStorage"):WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end)
-            --[[
             task.spawn(function()
                 local NGU,NGUVL
                 repeat 
@@ -98,7 +97,6 @@ if hookfunction then
                     task.wait(1.5)
                 until NGU 
             end) 
-            ]]
             task.delay(0.1,function()
                 for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
                     pcall(function()
