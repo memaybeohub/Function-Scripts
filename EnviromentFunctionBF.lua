@@ -547,10 +547,14 @@ function Storef(v)
 end 
 function CheckMessage(v1)
     local v1 = tostring(v1)
-    local RaidCheck = "Island #%d cleared!"
+    local RaidCheck = "Island #%d cleared!" 
+    if v1:find('Earned') or v1:find('LEVEL UP') then 
+        return 
+    end
     if v1:find('Island') and v1:find('cleared') then 
         getgenv().NextRaidIslandId = tonumber(string.match(v1,'%d'))+1
-    end
+    end 
+
     if v1:find('spotted') then  
         warn('Pirate raid FOUND!')
         getgenv().PirateRaidTick = tick()
