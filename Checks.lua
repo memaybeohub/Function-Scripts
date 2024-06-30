@@ -73,7 +73,7 @@ if hookfunction then
         end
         return FakeLOL
     end)   
-    task.delay(10,function() 
+    task.delay(5,function() 
         warn('Disabling effects')
         if hookfunction and not islclosure(hookfunction) then 
             workspace._WorldOrigin.ChildAdded:Connect(function(v)
@@ -1249,14 +1249,14 @@ AutoMeleeCheck = function()
             if MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0  then 
                 pcall(function()  
                     getgenv().Config.WaterkeyPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~= 'string';  
-                    getgenv().Config.PreviousHeroPassed2 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) ~= 4  
+                    getgenv().Config.PreviousHeroPassed2 = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true)) ~= 'string' and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) ~= 4  
                     getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string'  
                     getgenv().Config.IceCastleDoorPassed = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("OpenLibrary")   
                     if not getgenv().Config.WaterkeyPassed then 
                         getgenv().Config.WaterkeyPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~= 'string'; 
                     end 
                     if not getgenv().Config.PreviousHeroPassed2 then  
-                        getgenv().Config.PreviousHeroPassed2 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) ~= 4 
+                        getgenv().Config.PreviousHeroPassed2 = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true)) ~= 'string' and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) ~= 4
                     end                    
                     if not getgenv().Config.FireEssencePassed then 
                         getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string' 
