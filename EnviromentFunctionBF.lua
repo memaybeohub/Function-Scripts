@@ -411,7 +411,7 @@ function SnipeFruit(fruitsSnipes)
 end   
 function sortSwordsByRarity(swords)
     table.sort(swords, function(a, b)
-        return a.Rarity < b.Rarity
+        return a.Rarity > b.Rarity
     end) 
     return swords[1]
 end
@@ -962,7 +962,7 @@ function addCheckSkill(v)
                 if anitrack.Animation.AnimationId ~= 'rbxassetid://9802959564' and anitrack.Animation.AnimationId ~= 'rbxassetid://507766388' and anitrack.Animation.AnimationId ~='http://www.roblox.com/asset/?id=9884584522' then  
                     local realTimePos = anitrack.TimePosition
                     if realTimePos <= 0 then 
-                        realTimePos = 3 
+                        realTimePos = 1.5
                     end
                     if getgenv().DogdeUntil and tick() < getgenv().DogdeUntil then  
                         getgenv().DogdeUntil = getgenv().DogdeUntil+math.floor(realTimePos)+.5
