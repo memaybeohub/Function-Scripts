@@ -418,7 +418,7 @@ end
 
 function getNextSwordToFarm()
     local Swords = {}
-    for _, itemData in pairs(getgenv().ServerData["Inventory Items"]) do 
+    for _, itemData in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
         if itemData.Type == 'Sword' and itemData.Mastery < itemData.MasteryRequirements.X then 
             table.insert(Swords, itemData)  -- Chèn đúng vào bảng Swords
         end 
@@ -428,7 +428,7 @@ function getNextSwordToFarm()
         return NNN,NNN.MasteryRequirements.X
     end
     Swords = {}
-    for _, itemData in pairs(getgenv().ServerData["Inventory Items"]) do 
+    for _, itemData in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
         if itemData.Type == 'Sword' and itemData.Mastery < 600 then 
             table.insert(Swords, itemData)  -- Chèn đúng vào bảng Swords
         end 
@@ -437,7 +437,8 @@ function getNextSwordToFarm()
         local NNN = sortSwordsByRarity(Swords) 
         return NNN,NNN.MasteryRequirements.X
     end
-end 
+    return nil,0
+end  
 
 function checkFruit1MWS()
     for i,v in pairs(game.workspace:GetChildren()) do 
@@ -889,6 +890,7 @@ function LoadItem(d)
     if getgenv().ServerData["PlayerBackpack"][d] then
         return
     end
+    warn('Loaditem',d)
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadItem", d)
 end 
 function EquipWeapon(ToolSe)
@@ -954,7 +956,11 @@ function addCheckSkill(v)
         if animator then
             animator.AnimationPlayed:Connect(function(anitrack) 
                 if anitrack.Animation.AnimationId ~= 'rbxassetid://9802959564' and anitrack.Animation.AnimationId ~= 'rbxassetid://507766388' and anitrack.Animation.AnimationId ~='http://www.roblox.com/asset/?id=9884584522' then  
-                    getgenv().DogdeUntil = tick()+math.floor(anitrack.TimePosition)+1 
+                    if tick() < getgenv().DogdeUntil then  
+                        getgenv().DogdeUntil = getgenv().DogdeUntil+math.floor(anitrack.TimePosition)+1.5
+                    else 
+                        getgenv().DogdeUntil = tick()+math.floor(anitrack.TimePosition)+1   
+                    end
                     if getgenv().tween then 
                         getgenv().tween:Cancel()
                         getgenv().tween = nil 
