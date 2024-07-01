@@ -1191,7 +1191,6 @@ AutoMeleeMasteryCheck = function()
                     end 
                 else
                     local SwordMasteryFarm,SwordMasteryFarm2 = getNextSwordToFarm()
-                    if SwordMasteryFarm then LoadItem(SwordMasteryFarm.Name) end
                     if (getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350) or (getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350) then 
                         getgenv().WeaponType = 'Sword'
                         if getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Yama'].Mastery < 350 then 
