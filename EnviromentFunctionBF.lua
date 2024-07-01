@@ -965,9 +965,9 @@ function addCheckSkill(v)
                         realTimePos = 3 
                     end
                     if getgenv().DogdeUntil and tick() < getgenv().DogdeUntil then  
-                        getgenv().DogdeUntil = getgenv().DogdeUntil+math.floor(realTimePos)+1.5
+                        getgenv().DogdeUntil = getgenv().DogdeUntil+math.floor(realTimePos)+.5
                     else 
-                        getgenv().DogdeUntil = tick()+math.floor(realTimePos)+1   
+                        getgenv().DogdeUntil = tick()+math.floor(realTimePos)+.5
                     end
                     if getgenv().tween then 
                         getgenv().tween:Cancel()
