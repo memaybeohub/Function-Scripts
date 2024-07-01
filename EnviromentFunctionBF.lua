@@ -960,7 +960,7 @@ function addCheckSkill(v)
         if animator then
             animator.AnimationPlayed:Connect(function(anitrack) 
                 if anitrack.Animation.AnimationId ~= 'rbxassetid://9802959564' and anitrack.Animation.AnimationId ~= 'rbxassetid://507766388' and anitrack.Animation.AnimationId ~='http://www.roblox.com/asset/?id=9884584522' then  
-                    if tick() < getgenv().DogdeUntil then  
+                    if getgenv().DogdeUntil and tick() < getgenv().DogdeUntil then  
                         getgenv().DogdeUntil = getgenv().DogdeUntil+math.floor(anitrack.TimePosition)+1.5
                     else 
                         getgenv().DogdeUntil = tick()+math.floor(anitrack.TimePosition)+1   
