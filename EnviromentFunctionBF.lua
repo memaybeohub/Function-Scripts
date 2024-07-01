@@ -1043,7 +1043,8 @@ function KillNigga(MobInstance)
             end
             repeat
                 task.wait()
-                if IsPlayerAlive() then
+                if IsPlayerAlive() then 
+                    getgenv().DelayFast = math.random(20, 35) / 100
                     if not getgenv().DogdeUntil or getgenv().DogdeUntil < tick() then  
                         KillingMob = true
                         KillingMobTick = tick()
@@ -2334,8 +2335,8 @@ RunService.Heartbeat:Connect(function()
         Sea2 = false
         MySea = "Sea 3"
     end
-    if tick()-TOIKHONGBIET > 3 and IsPlayerAlive() then  
-        TOIKHONGBIET = tick()
+    if IsPlayerAlive() then  
+        
         EnableBuso()
         if tick() - getgenv().LastBuyChipTick > 5 then getgenv().LastBuyChipTick = tick() buyRaidingChip() end
         if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().tween and getgenv().tween.PlaybackState and tostring(string.gsub(tostring(getgenv().tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
@@ -2348,6 +2349,8 @@ RunService.Heartbeat:Connect(function()
         else
             AddBodyVelocity(false)
         end 
+        if tick()-TOIKHONGBIET < 3 then return end  
+        TOIKHONGBIET = tick()
         if Sea3 and not getgenv().ServerData["Inventory Items"]['Cursed Dual Katana'] and getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and getgenv().ServerData["Inventory Items"]['Yama'].Mastery then 
             getgenv().CDKQuest = CheckQuestCDK()  
             getgenv().WeaponType = 'Sword' 
