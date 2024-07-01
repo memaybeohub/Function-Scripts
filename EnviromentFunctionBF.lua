@@ -974,7 +974,7 @@ function addCheckSkill(v)
                         getgenv().tween = nil 
                     end
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,300,0)
-                    warn('Dogde Skill Please sirrrr',anitrack.TimePosition,math.floor(realTimePos)+1)
+                    warn('Dogde Skill Please sirrrr',anitrack.TimePosition,math.floor(realTimePos)+1,anitrack.Animation.AnimationId)
                 end
             end)
         end
@@ -1736,6 +1736,7 @@ function collectAllFruit_Store()
 end 
 getgenv().CurrentElite = false
 function LoadBoss(v)  
+    if not v.ClassName ~='Model' then return end
     local CastleCFrame = CFrame.new(-5543.5327148438, 313.80062866211, -2964.2585449219)
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart',3)
     local Hum = v:WaitForChild('Humanoid',3)
