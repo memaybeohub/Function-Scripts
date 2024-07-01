@@ -960,17 +960,21 @@ function addCheckSkill(v)
         if animator then
             animator.AnimationPlayed:Connect(function(anitrack) 
                 if anitrack.Animation.AnimationId ~= 'rbxassetid://9802959564' and anitrack.Animation.AnimationId ~= 'rbxassetid://507766388' and anitrack.Animation.AnimationId ~='http://www.roblox.com/asset/?id=9884584522' then  
+                    local realTimePos = anitrack.TimePosition
+                    if realTimePos <= 0 then 
+                        realTimePos = 3 
+                    end
                     if getgenv().DogdeUntil and tick() < getgenv().DogdeUntil then  
-                        getgenv().DogdeUntil = getgenv().DogdeUntil+math.floor(anitrack.TimePosition)+1.5
+                        getgenv().DogdeUntil = getgenv().DogdeUntil+math.floor(realTimePos)+1.5
                     else 
-                        getgenv().DogdeUntil = tick()+math.floor(anitrack.TimePosition)+1   
+                        getgenv().DogdeUntil = tick()+math.floor(realTimePos)+1   
                     end
                     if getgenv().tween then 
                         getgenv().tween:Cancel()
                         getgenv().tween = nil 
                     end
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,300,0)
-                    warn('Dogde Skill Please sirrrr',anitrack.TimePosition,math.floor(anitrack.TimePosition)+1)
+                    warn('Dogde Skill Please sirrrr',anitrack.TimePosition,math.floor(realTimePos)+1)
                 end
             end)
         end

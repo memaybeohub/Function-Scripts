@@ -1198,27 +1198,27 @@ AutoMeleeMasteryCheck = function()
                         elseif getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery < 350 then 
                             LoadItem('Tushita')
                         end
-                    elseif MLLV['Godhuman'] < 600 then 
+                    elseif MLLV['Godhuman'] < 401 then 
                         BuyMelee('Godhuman') 
                         getgenv().WeaponType = "Melee"
                         SetMeleeWait('Godhuman',600)
-                    elseif MLLV['Sharkman Karate'] < 600 then 
+                    elseif MLLV['Sharkman Karate'] < 401 then 
                         BuyMelee('Sharkman Karate')
                         getgenv().WeaponType = "Melee"
                         SetMeleeWait('Sharkman Karate',600)
-                    elseif MLLV['Death Step'] < 600 then 
+                    elseif MLLV['Death Step'] < 401 then 
                         BuyMelee('Death Step')
                         getgenv().WeaponType = "Melee"
                         SetMeleeWait('Death Step',600)
-                    elseif MLLV['Electric Claw'] < 600 then 
+                    elseif MLLV['Electric Claw'] < 401 then 
                         BuyMelee('Electric Claw')
                         getgenv().WeaponType = "Melee"
                         SetMeleeWait('Electric Claw',600)
-                    elseif MLLV['Dragon Talon'] < 600 then 
+                    elseif MLLV['Dragon Talon'] < 401 then 
                         BuyMelee('Dragon Talon')
                         getgenv().WeaponType = "Melee"
                         SetMeleeWait('Dragon Talon',600)
-                    elseif MLLV['Superhuman'] < 600 then 
+                    elseif MLLV['Superhuman'] < 401 then 
                         BuyMelee('Superhuman')
                         getgenv().WeaponType = "Melee"
                         SetMeleeWait('Superhuman',600)
