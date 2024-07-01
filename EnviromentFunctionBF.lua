@@ -463,15 +463,19 @@ function checkFruit1M(in5)
         return n3 
     end 
     if fruitsea3bp() then return fruitsea3bp() end
-    if in5 then 
+    if in5 then  
+        local FOUNDDF 
+        local MaxValue = math.huge 
         for i,v in pairs(getgenv().ServerData["Inventory Items"]) do 
-            if v.Value and v.Value >= 1000000 then  
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", v.Name) 
-                wait(.5)
-                if fruitsea3bp() then return fruitsea3bp() end
+            if v.Value and v.Value >= 1000000 and v.Value < MaxValue then   
+                MaxValue = v.Value 
+                FOUNDDF = v.Name
             end
         end
-    end
+    end 
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", FOUNDDF) 
+    wait(.5)
+    if fruitsea3bp() then return fruitsea3bp() end
 end
 function checkFruittoEat(fruitsSnipes,includedInventory)
     for i,v in pairs(fruitsSnipes) do 
