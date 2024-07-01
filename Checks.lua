@@ -1226,7 +1226,7 @@ AutoMeleeMasteryCheck = function()
                         getgenv().MasteryFarm = false
         
                         if SwordMasteryFarm and not SwordMasteryFarm.Equipped then 
-                            LoadItem(SwordMasteryFarm.Nam) 
+                            LoadItem(SwordMasteryFarm.Name) 
                         elseif SwordMasteryFarm and SwordMasteryFarm.Equipped then 
                             getgenv().WeaponType = 'Sword'  
                         else
