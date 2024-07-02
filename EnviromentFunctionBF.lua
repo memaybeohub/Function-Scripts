@@ -969,7 +969,7 @@ function addCheckSkill(v)
                     if getgenv().DogdeUntil and tick() < getgenv().DogdeUntil then  
                         getgenv().DogdeUntil = getgenv().DogdeUntil+math.floor(realTimePos)+.5
                     else 
-                        getgenv().DogdeUntil = tick()+math.floor(realTimePos)+.5
+                        --getgenv().DogdeUntil = tick()+math.floor(realTimePos)+.5
                     end
                     if getgenv().tween then 
                         getgenv().tween:Cancel()
@@ -2034,7 +2034,7 @@ function PickChest(Chest)
         local StartPick = tick()
         repeat 
             Tweento(Chest.CFrame)
-            SendKey('Space',.5)
+            --SendKey('Space',.5)
         until not Chest or not Chest.Parent or tick()-StartPick >= 60 
         if Chest then Chest:Destroy() end
     end
@@ -2066,8 +2066,8 @@ function buyRaidingChip()
         if (((getgenv().CurrentTask == '' or getgenv().MeleeTask == 'None') and getgenv().CurrentTask ~= 'Auto Sea 3') or getgenv().FragmentNeeded) and not checkFruit1M() and (getgenv().FragmentNeeded or (not CheckX2Exp() and ((getgenv().ServerData['PlayerData'].Fragments < 7500 or (getgenv().ServerData['PlayerData'].Level >= 2550 and getgenv().ServerData['PlayerData'].Fragments < 25000)) or #getgenv().ServerData["PlayerBackpackFruits"] > 0))) then 
             wait(1)
             local SelRaid = "Flame"
-            if table.find(Raids,mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)) then  
-                SelRaid = mmb(getgenv().ServerData['PlayerData'].DevilFruit.Value)
+            if table.find(Raids,mmb(getgenv().ServerData['PlayerData'].DevilFruit)) then  
+                SelRaid = mmb(getgenv().ServerData['PlayerData'].DevilFruit)
             end
             local bought = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaidsNpc","Select",SelRaid) == 1 
             if bought then 
