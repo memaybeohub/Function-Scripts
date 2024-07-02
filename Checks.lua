@@ -1244,34 +1244,44 @@ AutoMeleeCheck = function()
     task.spawn(function()
         getgenv().FragmentNeeded = false
         getgenv().MeleeTask = 'None'
-        repeat task.wait() until getgenv().CheckAllMelee and getgenv().Config and getgenv().Config["Melee Level Values"] 
-        while task.wait(1) do 
+        repeat task.wait() until getgenv().CheckAllMelee and getgenv().Config and getgenv().Config["Melee Level Values"]  
+        local PreviousHeroRemoteFired = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) 
+        getgenv().Config.PreviousHeroPassed = typeof(PreviousHeroRemoteFired) ~= 'string' 
+        getgenv().Config.PreviousHeroPassed2 =  PreviousHeroRemoteFired ~= 4  
+        getgenv().Config.WaterkeyPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~= 'string';   
+        getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string'   
+        getgenv().Config.IceCastleDoorPassed = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("OpenLibrary")
+        getgenv().Config.GodhumanMaterialPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyGodhuman", true)) ~= 'string'   
+        while task.wait() do 
             local MLLV = getgenv().Config["Melee Level Values"] 
             local v316, v317, v318, v319 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Check")
             if MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0  then 
                 pcall(function()  
-                    getgenv().Config.WaterkeyPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~= 'string';  
-                    getgenv().Config.PreviousHeroPassed2 = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true)) ~= 'string' and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) ~= 4  
-                    getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string'  
-                    getgenv().Config.IceCastleDoorPassed = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("OpenLibrary")   
+                    
                     if not getgenv().Config.WaterkeyPassed then 
                         getgenv().Config.WaterkeyPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~= 'string'; 
-                    end 
+                    end  
+                    
                     if not getgenv().Config.PreviousHeroPassed2 then  
-                        getgenv().Config.PreviousHeroPassed2 = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true)) ~= 'string' and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) ~= 4
+                        local PreviousHeroRemoteFired = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyElectricClaw", true) 
+                        getgenv().Config.PreviousHeroPassed = typeof(PreviousHeroRemoteFired) ~= 'string' 
+                        getgenv().Config.PreviousHeroPassed2 =  PreviousHeroRemoteFired ~= 4  
                     end                    
                     if not getgenv().Config.FireEssencePassed then 
                         getgenv().Config.FireEssencePassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyDragonTalon", true))~= 'string' 
                     end     
                     if not getgenv().Config.IceCastleDoorPassed then 
                         getgenv().Config.IceCastleDoorPassed = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("OpenLibrary")   
+                    end 
+                    if not getgenv().Config.GodhumanMaterialPassed then 
+                        getgenv().Config.GodhumanMaterialPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyGodhuman", true)) ~= 'string' 
                     end
                 end) 
                 if (not getgenv().Config.IceCastleDoorPassed) and (getgenv().ServerData["PlayerBackpack"]['Library Key'] or getgenv().ServerData['Server Bosses']['Awakened Ice Admiral'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Ice'
                 elseif not getgenv().Config.WaterkeyPassed and (getgenv().ServerData["PlayerBackpack"]['Water Key'] or getgenv().ServerData['Server Bosses']['Tide Keeper'] or getgenv().ServerData['PlayerData'].Level >= 1450) then 
                     getgenv().MeleeTask = 'Find Waterkey' 
-                elseif getgenv().ServerData['PlayerData'].Level >= 1650 and not getgenv().Config.PreviousHeroPassed2 then  
+                elseif getgenv().ServerData['PlayerData'].Level >= 1650 and getgenv().Config.PreviousHeroPassed and not getgenv().Config.PreviousHeroPassed2 then  
                     if not Sea3 then 
                         TeleportWorld(3) 
                     else
@@ -1292,7 +1302,7 @@ AutoMeleeCheck = function()
                 end  
             elseif getgenv().Config.AllV2MeleeStyles400Mastery and MLLV['Godhuman'] == 0 then 
                 getgenv().Config.FarmmingForGodhuman = true  
-                if not getgenv().DoneMaterial then 
+                if not getgenv().Config.GodhumanMaterialPassed then 
                     getgenv().MeleeTask = 'Farm Godhuman' 
                 else  
                     getgenv().MeleeTask = ''    
@@ -1300,7 +1310,8 @@ AutoMeleeCheck = function()
             else   
                 getgenv().Config.FarmmingForGodhuman = false
                 getgenv().MeleeTask = ''
-            end
+            end 
+            task.wait(3)
         end
     end)
 end
