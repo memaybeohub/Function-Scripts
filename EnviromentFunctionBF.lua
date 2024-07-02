@@ -975,7 +975,7 @@ function addCheckSkill(v)
                         getgenv().tween:Cancel()
                         getgenv().tween = nil 
                     end
-                    game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,300,0)
+                    --game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,300,0)
                     warn('Dogde Skill Please sirrrr',anitrack.TimePosition,math.floor(realTimePos)+1,anitrack.Animation.AnimationId)
                 end
             end)
@@ -1050,7 +1050,7 @@ function KillNigga(MobInstance)
             repeat
                 task.wait()
                 if IsPlayerAlive() then 
-                    getgenv().DelayFast = math.random(10, 45) / 100
+                    getgenv().DelayFast = math.random(19, 45) / 100
                     if not getgenv().DogdeUntil or getgenv().DogdeUntil < tick() then  
                         KillingMob = true
                         KillingMobTick = tick()
