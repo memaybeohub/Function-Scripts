@@ -1,4 +1,4 @@
-CountAtgggtack = 0
+getgenv().AttackedCount = getgenv().AttackedCount or 0
 spawn(
     function()
         local MT = getrawmetatable(game)
@@ -12,7 +12,7 @@ spawn(
                 pcall(
                     function()
                         if Method == "FireServer" and self.Name == "RigControllerEvent" and Args[1] == "hit" then
-                            CountAtgggtack = CountAtgggtack + 1
+                            getgenv().AttackedCount = getgenv().AttackedCount + 1
                         end
                     end
                 )
@@ -23,6 +23,6 @@ spawn(
 )
 jg = {}
 function jg:GetCount()
-    return CountAtgggtack
+    return getgenv().AttackedCount
 end
 return jg
