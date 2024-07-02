@@ -879,7 +879,7 @@ function EnableBuso()
     end
 end  
 function GetWeapon(wptype)
-    local s = ""
+    local s 
     for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
         if v:IsA("Tool") and v.ToolTip == wptype then
             s=v
