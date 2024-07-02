@@ -1254,7 +1254,6 @@ AutoMeleeCheck = function()
         getgenv().Config.GodhumanMaterialPassed = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuyGodhuman", true)) ~= 'string'   
         while task.wait() do 
             local MLLV = getgenv().Config["Melee Level Values"] 
-            local v316, v317, v318, v319 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Check")
             if MLLV['Sharkman Karate'] == 0 or MLLV['Death Step'] == 0 or MLLV['Electric Claw'] == 0 or MLLV['Dragon Talon'] == 0  then 
                 pcall(function()  
                     
@@ -1290,7 +1289,8 @@ AutoMeleeCheck = function()
                 elseif (Sea3 or getgenv().ServerData['PlayerData'].Level >= 1650) and v318 and v318 > 0 and not getgenv().Config.FireEssencePassed then   
                     if not Sea3 then 
                         TeleportWorld(3) 
-                    else
+                    else 
+                        local v316, v317, v318, v319 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Check") 
                         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1)
                         if v316 and v316 < v318*50 then 
                             getgenv().MeleeTask = 'Find Fire Essence' 

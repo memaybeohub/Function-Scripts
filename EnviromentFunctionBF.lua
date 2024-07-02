@@ -1050,7 +1050,7 @@ function KillNigga(MobInstance)
             repeat
                 task.wait()
                 if IsPlayerAlive() then 
-                    getgenv().DelayFast = math.random(25, 45) / 100
+                    getgenv().DelayFast = math.random(10, 45) / 100
                     if not getgenv().DogdeUntil or getgenv().DogdeUntil < tick() then  
                         KillingMob = true
                         KillingMobTick = tick()
@@ -1738,7 +1738,6 @@ function collectAllFruit_Store()
 end 
 getgenv().CurrentElite = false
 function LoadBoss(v)  
-    if not v.ClassName ~='Model' then return end
     local CastleCFrame = CFrame.new(-5543.5327148438, 313.80062866211, -2964.2585449219)
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart',3)
     local Hum = v:WaitForChild('Humanoid',3)
@@ -2358,8 +2357,9 @@ RunService.Heartbeat:Connect(function()
         else
             AddBodyVelocity(false)
         end 
-        if tick()-TOIKHONGBIET < 10 then return end  
-        TOIKHONGBIET = tick()
+        if tick()-TOIKHONGBIET < 10 then return end   
+        TOIKHONGBIET = tick() 
+        game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakePrinceSpawner")
         if Sea3 and not getgenv().ServerData["Inventory Items"]['Cursed Dual Katana'] and getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and getgenv().ServerData["Inventory Items"]['Yama'].Mastery then 
             getgenv().CDKQuest = CheckQuestCDK()  
             getgenv().WeaponType = 'Sword' 
