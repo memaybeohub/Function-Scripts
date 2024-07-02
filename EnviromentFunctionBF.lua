@@ -388,18 +388,18 @@ function CheckPlayerAlive()
     local a2,b2 = pcall(function() return game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 end)
     task.wait()
     if a2 then return b2 end 
-end  
+end   
+local FruitStocks = {}
+for i,v in pairs(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+    "GetFruits",
+    game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop:GetAttribute("Shop2")
+)) do 
+    if v.OnSale then 
+        table.insert(FruitStocks,v.Name)
+    end
+end
 function SnipeFruit(fruitsSnipes)
     if getgenv().ServerData['PlayerData'].DevilFruit == '' then 
-        local FruitStocks = {}
-        for i,v in pairs(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
-            "GetFruits",
-            game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop:GetAttribute("Shop2")
-        )) do 
-            if v.OnSale then 
-                table.insert(FruitStocks,v.Name)
-            end
-        end
         for i = #fruitsSnipes,1,1 do 
             local f = fruitsSnipes[i]
             if FruitStocks[f] then 
@@ -418,7 +418,7 @@ end
 
 function getNextSwordToFarm()
     local Swords = {}
-    for _, itemData in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
+    for _, itemData in pairs(getgenv().ServerData["Inventory Items"]) do 
         if itemData.Type == 'Sword' and itemData.Mastery < itemData.MasteryRequirements.X then 
             table.insert(Swords, itemData)  -- Chèn đúng vào bảng Swords
         end 
@@ -427,16 +427,18 @@ function getNextSwordToFarm()
         local NNN = sortSwordsByRarity(Swords) 
         return NNN,NNN.MasteryRequirements.X
     end
+    --[[
     Swords = {}
     for _, itemData in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
-        if itemData.Type == 'Sword' and itemData.Mastery < 600 then 
-            table.insert(Swords, itemData)  -- Chèn đúng vào bảng Swords
-        end 
+    if itemData.Type == 'Sword' and itemData.Mastery < 600 then 
+        table.insert(Swords, itemData)  -- Chèn đúng vào bảng Swords
+    end 
     end
     if #Swords > 0 then 
-        local NNN = sortSwordsByRarity(Swords) 
-        return NNN,NNN.MasteryRequirements.X
+    local NNN = sortSwordsByRarity(Swords) 
+    return NNN,NNN.MasteryRequirements.X
     end
+    ]]
     return nil,0
 end  
 
@@ -471,11 +473,13 @@ function checkFruit1M(in5)
                 MaxValue = v.Value 
                 FOUNDDF = v.Name
             end
+        end 
+        if FOUNDDF then 
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", FOUNDDF) 
+            wait(.5)
+            if fruitsea3bp() then return fruitsea3bp() end
         end
     end 
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", FOUNDDF) 
-    wait(.5)
-    if fruitsea3bp() then return fruitsea3bp() end
 end
 function checkFruittoEat(fruitsSnipes,includedInventory)
     for i,v in pairs(fruitsSnipes) do 
@@ -868,12 +872,10 @@ function GetMidPointPart(tbpart)
 end
 function EnableBuso()
     if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
-        NoClip = true
         local args = {
             [1] = "Buso"
         }
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-        NoClip = false
     end
 end  
 function GetWeapon(wptype)
@@ -2341,7 +2343,9 @@ RunService.Heartbeat:Connect(function()
         MySea = "Sea 3"
     end
     if IsPlayerAlive() then  
-        
+        if game.Players.LocalPlayer.Character:FindFirstChild("RaceEnergy") and game.Players.LocalPlayer.Character.RaceEnergy.Value >= 1 and not game.Players.LocalPlayer.Character.RaceTransformed.Value then 
+            SendKey('Y',.5)
+        end
         EnableBuso()
         if tick() - getgenv().LastBuyChipTick > 5 then getgenv().LastBuyChipTick = tick() buyRaidingChip() end
         if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().tween and getgenv().tween.PlaybackState and tostring(string.gsub(tostring(getgenv().tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
@@ -2354,7 +2358,7 @@ RunService.Heartbeat:Connect(function()
         else
             AddBodyVelocity(false)
         end 
-        if tick()-TOIKHONGBIET < 3 then return end  
+        if tick()-TOIKHONGBIET < 10 then return end  
         TOIKHONGBIET = tick()
         if Sea3 and not getgenv().ServerData["Inventory Items"]['Cursed Dual Katana'] and getgenv().ServerData["Inventory Items"]['Tushita'] and getgenv().ServerData["Inventory Items"]['Yama'] and getgenv().ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and getgenv().ServerData["Inventory Items"]['Yama'].Mastery then 
             getgenv().CDKQuest = CheckQuestCDK()  
@@ -2366,7 +2370,9 @@ RunService.Heartbeat:Connect(function()
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
             getgenv().ServerData["Inventory Items"][v.Name] = v 
         end
-        getgenv().ServerData['PlayerData']["Elite Hunted"] = tonumber(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("EliteHunter", "Progress")) or 0
+        if not getgenv().ServerData['PlayerData']["Elite Hunted"] or getgenv().ServerData['PlayerData']["Elite Hunted"] < 30 then 
+            getgenv().ServerData['PlayerData']["Elite Hunted"] = tonumber(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("EliteHunter", "Progress")) or 0 
+        end
         getgenv().ServerData['PlayerData']["RaceVer"] = CheckRaceVer()  
         for i, v in pairs(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("getColors")) do
             if v["Unlocked"] then

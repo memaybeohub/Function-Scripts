@@ -1228,7 +1228,8 @@ AutoMeleeMasteryCheck = function()
                         if SwordMasteryFarm and not SwordMasteryFarm.Equipped then 
                             LoadItem(SwordMasteryFarm.Name) 
                         elseif SwordMasteryFarm and SwordMasteryFarm.Equipped then 
-                            getgenv().WeaponType = 'Sword'  
+                            getgenv().WeaponType = 'Sword'   
+                            SetMeleeWait(SwordMasteryFarm.Name,tonumber(SwordMasteryFarm2))
                         else
                             getgenv().WeaponType = 'Melee'
                         end
