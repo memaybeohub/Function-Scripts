@@ -1046,8 +1046,7 @@ function KillNigga(MobInstance)
             if getgenv().KillAuraConnection then 
                 getgenv().KillAuraConnection:Disconnect()
                 getgenv().KillAuraConnection = nil 
-            end 
-            getgenv().DelayFast = math.random(20, 45) / 100
+            end
             repeat
                 task.wait()
                 if IsPlayerAlive() then 
@@ -2339,7 +2338,9 @@ RunService.Heartbeat:Connect(function()
             SendKey('Y',.5)
         end
         EnableBuso()
-        if tick() - getgenv().LastBuyChipTick > 5 then getgenv().LastBuyChipTick = tick() buyRaidingChip() end
+        if tick() - getgenv().LastBuyChipTick > 5 then 
+            getgenv().LastBuyChipTick = tick() buyRaidingChip() 
+        end
         if tick()-getgenv().Ticktp < 0.5 or KillingMob or (getgenv().tween and getgenv().tween.PlaybackState and tostring(string.gsub(tostring(getgenv().tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (getgenv().TweenStats and tostring(string.gsub(tostring(getgenv().TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
             AddBodyVelocity(true)
             for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
@@ -2359,6 +2360,13 @@ RunService.Heartbeat:Connect(function()
         end 
         if getgenv().ServerData["Inventory Items"]['Cursed Dual Katana'] and getgenv().CDKQuest then 
             getgenv().CDKQuest = nil 
+        end
+        if getgenv().ServerData["PlayerData"].Beli >= 3500000 then 
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Geppo")
+            -- Buy Buso Haki
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Buso")
+            -- Buy Soru
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Soru") 
         end
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
             getgenv().ServerData["Inventory Items"][v.Name] = v 
