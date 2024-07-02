@@ -1035,7 +1035,7 @@ function KillNigga(MobInstance)
             end)
             task.delay(.01 ,function()
                 repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 140 
-                addCheckSkill(MobInstance)
+                --addCheckSkill(MobInstance)
                 if BringMob(MobInstance, LockCFrame) then 
                     task.wait(.275)
                     BringMobSuccess = true 
@@ -1046,27 +1046,19 @@ function KillNigga(MobInstance)
             if getgenv().KillAuraConnection then 
                 getgenv().KillAuraConnection:Disconnect()
                 getgenv().KillAuraConnection = nil 
-            end
+            end 
+            getgenv().DelayFast = math.random(20, 45) / 100
             repeat
                 task.wait()
                 if IsPlayerAlive() then 
-                    getgenv().DelayFast = math.random(19, 45) / 100
-                    if not getgenv().DogdeUntil or getgenv().DogdeUntil < tick() then  
-                        KillingMob = true
-                        KillingMobTick = tick()
-                        AddBodyVelocity(true)
-                        EquipWeapon()
-                        TweenKill(MobInstance) 
-                        if BringMobSuccess then 
-                            getgenv().UseFAttack = true  
-                        end  
-                    else
-                        if getgenv().tween then 
-                            getgenv().tween:Cancel()
-                            getgenv().tween = nil 
-                        end
-                        game.Players.LocalPlayer.Character.PrimaryPart.CFrame = MobInstance.PrimaryPart.CFrame * CFrame.new(0,300,0)
-                    end
+                    KillingMob = true
+                    KillingMobTick = tick()
+                    AddBodyVelocity(true)
+                    EquipWeapon()
+                    TweenKill(MobInstance) 
+                    if BringMobSuccess then 
+                        getgenv().UseFAttack = true  
+                    end  
                 else 
                     getgenv().UseFAttack = false
                     wait(1)
